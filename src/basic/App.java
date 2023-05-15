@@ -1,9 +1,17 @@
 package basic;
 
-public class App {
+import javax.swing.JFrame;
 
+public class App extends JFrame{
+
+	
+	
+	
+	
+	
+	
+	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		System.out.println("ㅋ");
 		
 	}
