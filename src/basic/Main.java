@@ -5,11 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JToolBar;
-import java.awt.GridLayout;
-import javax.swing.JLabel;
 
-public class TestFrame extends JFrame {
+public class Main extends JFrame {
 
 	private JPanel contentPane;
 
@@ -20,7 +17,7 @@ public class TestFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TestFrame frame = new TestFrame();
+					Main frame = new Main();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -32,20 +29,13 @@ public class TestFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TestFrame() {
+	public Main() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new GridLayout(1, 0, 0, 0));
-		
-		JPanel panel = new JPanel();
-		contentPane.add(panel);
-		
-		JLabel lblNewLabel = new JLabel("New label");
-		panel.add(lblNewLabel);
 	}
 
 }
