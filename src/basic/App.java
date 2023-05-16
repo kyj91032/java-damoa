@@ -1,5 +1,6 @@
 package basic;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
@@ -18,22 +19,24 @@ public class App extends JFrame{
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setSize(400,570);
 			setLocationRelativeTo(null);
-			setLayout(new FlowLayout());
+			getContentPane().setLayout(new BorderLayout());
 			
+			// contentpane의 배경 흰색으로 변경 
+			getContentPane().setBackground(Color.white);
 
 			
 			ImageIcon image = new ImageIcon("image/damoa.jpg");
 			Image img = image.getImage();
 	        
 	        // 추출된 Image의 크기 조절하여 새로운 Image 객체 생성
-	    	Image updateImg = img.getScaledInstance(400, 500, Image.SCALE_SMOOTH);
+	    	Image updateImg = img.getScaledInstance(120, 140, Image.SCALE_SMOOTH);
 	        
 	        // 새로운 Image 객체로 ImageIcon 객체 생성
 	        ImageIcon updateIcon = new ImageIcon(updateImg);
 	        
 	        JLabel imgLabel = new JLabel(updateIcon);
 	        
-			add(imgLabel);
+			getContentPane().add(imgLabel);
 			
 			
 			setVisible(true);
