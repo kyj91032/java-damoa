@@ -13,8 +13,6 @@ import javax.swing.JLabel;
 public class App extends JFrame{
 	
 		public App(String title) {
-			setBackground(new Color(255, 255, 255));
-			getContentPane().setForeground(new Color(255, 255, 255));
 			setTitle(title);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setSize(400,570);
