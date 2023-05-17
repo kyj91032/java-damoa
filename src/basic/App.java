@@ -1,50 +1,62 @@
 package basic;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.Image;
+import java.awt.CardLayout;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
-public class App extends JFrame{
-	
-		public App(String title) {
-			setBackground(new Color(255, 255, 255));
-			getContentPane().setForeground(new Color(255, 255, 255));
-			setTitle(title);
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setSize(400,570);
-			setLocationRelativeTo(null);
-			getContentPane().setLayout(new BorderLayout());
-			
-			// contentpane의 배경 흰색으로 변경 
-			getContentPane().setBackground(Color.white);
+public class App extends JFrame {
 
-			
-			ImageIcon image = new ImageIcon("image/damoa.jpg");
-			Image img = image.getImage();
-	        
-	        // 추출된 Image의 크기 조절하여 새로운 Image 객체 생성
-	    	Image updateImg = img.getScaledInstance(120, 140, Image.SCALE_SMOOTH);
-	        
-	        // 새로운 Image 객체로 ImageIcon 객체 생성
-	        ImageIcon updateIcon = new ImageIcon(updateImg);
-	        
-	        JLabel imgLabel = new JLabel(updateIcon);
-	        
-			getContentPane().add(imgLabel);
-			
-			
-			setVisible(true);
-		}
-		
-	
-	public static void main(String[] args) {
-		new App("다모아 시작화면");
-	}
+    private JPanel contentPane;
+    private CardLayout cardLayout;
+	private Timer timer;
 
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    App frame = new App();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public App() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 570);
+        setLocationRelativeTo(null);
+        setResizable(false);
+
+        contentPane = new JPanel();
+        cardLayout = new CardLayout();
+        contentPane.setLayout(cardLayout);
+
+        setContentPane(contentPane);
+
+        Start card1 = new Start();
+        HomeView card2 = new HomeView();
+
+        contentPane.add(card1, "Card1");
+        contentPane.add(card2, "Card2");
+        cardLayout.show(contentPane, "Card1");
+        
+        timer = new Timer(1500, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(contentPane, "Card2");
+                timer.stop(); // 타이머 중지
+            }
+        });
+        
+        timer.setRepeats(false); // 한 번만 실행되도록 설정
+        timer.start(); // 타이머 시작
+
+    }
 }
+
