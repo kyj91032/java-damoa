@@ -41,7 +41,7 @@ public class App extends JFrame {
         setContentPane(contentPane);
 
         Start card1 = new Start();
-        HomeView card2 = new HomeView();
+        Home card2 = new Home();
 
         contentPane.add(card1, "Card1");
         contentPane.add(card2, "Card2");
