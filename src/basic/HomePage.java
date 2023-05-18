@@ -18,14 +18,14 @@ public class HomePage extends JFrame {
 	
 	
 	
-	
+
 	
 	
 	setVisible(true);
 	}
 
 	public static void main(String[] args) {
-		new HomePage("다모아 홈페이지");
+		new HomePage("다모아");
 	}
 
 }
