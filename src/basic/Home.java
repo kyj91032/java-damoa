@@ -24,6 +24,8 @@ import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
 import javax.swing.border.BevelBorder;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Home extends JFrame {
 
@@ -97,6 +99,11 @@ public class Home extends JFrame {
 		dmlbl.setIcon(daicon2);
 		
 		JButton listbtn = new JButton();
+		listbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("리스트 창으로 이동");
+			}
+		});
 		listbtn.setForeground(new Color(255, 255, 255));
 		listbtn.setBounds(304, 10, 29, 30);
 		listbtn.setBorder(BorderFactory.createEmptyBorder());
@@ -104,12 +111,22 @@ public class Home extends JFrame {
 		listbtn.setIcon(liicon2);
 		
 		JButton alrimbtn = new JButton();
+		alrimbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("알림 창으로 이동");
+			}
+		});
 		alrimbtn.setBounds(345, 10, 29, 30);
 		alrimbtn.setBorder(BorderFactory.createEmptyBorder());
 		panel_1.add(alrimbtn);
 		alrimbtn.setIcon(alicon2);
 		
 		JButton searchbtn = new JButton();
+		searchbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("검색 창으로 연결");
+			}
+		});
 		searchbtn.setBounds(263, 10, 29, 30);
 		searchbtn.setBorder(BorderFactory.createEmptyBorder());
 		panel_1.add(searchbtn);
@@ -117,12 +134,12 @@ public class Home extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("세상 사람");
 		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-		lblNewLabel.setBounds(103, 0, 58, 23);
+		lblNewLabel.setBounds(74, 0, 58, 23);
 		panel_1.add(lblNewLabel);
 		
 		JLabel lblDamoa = new JLabel("damoa");
-		lblDamoa.setFont(new Font("Franklin Gothic Book", Font.BOLD | Font.ITALIC, 16));
-		lblDamoa.setBounds(173, 17, 78, 23);
+		lblDamoa.setFont(new Font("Franklin Gothic Book", Font.BOLD | Font.ITALIC, 18));
+		lblDamoa.setBounds(124, 17, 78, 23);
 		panel_1.add(lblDamoa);
 	}
 
