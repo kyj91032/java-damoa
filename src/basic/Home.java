@@ -11,6 +11,8 @@ import javax.swing.JLayeredPane;
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
@@ -27,33 +29,12 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Home extends JFrame {
+public class Home extends JPanel {
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Home frame = new Home();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
+	
 	public Home() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(400, 570);
-		setLocationRelativeTo(null);
-		setResizable(false);
-		getContentPane().setLayout(null);
+		setPreferredSize(new Dimension(400, 570));
+		setBackground(Color.white);
 		
 		TopPanel();
 		
@@ -66,10 +47,11 @@ public class Home extends JFrame {
 	
 	
 	private void TopPanel() {
+		setLayout(null);
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(255, 255, 255));
-		panel_1.setBounds(0, 0, 386, 47);
-		getContentPane().add(panel_1);
+		panel_1.setBounds(0, 0, 400, 50);
+		add(panel_1);
 		panel_1.setLayout(null);
 		
 		ImageIcon daicon = new ImageIcon("image/damoa.jpg");
@@ -90,7 +72,7 @@ public class Home extends JFrame {
 		ImageIcon alicon = new ImageIcon("image/종.jpg");
 		Image alimage = alicon.getImage();
 		Image alimage2 = alimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-		ImageIcon alicon2 = new ImageIcon(alimage2);
+		ImageIcon alicon2 = new ImageIcon(alimage2);	
 		
 		JLabel dmlbl = new JLabel();
 		dmlbl.setBackground(new Color(240, 240, 240));
@@ -105,7 +87,7 @@ public class Home extends JFrame {
 			}
 		});
 		listbtn.setForeground(new Color(255, 255, 255));
-		listbtn.setBounds(304, 10, 29, 30);
+		listbtn.setBounds(317, 10, 30, 30);
 		listbtn.setBorder(BorderFactory.createEmptyBorder());
 		panel_1.add(listbtn);
 		listbtn.setIcon(liicon2);
@@ -116,7 +98,7 @@ public class Home extends JFrame {
 				System.out.println("알림 창으로 이동");
 			}
 		});
-		alrimbtn.setBounds(345, 10, 29, 30);
+		alrimbtn.setBounds(358, 10, 30, 30);
 		alrimbtn.setBorder(BorderFactory.createEmptyBorder());
 		panel_1.add(alrimbtn);
 		alrimbtn.setIcon(alicon2);
@@ -127,7 +109,7 @@ public class Home extends JFrame {
 				System.out.println("검색 창으로 연결");
 			}
 		});
-		searchbtn.setBounds(263, 10, 29, 30);
+		searchbtn.setBounds(276, 10, 30, 30);
 		searchbtn.setBorder(BorderFactory.createEmptyBorder());
 		panel_1.add(searchbtn);
 		searchbtn.setIcon(scicon2);
@@ -141,6 +123,8 @@ public class Home extends JFrame {
 		lblDamoa.setFont(new Font("Franklin Gothic Book", Font.BOLD | Font.ITALIC, 18));
 		lblDamoa.setBounds(124, 17, 78, 23);
 		panel_1.add(lblDamoa);
+		
+		
 	}
 
 	
@@ -149,14 +133,14 @@ public class Home extends JFrame {
 	private void Centerbtn() {
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(255, 255, 255));
-		panel_2.setBounds(0, 44, 386, 425);
-		getContentPane().add(panel_2);
+		panel_2.setBounds(0, 50, 400, 450);
+		add(panel_2);
 		panel_2.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(0, 5, 386, 417);
+		scrollPane.setBounds(0, 0, 400, 450);
 		panel_2.add(scrollPane);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		
 		JList list = new JList();
 		
@@ -167,20 +151,28 @@ public class Home extends JFrame {
 	private void btnPanel() {
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
-		panel.setBounds(0, 471, 386, 62);
-		getContentPane().add(panel);
+		panel.setBounds(0, 500, 400, 70);
+		add(panel);
 		panel.setLayout(new GridLayout(1, 4));
 		
 		JButton btnNewButton_2 = new JButton("홈");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton_2.setBackground(new Color(255, 255, 255));
 		panel.add(btnNewButton_2);
 		
 		JButton btnNewButton_4 = new JButton("모집하기");
+		btnNewButton_4.setBackground(new Color(255, 255, 255));
 		panel.add(btnNewButton_4);
 		
 		JButton btnNewButton_3 = new JButton("채팅");
+		btnNewButton_3.setBackground(new Color(255, 255, 255));
 		panel.add(btnNewButton_3);
 		
 		JButton btnNewButton = new JButton("마이페이지");
+		btnNewButton.setBackground(new Color(255, 255, 255));
 		panel.add(btnNewButton);
 		setVisible(true);
 	}

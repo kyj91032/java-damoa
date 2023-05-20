@@ -30,7 +30,7 @@ public class App extends JFrame {
 
     public App() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 570);
+        setSize(415, 610);
         setLocationRelativeTo(null);
         setResizable(false);
 
