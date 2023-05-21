@@ -30,11 +30,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class Home extends JPanel {
-
 	
-	public Home() {
+	private App app;
+	
+	public Home(App app) {
 		setPreferredSize(new Dimension(400, 570));
 		setBackground(Color.white);
+		this.app = app;
 		
 		TopPanel();
 		
@@ -156,12 +158,13 @@ public class Home extends JPanel {
 		panel.setLayout(new GridLayout(1, 4));
 		
 		JButton btnNewButton_2 = new JButton("홈");
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnNewButton_2.setBackground(new Color(255, 255, 255));
 		panel.add(btnNewButton_2);
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				app.showCard("Card2"); // 홈 버튼 누르면 홈 화면 보여줌
+			}
+		});
 		
 		JButton btnNewButton_4 = new JButton("모집하기");
 		btnNewButton_4.setBackground(new Color(255, 255, 255));
@@ -175,5 +178,21 @@ public class Home extends JPanel {
 		btnNewButton.setBackground(new Color(255, 255, 255));
 		panel.add(btnNewButton);
 		setVisible(true);
+		
+		btnNewButton.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            app.showCard("Card3"); // if 로그인이 안돼있다면 실행으로. 추가 예정
+	        }
+	    });		
 	}
 }
+
+
+
+
+
+
+
+
+
+
