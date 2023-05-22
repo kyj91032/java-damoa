@@ -30,7 +30,7 @@ public class App extends JFrame {
 
     public App() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 570);
+        setSize(415, 610);
         setLocationRelativeTo(null);
         setResizable(false);
 
@@ -41,15 +41,18 @@ public class App extends JFrame {
         setContentPane(contentPane);
 
         Start card1 = new Start();
-        Home card2 = new Home();
+        Home card2 = new Home(this);
+        Login card3 = new Login();
 
         contentPane.add(card1, "Card1");
         contentPane.add(card2, "Card2");
-        cardLayout.show(contentPane, "Card1");
+        contentPane.add(card3, "Card3");
+        
+        cardLayout.show(contentPane, "Card1"); // 시작화면 보여줌
         
         timer = new Timer(1500, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(contentPane, "Card2");
+                showCard("Card2"); // 1.5초 뒤 홈 화면 보여줌
                 timer.stop(); // 타이머 중지
             }
         });
@@ -58,5 +61,12 @@ public class App extends JFrame {
         timer.start(); // 타이머 시작
 
     }
+    
+    public void showCard(String cardName) {
+        cardLayout.show(contentPane, cardName);
+    }
+   
+    
+    
 }
 
