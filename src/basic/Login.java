@@ -111,6 +111,11 @@ public class Login extends JPanel {
 		JButton btnNewButton_1 = new JButton("회원가입");
 		btnNewButton_1.setBounds(242, 367, 97, 23);
 		add(btnNewButton_1);
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				app.showCard("Card4");
+			}
+		});
 	}
 	
 	private boolean checkLogin(String username, String password) {
