@@ -131,6 +131,7 @@ public class Home extends JPanel {
 
 	
 	
+	
 	private void Centerbtn() {
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(255, 255, 255));
