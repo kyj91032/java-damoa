@@ -21,10 +21,12 @@ public class Login extends JPanel {
 	private JPasswordField passwordField;
 	
 	private Statement stmt;
+	private App app;
 
 	
-	public Login(Statement stmt) {
+	public Login(Statement stmt, App app) {
 		this.stmt = stmt;
+		this.app = app;
 		
 		setPreferredSize(new Dimension(400, 570));
 		setBackground(new Color(255, 255, 255));
@@ -35,7 +37,7 @@ public class Login extends JPanel {
 			
 		
 		showBtnPanel();
-			
+	
 	}
 
 	private void showBtnPanel() {
@@ -48,6 +50,11 @@ public class Login extends JPanel {
 		JButton btnNewButton_2 = new JButton("홈");
 		btnNewButton_2.setBackground(Color.WHITE);
 		panel.add(btnNewButton_2);
+		btnNewButton_2.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            app.showCard("Card2"); // 홈 버튼 누르면 홈 화면 보여줌
+	        }
+	    });
 		
 		JButton btnNewButton_4 = new JButton("모집하기");
 		btnNewButton_4.setBackground(Color.WHITE);
@@ -113,12 +120,10 @@ public class Login extends JPanel {
 			ResultSet resultSet = stmt.executeQuery(query);
 			return resultSet.next();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
-		
-		
+			
 	}
 
 }
