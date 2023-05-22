@@ -73,7 +73,7 @@ public class App extends JFrame {
         Start card1 = new Start();
         Home card2 = new Home(this); // home 생성 시 app(this)를 넘겨서 home에서 showCard를 호출할 수 있게 함.
         Login card3 = new Login(stmt, this);
-        SignUp card4 = new SignUp(stmt);
+        SignUp card4 = new SignUp(stmt, this);
 
         contentPane.add(card1, "Card1");
         contentPane.add(card2, "Card2");
