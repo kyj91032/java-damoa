@@ -17,6 +17,9 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.border.LineBorder;
 import javax.swing.JScrollPane;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.ScrollPaneConstants;
 
 public class Chat extends JPanel {
 	private Statement stmt;
@@ -25,6 +28,7 @@ public class Chat extends JPanel {
 	private JTextField textField;
 	private JTextArea ta;
 	private JTextField tf;
+	private JButton backbtn;
 
 	public Chat(Statement stmt, App app) {
 		this.stmt = stmt;
@@ -67,12 +71,27 @@ public class Chat extends JPanel {
 		panel_1.add(btnNewButton_1);
 		
 		tf = new JTextField();
+		tf.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(!tf.getText().equals("")) {
+						ta.append("[나] : " + tf.getText() + "\n");
+					}
+					tf.setText("");
+					tf.requestFocus();
+				}
+			}
+			
+		});
 		tf.setBounds(12, 6, 309, 32);
 		panel_1.add(tf);
 		tf.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 175, 388, 345);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setBounds(0, 175, 400, 345);
 		add(scrollPane);
 		
 		ta = new JTextArea();
@@ -81,31 +100,54 @@ public class Chat extends JPanel {
 		scrollPane.setViewportView(ta);
 	}
 
+	
+	
+	
+	
+	
 	private void topPanel() {
-		JButton btnNewButton = new JButton("<");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				app.showCard("chatlist");
-			}
-		});
-		btnNewButton.setBounds(0, 0, 41, 29);
+		setLayout(null);
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_1.setBackground(new Color(255, 255, 255));
+		panel_1.setBounds(0, 0, 400, 50);
+		add(panel_1);
+		panel_1.setLayout(null);
 		
-		add(btnNewButton);
+		JLabel lblNewLabel = new JLabel("세상 사람");
+		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+		lblNewLabel.setBounds(74, 0, 58, 23);
+		panel_1.add(lblNewLabel);
+		
+		JLabel lblDamoa = new JLabel("damoa");
+		lblDamoa.setFont(new Font("Franklin Gothic Book", Font.BOLD | Font.ITALIC, 18));
+		lblDamoa.setBounds(124, 17, 78, 23);
+		panel_1.add(lblDamoa);
+		
+		JButton backbtn = new JButton("<");
+		backbtn.setBounds(12, 2, 45, 45);
+		backbtn.addActionListener(new ActionListener() { 
+			public void actionPerformed(ActionEvent e) { 
+				app.showCard("chatlist"); 
+				} 
+			});
+		panel_1.add(backbtn);
+		
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
-		panel.setBounds(0, 31, 400, 142);
+		panel.setBounds(0, 51, 400, 122);
 		panel.setBorder(border);
 		add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Image");
-		lblNewLabel.setBounds(12, 21, 106, 100);
+		lblNewLabel = new JLabel("Image");
+		lblNewLabel.setBounds(12, 10, 106, 100);
 		lblNewLabel.setBorder(border);
 		panel.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Name");
-		lblNewLabel_1.setBounds(130, 21, 258, 100);
+		lblNewLabel_1.setBounds(130, 10, 258, 100);
 		panel.add(lblNewLabel_1);
 		
 	}

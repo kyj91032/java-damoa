@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.border.LineBorder;
 
 public class Login extends JPanel {
 	
@@ -47,6 +48,7 @@ public class Login extends JPanel {
 	private void showTopPanel() {
 		setLayout(null);
 		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_1.setBackground(new Color(255, 255, 255));
 		panel_1.setBounds(0, 0, 400, 50);
 		add(panel_1);
@@ -74,7 +76,7 @@ public class Login extends JPanel {
 		
 		JLabel dmlbl = new JLabel();
 		dmlbl.setBackground(new Color(240, 240, 240));
-		dmlbl.setBounds(12, 0, 50, 50);
+		dmlbl.setBounds(12, 2, 45, 45);
 		panel_1.add(dmlbl);
 		dmlbl.setIcon(daicon2);
 		
@@ -188,5 +190,4 @@ public class Login extends JPanel {
 		}
 			
 	}
-
 }

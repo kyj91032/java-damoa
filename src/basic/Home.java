@@ -28,6 +28,7 @@ import javax.swing.border.BevelBorder;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.border.LineBorder;
 
 public class Home extends JPanel {
 	
@@ -54,6 +55,7 @@ public class Home extends JPanel {
 	private void TopPanel() {
 		setLayout(null);
 		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_1.setBackground(new Color(255, 255, 255));
 		panel_1.setBounds(0, 0, 400, 50);
 		add(panel_1);
@@ -81,7 +83,7 @@ public class Home extends JPanel {
 		
 		JLabel dmlbl = new JLabel();
 		dmlbl.setBackground(new Color(240, 240, 240));
-		dmlbl.setBounds(12, 0, 50, 50);
+		dmlbl.setBounds(12, 2, 45, 45);
 		panel_1.add(dmlbl);
 		dmlbl.setIcon(daicon2);
 		
