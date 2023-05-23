@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.border.LineBorder;
+import javax.swing.JScrollPane;
 
 public class Chat extends JPanel {
 	private Statement stmt;
@@ -39,6 +40,8 @@ public class Chat extends JPanel {
 		
 		bottomPanel();
 		
+		tf.requestFocus();
+		
 	}
 
 	private void bottomPanel() {
@@ -54,7 +57,7 @@ public class Chat extends JPanel {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!tf.getText().equals("")) {
-					ta.append("[아무개] : " + tf.getText() + "\n");
+					ta.append("[나] : " + tf.getText() + "\n");
 				}
 				tf.setText("");
 				tf.requestFocus();
@@ -67,6 +70,15 @@ public class Chat extends JPanel {
 		tf.setBounds(12, 6, 309, 32);
 		panel_1.add(tf);
 		tf.setColumns(10);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 175, 388, 345);
+		add(scrollPane);
+		
+		ta = new JTextArea();
+		ta.setEditable(false);
+		ta.setLineWrap(true);
+		scrollPane.setViewportView(ta);
 	}
 
 	private void topPanel() {
@@ -95,10 +107,6 @@ public class Chat extends JPanel {
 		JLabel lblNewLabel_1 = new JLabel("Name");
 		lblNewLabel_1.setBounds(130, 21, 258, 100);
 		panel.add(lblNewLabel_1);
-		
-		ta = new JTextArea();
-		ta.setBounds(0, 175, 400, 345);
-		add(ta);
 		
 	}
 }
