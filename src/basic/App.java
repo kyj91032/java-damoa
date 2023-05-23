@@ -75,12 +75,14 @@ public class App extends JFrame {
         Login card3 = new Login(stmt, this);
         SignUp card4 = new SignUp(stmt);
         ChatList card5 = new ChatList(stmt, this);
+        Chat card10 = new Chat(stmt,this);
 
         contentPane.add(card1, "Card1");
         contentPane.add(card2, "Card2");
         contentPane.add(card3, "Card3");
         contentPane.add(card4, "Card4");
         contentPane.add(card5, "Card5");
+        contentPane.add(card10,"Card10");
         
         cardLayout.show(contentPane, "Card1"); // 시작화면 보여줌
         

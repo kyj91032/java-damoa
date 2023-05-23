@@ -61,8 +61,14 @@ public class Login extends JPanel {
 		panel.add(btnNewButton_4);
 		
 		JButton btnNewButton_3 = new JButton("채팅");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				app.showCard("Card5");
+			}
+		});
 		btnNewButton_3.setBackground(Color.WHITE);
 		panel.add(btnNewButton_3);
+		
 		
 		JButton btnNewButton_5 = new JButton("마이페이지");
 		btnNewButton_5.setBackground(Color.WHITE);
