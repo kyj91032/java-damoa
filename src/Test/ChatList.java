@@ -1,4 +1,4 @@
-package basic;
+package Test;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -11,9 +11,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Statement;
 
 import javax.swing.JPanel;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -26,9 +30,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
-import basic.ChatList.ImageLabelItem;
-import basic.ChatList.ImageLabelListCellRenderer;
 
 public class ChatList extends JPanel {
 	private Statement stmt;
@@ -175,6 +176,9 @@ public class ChatList extends JPanel {
 	    }
 	}
 
+
+
+
 	private void btnPanel() {
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
@@ -185,22 +189,12 @@ public class ChatList extends JPanel {
 		JButton btnNewButton_2 = new JButton("홈");
 		btnNewButton_2.setBackground(new Color(255, 255, 255));
 		panel.add(btnNewButton_2);
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				app.showCard("home"); // 홈 버튼 누르면 홈 화면 보여줌
-			}
-		});
 
 		JButton btnNewButton_4 = new JButton("모집하기");
 		btnNewButton_4.setBackground(new Color(255, 255, 255));
 		panel.add(btnNewButton_4);
 
 		JButton btnNewButton_3 = new JButton("채팅");
-		btnNewButton_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				app.showCard("chatlist");
-			}
-		});
 		btnNewButton_3.setBackground(new Color(255, 255, 255));
 		panel.add(btnNewButton_3);
 
@@ -208,10 +202,5 @@ public class ChatList extends JPanel {
 		btnNewButton.setBackground(new Color(255, 255, 255));
 		panel.add(btnNewButton);
 		setVisible(true);
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				app.showCard("login"); // if 로그인이 안돼있다면 실행으로. 추가 예정
-			}
-		});
 	}
 }
