@@ -52,22 +52,22 @@ public class Login extends JPanel {
 		add(panel_1);
 		panel_1.setLayout(null);
 		
-		ImageIcon daicon = new ImageIcon("image/damoa.jpg");
+		ImageIcon daicon = new ImageIcon("image/damoa.jpeg");
 		Image daimage = daicon.getImage();
 		Image daimage2 = daimage.getScaledInstance(50,50 , Image.SCALE_SMOOTH);
 		ImageIcon daicon2 = new ImageIcon(daimage2);
 		
-		ImageIcon scicon = new ImageIcon("image/돋보기.jpg");
+		ImageIcon scicon = new ImageIcon("image/돋보기.jpeg");
 		Image scimage = scicon.getImage();
 		Image scimage2 = scimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
 		ImageIcon scicon2 = new ImageIcon(scimage2);
 		
-		ImageIcon liicon = new ImageIcon("image/목록.jpg");
+		ImageIcon liicon = new ImageIcon("image/목록.jpeg");
 		Image liimage = liicon.getImage();
 		Image liimage2 = liimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
 		ImageIcon liicon2 = new ImageIcon(liimage2);
 		
-		ImageIcon alicon = new ImageIcon("image/종.jpg");
+		ImageIcon alicon = new ImageIcon("image/종.jpeg");
 		Image alimage = alicon.getImage();
 		Image alimage2 = alimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
 		ImageIcon alicon2 = new ImageIcon(alimage2);	
@@ -135,7 +135,7 @@ public class Login extends JPanel {
 		add(btnNewButton_1);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				app.showCard("Card4");
+				app.showCard("signup");
 			}
 		});
 	}
@@ -152,7 +152,7 @@ public class Login extends JPanel {
 		panel.add(btnNewButton_2);
 		btnNewButton_2.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-	            app.showCard("Card2"); // 홈 버튼 누르면 홈 화면 보여줌
+	            app.showCard("home"); // 홈 버튼 누르면 홈 화면 보여줌
 	        }
 	    });
 		

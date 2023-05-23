@@ -55,22 +55,22 @@ public class SignUp extends JPanel {
 		add(panel_1);
 		panel_1.setLayout(null);
 		
-		ImageIcon daicon = new ImageIcon("image/damoa.jpg");
+		ImageIcon daicon = new ImageIcon("image/damoa.jpeg");
 		Image daimage = daicon.getImage();
 		Image daimage2 = daimage.getScaledInstance(50,50 , Image.SCALE_SMOOTH);
 		ImageIcon daicon2 = new ImageIcon(daimage2);
 		
-		ImageIcon scicon = new ImageIcon("image/돋보기.jpg");
+		ImageIcon scicon = new ImageIcon("image/돋보기.jpeg");
 		Image scimage = scicon.getImage();
 		Image scimage2 = scimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
 		ImageIcon scicon2 = new ImageIcon(scimage2);
 		
-		ImageIcon liicon = new ImageIcon("image/목록.jpg");
+		ImageIcon liicon = new ImageIcon("image/목록.jpeg");
 		Image liimage = liicon.getImage();
 		Image liimage2 = liimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
 		ImageIcon liicon2 = new ImageIcon(liimage2);
 		
-		ImageIcon alicon = new ImageIcon("image/종.jpg");
+		ImageIcon alicon = new ImageIcon("image/종.jpeg");
 		Image alimage = alicon.getImage();
 		Image alimage2 = alimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
 		ImageIcon alicon2 = new ImageIcon(alimage2);
@@ -90,7 +90,7 @@ public class SignUp extends JPanel {
 		panel_1.add(btnNewButton_1);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				app.showCard("Card3");
+				app.showCard("login");
 			}
 		});
 		
@@ -150,8 +150,31 @@ public class SignUp extends JPanel {
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBounds(50, 452, 75, 27);
+		comboBox.addItem("서울특별시");
+        comboBox.addItem("부산광역시");
+        comboBox.addItem("대구광역시");
+        comboBox.addItem("인천광역시");
+        comboBox.addItem("광주광역시");
+        comboBox.addItem("대전광역시");
+        comboBox.addItem("울산광역시");
+        comboBox.addItem("세종특별자치시");
+        comboBox.addItem("경기도");
+        comboBox.addItem("강원도");
+        comboBox.addItem("충청북도");
+        comboBox.addItem("충청남도");
+        comboBox.addItem("전라북도");
+        comboBox.addItem("전라남도");
+        comboBox.addItem("경상북도");
+        comboBox.addItem("경상남도");
+        comboBox.addItem("제주특별자치도");
+		comboBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String selectedOption = (String) comboBox.getSelectedItem();
+                System.out.println("Selected option: " + selectedOption);
+            }
+        });
 		add(comboBox);
-		
+				
 		JComboBox comboBox_1 = new JComboBox();
 		comboBox_1.setBounds(137, 452, 75, 27);
 		add(comboBox_1);

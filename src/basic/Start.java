@@ -20,7 +20,7 @@ public class Start extends JPanel {
 		setLayout(new BorderLayout());
 		setBackground(Color.white);
 		
-		ImageIcon image = new ImageIcon("image/damoa.jpg");
+		ImageIcon image = new ImageIcon("image/damoa.jpeg");
 		Image img = image.getImage();
         
         // 추출된 Image의 크기 조절하여 새로운 Image 객체 생성
