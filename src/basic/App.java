@@ -86,7 +86,7 @@ public class App extends JFrame {
         
         cardLayout.show(contentPane, "start"); // 시작화면 보여줌
         
-        timer = new Timer(1500, new ActionListener() {
+        timer = new Timer(500, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 showCard("home"); // 1.5초 뒤 홈 화면 보여줌
                 timer.stop(); // 타이머 중지
