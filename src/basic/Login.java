@@ -59,21 +59,6 @@ public class Login extends JPanel {
 		Image daimage2 = daimage.getScaledInstance(50,50 , Image.SCALE_SMOOTH);
 		ImageIcon daicon2 = new ImageIcon(daimage2);
 		
-		ImageIcon scicon = new ImageIcon("image/돋보기.jpeg");
-		Image scimage = scicon.getImage();
-		Image scimage2 = scimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-		ImageIcon scicon2 = new ImageIcon(scimage2);
-		
-		ImageIcon liicon = new ImageIcon("image/목록.jpeg");
-		Image liimage = liicon.getImage();
-		Image liimage2 = liimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-		ImageIcon liicon2 = new ImageIcon(liimage2);
-		
-		ImageIcon alicon = new ImageIcon("image/종.jpeg");
-		Image alimage = alicon.getImage();
-		Image alimage2 = alimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-		ImageIcon alicon2 = new ImageIcon(alimage2);	
-		
 		JLabel dmlbl = new JLabel();
 		dmlbl.setBackground(new Color(240, 240, 240));
 		dmlbl.setBounds(12, 2, 45, 45);
