@@ -6,16 +6,20 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 public class SignUp extends JPanel {
 
@@ -27,6 +31,9 @@ public class SignUp extends JPanel {
 	private JPasswordField passwordField_1;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	private JTextField textField_3;
+
+
 	
 	public SignUp(Statement stmt, App app) {
 		
@@ -41,9 +48,6 @@ public class SignUp extends JPanel {
 		
 		
 		showSignupPanel();
-		
-				
-		
 		
 	}
 	
@@ -97,92 +101,138 @@ public class SignUp extends JPanel {
 	}
 	
 	private void showSignupPanel() {
-		JButton btnNewButton = new JButton("회원가입");
-		btnNewButton.setBounds(50, 516, 300, 29);
-		add(btnNewButton);
 		
-		JLabel lblNewLabel = new JLabel("아이디");
-		lblNewLabel.setBounds(50, 80, 57, 15);
-		add(lblNewLabel);
-		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(50, 107, 290, 30);
-		add(textField);
-		
-		JLabel lblNewLabel_1 = new JLabel("비밀번호");
-		lblNewLabel_1.setBounds(50, 149, 57, 15);
-		add(lblNewLabel_1);
-		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(50, 176, 290, 30);
-		add(passwordField);
-		
-		JLabel lblNewLabel_1_1 = new JLabel("비밀번호 확인");
-		lblNewLabel_1_1.setBounds(50, 218, 75, 15);
-		add(lblNewLabel_1_1);
-		
-		passwordField_1 = new JPasswordField();
-		passwordField_1.setBounds(50, 245, 290, 30);
-		add(passwordField_1);
-		
-		JLabel lblNewLabel_2 = new JLabel("닉네임");
-		lblNewLabel_2.setBounds(50, 287, 57, 15);
-		add(lblNewLabel_2);
-		
+		JPanel panel = new JPanel();
+		panel.setLayout(null);
+		panel.setPreferredSize(new Dimension(400, 700));
+
 		JLabel lblNewLabel_2_1 = new JLabel("전화번호");
-		lblNewLabel_2_1.setBounds(50, 356, 57, 15);
-		add(lblNewLabel_2_1);
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(50, 314, 290, 30);
-		add(textField_1);
+		lblNewLabel_2_1.setBounds(50, 304, 57, 15);
+		panel.add(lblNewLabel_2_1);
 		
 		textField_2 = new JTextField();
+		textField_2.setBounds(50, 331, 290, 30);
+		panel.add(textField_2);
 		textField_2.setColumns(10);
-		textField_2.setBounds(50, 383, 290, 30);
-		add(textField_2);
 		
-		JLabel lblNewLabel_2_1_1 = new JLabel("주소");
-		lblNewLabel_2_1_1.setBounds(50, 425, 57, 15);
-		add(lblNewLabel_2_1_1);
+		textField_1 = new JTextField();
+		textField_1.setBounds(50, 262, 290, 30);
+		panel.add(textField_1);
+		textField_1.setColumns(10);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(50, 452, 75, 27);
-		comboBox.addItem("서울특별시");
-        comboBox.addItem("부산광역시");
-        comboBox.addItem("대구광역시");
-        comboBox.addItem("인천광역시");
-        comboBox.addItem("광주광역시");
-        comboBox.addItem("대전광역시");
-        comboBox.addItem("울산광역시");
-        comboBox.addItem("세종특별자치시");
-        comboBox.addItem("경기도");
-        comboBox.addItem("강원도");
-        comboBox.addItem("충청북도");
-        comboBox.addItem("충청남도");
-        comboBox.addItem("전라북도");
-        comboBox.addItem("전라남도");
-        comboBox.addItem("경상북도");
-        comboBox.addItem("경상남도");
-        comboBox.addItem("제주특별자치도");
-		comboBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String selectedOption = (String) comboBox.getSelectedItem();
-                System.out.println("Selected option: " + selectedOption);
-            }
-        });
-		add(comboBox);
-				
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(137, 452, 75, 27);
-		add(comboBox_1);
+		JLabel lblNewLabel_2 = new JLabel("닉네임");
+		lblNewLabel_2.setBounds(50, 235, 57, 15);
+		panel.add(lblNewLabel_2);
 		
-		JComboBox comboBox_1_1 = new JComboBox();
-		comboBox_1_1.setBounds(224, 452, 75, 27);
-		add(comboBox_1_1);
+		passwordField_1 = new JPasswordField();
+		passwordField_1.setBounds(50, 193, 290, 30);
+		panel.add(passwordField_1);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("비밀번호 확인");
+		lblNewLabel_1_1.setBounds(50, 166, 75, 15);
+		panel.add(lblNewLabel_1_1);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(50, 125, 290, 30);
+		panel.add(passwordField);
+		
+		JLabel lblNewLabel_1 = new JLabel("비밀번호");
+		lblNewLabel_1.setBounds(50, 98, 57, 15);
+		panel.add(lblNewLabel_1);
+		
+		textField = new JTextField();
+		textField.setBounds(50, 55, 290, 30);
+		panel.add(textField);
+		textField.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("아이디");
+		lblNewLabel.setBounds(50, 27, 57, 16);
+		panel.add(lblNewLabel);
+		
+		
+		textField_3 = new JTextField();
+		textField_3.setColumns(10);
+		textField_3.setBounds(50, 392, 290, 30);
+		panel.add(textField_3);
+		
+		JScrollPane scrollPane = new JScrollPane(panel);
+		
+		JLabel lblNewLabel_2_1_3 = new JLabel("생년월일(6자리)");
+		lblNewLabel_2_1_3.setBounds(50, 373, 89, 15);
+		panel.add(lblNewLabel_2_1_3);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setBounds(0, 50, 400, 454);
+		add(scrollPane);
+		
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(0, 503, 400, 67);
+		add(panel_1);
+		panel_1.setLayout(null);
+		JButton btnNewButton = new JButton("회원가입");
+		btnNewButton.setBounds(49, 20, 286, 29);
+		panel_1.add(btnNewButton);
+		
+		btnNewButton.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	        	registerUser();
+
+	        }
+	    });
+	}
+	
+	
+	private void registerUser() { // 회원 등록 메소드
+	    String username = textField.getText();
+	    String password = new String(passwordField.getPassword());
+	    String confirmPassword = new String(passwordField_1.getPassword());
+	    String nickname = textField_1.getText();
+	    String phoneNumber = textField_2.getText();
+	    String birthday = textField_3.getText();
+
+	    // 입력된 정보의 유효성 검사
+	    if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || nickname.isEmpty() || phoneNumber.isEmpty() || birthday.isEmpty()) {
+	        JOptionPane.showMessageDialog(null, "모든 항목을 입력해주세요.", "회원가입 실패", JOptionPane.ERROR_MESSAGE);
+	        
+	        return;
+	    }
+
+	    if (!password.equals(confirmPassword)) {
+	        JOptionPane.showMessageDialog(null, "비밀번호가 일치하지 않습니다.", "회원가입 실패", JOptionPane.ERROR_MESSAGE);
+	        
+	        passwordField.setText("");
+	        passwordField_1.setText("");
+	        
+	        return;
+	    }
+
+	    // 데이터베이스에 회원 정보 삽입
+	    try {
+	        String query = "INSERT INTO usertable (username, userpw, nickname, phone, birth) " +
+	                       "VALUES ('" + username + "', '" + password + "', '" + nickname + "', '" + phoneNumber + "', '" + birthday + "')";
+	        stmt.executeUpdate(query);
+	        JOptionPane.showMessageDialog(null, "회원가입이 완료되었습니다.", "회원가입 성공", JOptionPane.INFORMATION_MESSAGE);
+	        app.showCard("login"); // 회원가입 후 로그인 화면으로 이동
+	        
+	        textField.setText("");
+	        passwordField.setText("");
+	        passwordField_1.setText("");
+	        textField_1.setText("");
+	        textField_2.setText("");
+	        textField_3.setText("");
+	        
+	    } catch (SQLException ex) {
+	        JOptionPane.showMessageDialog(null, "회원가입 중 오류가 발생했습니다.", "회원가입 실패", JOptionPane.ERROR_MESSAGE);
+	        ex.printStackTrace();
+	        
+	        textField.setText("");
+	        passwordField.setText("");
+	        passwordField_1.setText("");
+	        textField_1.setText("");
+	        textField_2.setText("");
+	        textField_3.setText("");
+	    }
 	}
 
-	
 }

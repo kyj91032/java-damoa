@@ -179,7 +179,7 @@ public class Login extends JPanel {
 	private boolean checkLogin(String username, String password) {
 	    // DB와의 비교 로직을 구현
 		try {
-			String query = "SELECT * FROM usertable WHERE userid = '" + username + "' AND userpw = '" + password + "'";
+			String query = "SELECT * FROM usertable WHERE username = '" + username + "' AND userpw = '" + password + "'";
 			ResultSet resultSet = stmt.executeQuery(query);
 			return resultSet.next();
 		} catch (SQLException e) {
