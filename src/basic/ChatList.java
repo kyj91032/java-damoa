@@ -54,7 +54,7 @@ public class ChatList extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount()==2)
-				app.showCard("Card10");
+				app.showCard("chat");
 			}
 		});
 		scrollPane.setViewportView(list);
@@ -77,7 +77,7 @@ public class ChatList extends JPanel {
 		panel.add(btnNewButton_2);
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				app.showCard("Card2"); // 홈 버튼 누르면 홈 화면 보여줌
+				app.showCard("home"); // 홈 버튼 누르면 홈 화면 보여줌
 			}
 		});
 
@@ -88,7 +88,7 @@ public class ChatList extends JPanel {
 		JButton btnNewButton_3 = new JButton("채팅");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				app.showCard("Card5");
+				app.showCard("chatlist");
 			}
 		});
 		btnNewButton_3.setBackground(new Color(255, 255, 255));
@@ -100,7 +100,7 @@ public class ChatList extends JPanel {
 		setVisible(true);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				app.showCard("Card3"); // if 로그인이 안돼있다면 실행으로. 추가 예정
+				app.showCard("login"); // if 로그인이 안돼있다면 실행으로. 추가 예정
 			}
 		});
 	}

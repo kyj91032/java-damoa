@@ -74,11 +74,15 @@ public class App extends JFrame {
         Home home = new Home(this); // home 생성 시 app(this)를 넘겨서 home에서 showCard를 호출할 수 있게 함.
         Login login = new Login(stmt, this);
         SignUp signup = new SignUp(stmt, this);
+        ChatList chatlist = new ChatList(stmt, this);
+        Chat chat = new Chat(stmt, this);
 
         contentPane.add(start, "start");
         contentPane.add(home, "home");
         contentPane.add(login, "login");
         contentPane.add(signup, "signup");
+        contentPane.add(chatlist, "chatlist");
+        contentPane.add(chat, "chat");
         
         cardLayout.show(contentPane, "start"); // 시작화면 보여줌
         

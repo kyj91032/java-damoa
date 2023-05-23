@@ -73,7 +73,7 @@ public class Chat extends JPanel {
 		JButton btnNewButton = new JButton("<");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				app.showCard("Card5");
+				app.showCard("chatlist");
 			}
 		});
 		btnNewButton.setBounds(0, 0, 41, 29);
