@@ -177,7 +177,6 @@ public class SignUp extends JPanel {
 		btnNewButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	        	registerUser();
-
 	        }
 	    });
 	}
