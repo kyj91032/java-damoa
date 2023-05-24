@@ -175,6 +175,12 @@ public class Home extends JPanel {
 		JButton btnNewButton_4 = new JButton("모집하기");
 		btnNewButton_4.setBackground(new Color(255, 255, 255));
 		panel.add(btnNewButton_4);
+		btnNewButton_4.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            app.showCard("Card6"); // if 로그인이 안돼있다면 실행으로. 추가 예정
+	        }
+	    });
+		
 		
 		JButton btnNewButton_3 = new JButton("채팅");
 		btnNewButton_3.addActionListener(new ActionListener() {
