@@ -2,18 +2,23 @@ package basic;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.border.LineBorder;
 
 public class Login extends JPanel {
 	
@@ -32,41 +37,45 @@ public class Login extends JPanel {
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
 		
+		showTopPanel();
 		
 		showLoginView();
-			
 		
 		showBtnPanel();
 	
 	}
 
-	private void showBtnPanel() {
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(0, 500, 400, 70);
-		add(panel);
-		panel.setLayout(new GridLayout(1, 4));
+	private void showTopPanel() {
+		setLayout(null);
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_1.setBackground(new Color(255, 255, 255));
+		panel_1.setBounds(0, 0, 400, 50);
+		add(panel_1);
+		panel_1.setLayout(null);
 		
-		JButton btnNewButton_2 = new JButton("홈");
-		btnNewButton_2.setBackground(Color.WHITE);
-		panel.add(btnNewButton_2);
-		btnNewButton_2.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            app.showCard("Card2"); // 홈 버튼 누르면 홈 화면 보여줌
-	        }
-	    });
+		ImageIcon daicon = new ImageIcon("image/damoa.jpeg");
+		Image daimage = daicon.getImage();
+		Image daimage2 = daimage.getScaledInstance(50,50 , Image.SCALE_SMOOTH);
+		ImageIcon daicon2 = new ImageIcon(daimage2);
 		
-		JButton btnNewButton_4 = new JButton("모집하기");
-		btnNewButton_4.setBackground(Color.WHITE);
-		panel.add(btnNewButton_4);
+		JLabel dmlbl = new JLabel();
+		dmlbl.setBackground(new Color(240, 240, 240));
+		dmlbl.setBounds(12, 2, 45, 45);
+		panel_1.add(dmlbl);
+		dmlbl.setIcon(daicon2);
 		
-		JButton btnNewButton_3 = new JButton("채팅");
-		btnNewButton_3.setBackground(Color.WHITE);
-		panel.add(btnNewButton_3);
+		JLabel lblNewLabel = new JLabel("세상 사람");
+		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+		lblNewLabel.setBounds(74, 0, 58, 23);
+		panel_1.add(lblNewLabel);
 		
-		JButton btnNewButton_5 = new JButton("마이페이지");
-		btnNewButton_5.setBackground(Color.WHITE);
-		panel.add(btnNewButton_5);
+		JLabel lblDamoa = new JLabel("damoa");
+		lblDamoa.setFont(new Font("Franklin Gothic Book", Font.BOLD | Font.ITALIC, 18));
+		lblDamoa.setBounds(124, 17, 78, 23);
+		panel_1.add(lblDamoa);
+		
+		
 	}
 
 	private void showLoginView() {
@@ -113,15 +122,56 @@ public class Login extends JPanel {
 		add(btnNewButton_1);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				app.showCard("Card4");
+				app.showCard("signup");
 			}
 		});
 	}
 	
+	private void showBtnPanel() {
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
+		panel.setBounds(0, 500, 400, 70);
+		add(panel);
+		panel.setLayout(new GridLayout(1, 4));
+		
+		JButton btnNewButton_2 = new JButton("홈");
+		btnNewButton_2.setBackground(Color.WHITE);
+		panel.add(btnNewButton_2);
+		btnNewButton_2.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            app.showCard("home"); // 홈 버튼 누르면 홈 화면 보여줌
+	        }
+	    });
+		
+		JButton btnNewButton_4 = new JButton("모집하기");
+		btnNewButton_4.setBackground(Color.WHITE);
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				app.showCard("recruit"); // if 로그인이 안돼있다면 실행으로. 추가 예정
+				}
+			});
+		panel.add(btnNewButton_4);
+		
+		JButton btnNewButton_3 = new JButton("채팅");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				app.showCard("chatlist");
+			}
+		});
+		btnNewButton_3.setBackground(Color.WHITE);
+		panel.add(btnNewButton_3);
+		
+		JButton btnNewButton_5 = new JButton("마이페이지");
+		btnNewButton_5.setBackground(Color.WHITE);
+		panel.add(btnNewButton_5);
+	}
+
+	
+	
 	private boolean checkLogin(String username, String password) {
 	    // DB와의 비교 로직을 구현
 		try {
-			String query = "SELECT * FROM usertable WHERE userid = '" + username + "' AND userpw = '" + password + "'";
+			String query = "SELECT * FROM usertable WHERE username = '" + username + "' AND userpw = '" + password + "'";
 			ResultSet resultSet = stmt.executeQuery(query);
 			return resultSet.next();
 		} catch (SQLException e) {
@@ -130,5 +180,4 @@ public class Login extends JPanel {
 		}
 			
 	}
-
 }

@@ -177,7 +177,7 @@ public class RecruitComplete extends JPanel {
 		btnNewButton.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				app.showCard("Card2");
+				app.showCard("home");
 			}
 		});
 		add(btnNewButton);

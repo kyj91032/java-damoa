@@ -87,70 +87,22 @@ public class Recruit extends JPanel {
 	private void TopPanel() { 
 		setLayout(null);
 		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_1.setBackground(new Color(255, 255, 255));
 		panel_1.setBounds(0, 0, 400, 50);
 		add(panel_1);
 		panel_1.setLayout(null);
 		
-		ImageIcon daicon = new ImageIcon("image/damoa.jpg");
+		ImageIcon daicon = new ImageIcon("image/damoa.jpeg");
 		Image daimage = daicon.getImage();
 		Image daimage2 = daimage.getScaledInstance(50,50 , Image.SCALE_SMOOTH);
 		ImageIcon daicon2 = new ImageIcon(daimage2);
 		
-		ImageIcon scicon = new ImageIcon("image/돋보기.jpg");
-		Image scimage = scicon.getImage();
-		Image scimage2 = scimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-		ImageIcon scicon2 = new ImageIcon(scimage2);
-		
-		ImageIcon liicon = new ImageIcon("image/목록.jpg");
-		Image liimage = liicon.getImage();
-		Image liimage2 = liimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-		ImageIcon liicon2 = new ImageIcon(liimage2);
-		
-		ImageIcon alicon = new ImageIcon("image/종.jpg");
-		Image alimage = alicon.getImage();
-		Image alimage2 = alimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-		ImageIcon alicon2 = new ImageIcon(alimage2);	
-		
 		JLabel dmlbl = new JLabel();
 		dmlbl.setBackground(new Color(240, 240, 240));
-		dmlbl.setBounds(12, 0, 50, 50);
+		dmlbl.setBounds(12, 2, 45, 45);
 		panel_1.add(dmlbl);
 		dmlbl.setIcon(daicon2);
-		
-		JButton listbtn = new JButton();
-		listbtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("리스트 창으로 이동");
-			}
-		});
-		listbtn.setForeground(new Color(255, 255, 255));
-		listbtn.setBounds(317, 10, 30, 30);
-		listbtn.setBorder(BorderFactory.createEmptyBorder());
-		panel_1.add(listbtn);
-		listbtn.setIcon(liicon2);
-		
-		JButton alrimbtn = new JButton();
-		alrimbtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("알림 창으로 이동");
-			}
-		});
-		alrimbtn.setBounds(358, 10, 30, 30);
-		alrimbtn.setBorder(BorderFactory.createEmptyBorder());
-		panel_1.add(alrimbtn);
-		alrimbtn.setIcon(alicon2);
-		
-		JButton searchbtn = new JButton();
-		searchbtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("검색 창으로 연결");
-			}
-		});
-		searchbtn.setBounds(276, 10, 30, 30);
-		searchbtn.setBorder(BorderFactory.createEmptyBorder());
-		panel_1.add(searchbtn);
-		searchbtn.setIcon(scicon2);
 		
 		JLabel lblNewLabel = new JLabel("세상 사람");
 		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 12));
@@ -161,7 +113,6 @@ public class Recruit extends JPanel {
 		lblDamoa.setFont(new Font("Franklin Gothic Book", Font.BOLD | Font.ITALIC, 18));
 		lblDamoa.setBounds(124, 17, 78, 23);
 		panel_1.add(lblDamoa);
-		
 	}
 
 	private void ReturnBt(App app) {  
@@ -172,7 +123,7 @@ public class Recruit extends JPanel {
 		add(btnNewButton_1);
 		btnNewButton_1.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-	            app.showCard("Card2"); // 홈 버튼 누르면 홈 화면 보여줌
+	            app.showCard("home"); // 홈 버튼 누르면 홈 화면 보여줌
 	        }
 	    });
 	}
