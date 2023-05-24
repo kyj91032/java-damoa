@@ -22,6 +22,7 @@ public class App extends JFrame {
 	
 	private static Connection conn;
 	private static Statement stmt;
+	private static Chat chat;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -70,7 +71,7 @@ public class App extends JFrame {
 
         setContentPane(contentPane);
 
-        ChatList chatlist = new ChatList(stmt, this);
+        ChatList chatlist = new ChatList(stmt, this, chat);
    
 
   

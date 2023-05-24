@@ -35,11 +35,16 @@ public class ChatList extends JPanel {
 	private Statement stmt;
 	private App app;
 	private DefaultListModel listModel;
+	private Chat chat;
+	private String label;
+	private Chat[] chats;
 
-	public ChatList(Statement stmt, App app) {
+	public ChatList(Statement stmt, App app, Chat chat) {
 		this.stmt = stmt;
 		this.app = app;
-
+		this.chat = chat;
+		
+		
 		setPreferredSize(new Dimension(400, 570));
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
@@ -49,8 +54,33 @@ public class ChatList extends JPanel {
 		ListPanel();
 		
 		TopPanel();
+		
+		createChats(); 
 
 	}
+	
+	
+	public Chat getChat() {
+	    return chat;
+	}
+	
+	public String getLabel() {
+        return label;
+    }
+	
+	private void createChats() {
+	    int numChats = 3; // Chat 객체의 수
+
+	    chats = new Chat[numChats]; // Chat 객체 배열 생성
+
+	    for (int i = 0; i < numChats; i++) {
+	        chats[i] = new Chat(stmt, app); // Chat 객체 생성 후 배열 요소에 할당
+	    }
+	}
+	
+	
+	
+	
 	
 	private void TopPanel() {
 		setLayout(null);
@@ -112,68 +142,25 @@ public class ChatList extends JPanel {
 	    ImageIcon alicon2 = new ImageIcon(alimage2);
 
 	    listModel = new DefaultListModel<>();
-	    listModel.addElement(new ImageLabelItem(alicon2, "항목 1"));
-	    listModel.addElement(new ImageLabelItem(liicon2, "항목 2"));
-	    listModel.addElement(new ImageLabelItem(scicon2, "항목 3"));
+	    listModel.addElement(new ImageLabelItem(alicon2, "항목 1", chats[0].getChat())); // Chat 객체 전달
+	    listModel.addElement(new ImageLabelItem(liicon2, "항목 2", chats[1].getChat())); // Chat 객체 전달
+	    listModel.addElement(new ImageLabelItem(scicon2, "항목 3", chats[2].getChat())); // Chat 객체 전달
 
 	    JList<ImageLabelItem> list = new JList<>(listModel);
 	    list.setCellRenderer(new ImageLabelListCellRenderer());
 	    list.addMouseListener(new MouseAdapter() {
 	        @Override
 	        public void mouseClicked(MouseEvent e) {
-	            if (e.getClickCount() == 2)
+	            if (e.getClickCount() == 2) {
+	                ImageLabelItem selectedItem = list.getSelectedValue();
+	                Chat selectedChat = selectedItem.getChat();
+	                // Chat 객체 사용
 	                app.showCard("chat");
+	            }
 	        }
 	    });
 
 	    scrollPane.setViewportView(list);
-	}
-
-	class ImageLabelItem {
-	    private ImageIcon image;
-	    private String label;
-
-	    public ImageLabelItem(ImageIcon image, String label) {
-	        this.image = image;
-	        this.label = label;
-	    }
-
-	    public String getLabel() {
-	        return label;
-	    }
-	}
-
-	class ImageLabelListCellRenderer extends JPanel implements ListCellRenderer<ImageLabelItem> {
-	    private JLabel imageLabel;
-	    private JLabel textLabel;
-
-	    public ImageLabelListCellRenderer() {
-	        setLayout(new BorderLayout());
-	        setOpaque(true);
-
-	        imageLabel = new JLabel();
-	        textLabel = new JLabel();
-
-	        add(imageLabel, BorderLayout.WEST);
-	        add(textLabel, BorderLayout.CENTER);
-	    }
-
-	    @Override
-	    public Component getListCellRendererComponent(JList<? extends ImageLabelItem> list, ImageLabelItem value, int index,
-	                                                  boolean isSelected, boolean cellHasFocus) {
-	        imageLabel.setIcon(value.image);
-	        textLabel.setText(value.getLabel());
-
-	        if (isSelected) {
-	            setBackground(list.getSelectionBackground());
-	            setForeground(list.getSelectionForeground());
-	        } else {
-	            setBackground(list.getBackground());
-	            setForeground(list.getForeground());
-	        }
-
-	        return this;
-	    }
 	}
 
 
