@@ -1,61 +1,86 @@
 package basic;
 
-import java.awt.EventQueue;
-import java.awt.Image;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import java.awt.CardLayout;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import javax.swing.JScrollPane;
-import javax.swing.JInternalFrame;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JToolBar;
-import javax.swing.LayoutFocusTraversalPolicy;
-import javax.swing.JList;
-import java.awt.GridLayout;
-import javax.swing.AbstractListModel;
-import javax.swing.BorderFactory;
-import javax.swing.border.BevelBorder;
 import java.awt.Font;
-import java.awt.event.ActionListener;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Home extends JPanel {
-	
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
+
+public class RecruitComplete extends JPanel {
 	private App app;
 	
-	public Home(App app) {
-		
+	public RecruitComplete(App app) {
 		this.app = app;
 		
 		setPreferredSize(new Dimension(400, 570));
-		setBackground(Color.white);
+		setBackground(new Color(255, 255, 255));
 		
 		
-		TopPanel();
+		JPanel titlePanel = new JPanel();
+		titlePanel.setBackground(new Color(0, 255, 255));
+		titlePanel.setBounds(10, 55, 378, 37);
+		add(titlePanel);
+		titlePanel.setLayout(null);
 		
-		Centerbtn();
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		lblNewLabel_1.setBounds(0, 0, 378, 37);
+		titlePanel.add(lblNewLabel_1);
 		
-		btnPanel();
+		JPanel TextAreaPanel = new JPanel();
+		TextAreaPanel.setBackground(new Color(255, 0, 128));
+		TextAreaPanel.setBounds(10, 274, 378, 236);
+		add(TextAreaPanel);
 		
+		JPanel KategoriePanel = new JPanel();
+		KategoriePanel.setBackground(new Color(0, 128, 128));
+		KategoriePanel.setBounds(10, 247, 126, 25);
+		add(KategoriePanel);
+		KategoriePanel.setLayout(null);
+		
+		JLabel lblNewLabel_2 = new JLabel("New label");
+		lblNewLabel_2.setBounds(0, 0, 126, 25);
+		KategoriePanel.add(lblNewLabel_2);
+		
+		JPanel RegionPanel = new JPanel();
+		RegionPanel.setLayout(null);
+		RegionPanel.setBackground(new Color(255, 128, 64));
+		RegionPanel.setBounds(136, 247, 126, 25);
+		add(RegionPanel);
+		
+		JPanel SpecificRegionPanel = new JPanel();
+		SpecificRegionPanel.setLayout(null);
+		SpecificRegionPanel.setBackground(new Color(0, 128, 128));
+		SpecificRegionPanel.setBounds(262, 247, 126, 25);
+		add(SpecificRegionPanel);
+		
+		
+		
+		
+		
+		TopPanel(); // 맨위 판넬 설정 (Home.java 내용 가져옴)
+		
+		RecruitBt();
+		
+		HomeBt(app);
 	}
-
 	
 	
-	private void TopPanel() {
+	
+	
+	private void TopPanel() { 
+		setLayout(null);
 		setLayout(null);
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(255, 255, 255));
 		panel_1.setBounds(0, 0, 400, 50);
+		panel_1.setBackground(new Color(255, 255, 255));
 		add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -129,79 +154,33 @@ public class Home extends JPanel {
 		lblDamoa.setBounds(124, 17, 78, 23);
 		panel_1.add(lblDamoa);
 		
-		
 	}
 
-	
-	
-	
-	private void Centerbtn() {
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(new Color(255, 255, 255));
-		panel_2.setBounds(0, 50, 400, 450);
-		add(panel_2);
-		panel_2.setLayout(null);
+	private void RecruitBt() {
+		JButton btnNewButton_1 = new JButton("채팅 참여");
+		btnNewButton_1.setBackground(new Color(255, 255, 255));
+		btnNewButton_1.setBounds(255, 523, 133, 37);
+		btnNewButton_1.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
+		add(btnNewButton_1);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 400, 450);
-		panel_2.add(scrollPane);
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		
-		JList list = new JList();
-		
-		scrollPane.setViewportView(list);
-	}
-	
-
-	private void btnPanel() {
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(255, 255, 255));
-		panel.setBounds(0, 500, 400, 70);
+		panel.setBackground(new Color(128, 255, 0));
+		panel.setBounds(10, 99, 378, 141);
 		add(panel);
-		panel.setLayout(new GridLayout(1, 4));
-		
-		JButton btnNewButton_2 = new JButton("홈");
-		btnNewButton_2.setBackground(new Color(255, 255, 255));
-		panel.add(btnNewButton_2);
-		btnNewButton_2.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            app.showCard("Card2"); // 홈 버튼 누르면 홈 화면 보여줌
-	        }
-	    });
+		panel.setLayout(null);
+	}
 
-		
-		JButton btnNewButton_4 = new JButton("모집하기");
-		btnNewButton_4.setBackground(new Color(255, 255, 255));
-		panel.add(btnNewButton_4);
-		btnNewButton_4.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            app.showCard("Card6"); // if 로그인이 안돼있다면 실행으로. 추가 예정
-	        }
-	    });
-		
-		
-		JButton btnNewButton_3 = new JButton("채팅");
-		btnNewButton_3.setBackground(new Color(255, 255, 255));
-		panel.add(btnNewButton_3);
-		
-		JButton btnNewButton = new JButton("마이페이지");
+	private void HomeBt(App app) {
+		JButton btnNewButton = new JButton("Home");
 		btnNewButton.setBackground(new Color(255, 255, 255));
-		panel.add(btnNewButton);
-		setVisible(true);
+		btnNewButton.setBounds(12, 523, 119, 37);
+		btnNewButton.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
 		btnNewButton.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            app.showCard("Card3"); // if 로그인이 안돼있다면 실행으로. 추가 예정
-	        }
-	    });
+			public void actionPerformed(ActionEvent e) {
+				app.showCard("Card2");
+			}
+		});
+		add(btnNewButton);
+		
 	}
 }
-
-
-
-
-
-
-
-
-
-
