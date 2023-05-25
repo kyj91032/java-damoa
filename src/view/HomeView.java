@@ -1,4 +1,4 @@
-package basic;
+package view;
 
 import java.awt.EventQueue;
 import java.awt.Image;
@@ -6,6 +6,9 @@ import java.awt.Image;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import controller.Controller;
+
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import java.awt.CardLayout;
@@ -28,15 +31,14 @@ import javax.swing.border.BevelBorder;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.border.LineBorder;
 
-public class Home extends JPanel {
+public class HomeView extends JPanel {
 	
-	private App app;
+	private Controller controller;
 	
-	public Home(App app) {
+	public HomeView(Controller controller) {
 		
-		this.app = app;
+		this.controller = controller;
 		
 		setPreferredSize(new Dimension(400, 570));
 		setBackground(Color.white);
@@ -55,7 +57,6 @@ public class Home extends JPanel {
 	private void TopPanel() {
 		setLayout(null);
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_1.setBackground(new Color(255, 255, 255));
 		panel_1.setBounds(0, 0, 400, 50);
 		add(panel_1);
@@ -83,7 +84,7 @@ public class Home extends JPanel {
 		
 		JLabel dmlbl = new JLabel();
 		dmlbl.setBackground(new Color(240, 240, 240));
-		dmlbl.setBounds(12, 2, 45, 45);
+		dmlbl.setBounds(12, 0, 50, 50);
 		panel_1.add(dmlbl);
 		dmlbl.setIcon(daicon2);
 		
@@ -167,7 +168,7 @@ public class Home extends JPanel {
 		panel.add(btnNewButton_2);
 		btnNewButton_2.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-	            app.showCard("home"); // 홈 버튼 누르면 홈 화면 보여줌
+	            controller.showCard("home"); // 홈 버튼 누르면 홈 화면 보여줌
 	        }
 	    });
 
@@ -175,17 +176,11 @@ public class Home extends JPanel {
 		JButton btnNewButton_4 = new JButton("모집하기");
 		btnNewButton_4.setBackground(new Color(255, 255, 255));
 		panel.add(btnNewButton_4);
-		btnNewButton_4.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            app.showCard("recruit"); // if 로그인이 안돼있다면 실행으로. 추가 예정
-	        }
-	    });
-		
 		
 		JButton btnNewButton_3 = new JButton("채팅");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				app.showCard("chatlist");
+				controller.showCard("chatlist");
 			}
 		});
 		btnNewButton_3.setBackground(new Color(255, 255, 255));
@@ -197,7 +192,7 @@ public class Home extends JPanel {
 		setVisible(true);
 		btnNewButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-	            app.showCard("login"); // if 로그인이 안돼있다면 실행으로. 추가 예정
+	            controller.showCard("login"); // if 로그인이 안돼있다면 실행으로. 추가 예정
 	        }
 	    });
 	}

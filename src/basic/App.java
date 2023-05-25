@@ -14,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import lombok.Getter;
+
 public class App extends JFrame {
 
     private JPanel contentPane;

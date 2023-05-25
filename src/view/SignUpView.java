@@ -1,6 +1,7 @@
-package basic;
+package view;
 
 import java.awt.Color;
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
@@ -21,31 +22,33 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
-public class SignUp extends JPanel {
+import controller.Controller;
+import lombok.Getter;
+import model.Model;
 
-	private Statement stmt;
-	private App app;
-	
-	private JTextField textField;
+
+public class SignUpView extends JPanel implements ActionListener {
+
+	private Controller controller;
+	private Model model;
+	@Getter private JTextField textField;
 	private JPasswordField passwordField;
 	private JPasswordField passwordField_1;
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
-
-
+	private JButton btnNewButton;
 	
-	public SignUp(Statement stmt, App app) {
+	public SignUpView(Model model, Controller controller) {
 		
-		this.stmt = stmt;
-		this.app = app;
+		this.model = model;
+		this.controller = controller;
 		
 		setPreferredSize(new Dimension(400, 570));
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
 		
 		showTopPanel();
-		
 		
 		showSignupPanel();
 		
@@ -94,7 +97,7 @@ public class SignUp extends JPanel {
 		panel_1.add(btnNewButton_1);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				app.showCard("login");
+				controller.showCard("login");
 			}
 		});
 		
@@ -165,73 +168,31 @@ public class SignUp extends JPanel {
 		scrollPane.setBounds(0, 50, 400, 454);
 		add(scrollPane);
 		
-		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(0, 503, 400, 67);
 		add(panel_1);
 		panel_1.setLayout(null);
-		JButton btnNewButton = new JButton("회원가입");
+		btnNewButton = new JButton("회원가입");
 		btnNewButton.setBounds(49, 20, 286, 29);
 		panel_1.add(btnNewButton);
 		
-		btnNewButton.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	        	registerUser();
-	        }
-	    });
+		btnNewButton.addActionListener(this);
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object obj = e.getSource();
+		
+		if(obj == btnNewButton) {
+			model.registerUser(this);
+	    	controller.showCard("login"); // 회원가입 후 로그인 화면으로 이동
+		}		
+	}
+
+
+
 	
 	
-	private void registerUser() { // 회원 등록 메소드
-	    String username = textField.getText();
-	    String password = new String(passwordField.getPassword());
-	    String confirmPassword = new String(passwordField_1.getPassword());
-	    String nickname = textField_1.getText();
-	    String phoneNumber = textField_2.getText();
-	    String birthday = textField_3.getText();
-
-	    // 입력된 정보의 유효성 검사
-	    if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || nickname.isEmpty() || phoneNumber.isEmpty() || birthday.isEmpty()) {
-	        JOptionPane.showMessageDialog(null, "모든 항목을 입력해주세요.", "회원가입 실패", JOptionPane.ERROR_MESSAGE);
-	        
-	        return;
-	    }
-
-	    if (!password.equals(confirmPassword)) {
-	        JOptionPane.showMessageDialog(null, "비밀번호가 일치하지 않습니다.", "회원가입 실패", JOptionPane.ERROR_MESSAGE);
-	        
-	        passwordField.setText("");
-	        passwordField_1.setText("");
-	        
-	        return;
-	    }
-
-	    // 데이터베이스에 회원 정보 삽입
-	    try {
-	        String query = "INSERT INTO usertable (username, userpw, nickname, phone, birth) " +
-	                       "VALUES ('" + username + "', '" + password + "', '" + nickname + "', '" + phoneNumber + "', '" + birthday + "')";
-	        stmt.executeUpdate(query);
-	        JOptionPane.showMessageDialog(null, "회원가입이 완료되었습니다.", "회원가입 성공", JOptionPane.INFORMATION_MESSAGE);
-	        app.showCard("login"); // 회원가입 후 로그인 화면으로 이동
-	        
-	        textField.setText("");
-	        passwordField.setText("");
-	        passwordField_1.setText("");
-	        textField_1.setText("");
-	        textField_2.setText("");
-	        textField_3.setText("");
-	        
-	    } catch (SQLException ex) {
-	        JOptionPane.showMessageDialog(null, "회원가입 중 오류가 발생했습니다.", "회원가입 실패", JOptionPane.ERROR_MESSAGE);
-	        ex.printStackTrace();
-	        
-	        textField.setText("");
-	        passwordField.setText("");
-	        passwordField_1.setText("");
-	        textField_1.setText("");
-	        textField_2.setText("");
-	        textField_3.setText("");
-	    }
-	}
+	
 
 }
