@@ -99,11 +99,6 @@ public class Chat extends JPanel {
 		ta.setLineWrap(true);
 		scrollPane.setViewportView(ta);
 	}
-
-	
-	
-	
-	
 	
 	private void topPanel() {
 		setLayout(null);
@@ -132,7 +127,6 @@ public class Chat extends JPanel {
 				} 
 			});
 		panel_1.add(backbtn);
-		
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));

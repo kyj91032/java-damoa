@@ -93,7 +93,7 @@ public class App extends JFrame {
         contentPane.add(recruit, "recruit");
         
         
-        cardLayout.show(contentPane, "home"); // 시작화면 보여줌
+        showCard("start"); // 시작화면 보여줌
         
         timer = new Timer(1500, new ActionListener() {
             public void actionPerformed(ActionEvent e) {

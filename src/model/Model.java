@@ -52,11 +52,11 @@ public class Model {
     public void registerUser(SignUpView signupview) { // 회원 등록 메소드
 	    
     	JTextField textField = signupview.getTextField();
-    	private JPasswordField passwordField;
-    	private JPasswordField passwordField_1;
-    	private JTextField textField_1;
-    	private JTextField textField_2;
-    	private JTextField textField_3;
+    	JPasswordField passwordField = signupview.getPasswordField();
+    	JPasswordField passwordField_1 = signupview.getPasswordField_1();
+    	JTextField textField_1 = signupview.getTextField_1();
+    	JTextField textField_2 = signupview.getTextField_2();
+    	JTextField textField_3 = signupview.getTextField_3();
     	
     	String username = textField.getText();
 	    String password = new String(passwordField.getPassword());

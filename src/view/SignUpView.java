@@ -26,12 +26,12 @@ import controller.Controller;
 import lombok.Getter;
 import model.Model;
 
-
+@Getter
 public class SignUpView extends JPanel implements ActionListener {
 
 	private Controller controller;
 	private Model model;
-	@Getter private JTextField textField;
+	private JTextField textField;
 	private JPasswordField passwordField;
 	private JPasswordField passwordField_1;
 	private JTextField textField_1;
@@ -188,11 +188,4 @@ public class SignUpView extends JPanel implements ActionListener {
 	    	controller.showCard("login"); // 회원가입 후 로그인 화면으로 이동
 		}		
 	}
-
-
-
-	
-	
-	
-
 }

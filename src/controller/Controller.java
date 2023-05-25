@@ -14,6 +14,7 @@ import view.ChatListView;
 import view.ChatView;
 import view.HomeView;
 import view.LoginView;
+import view.MyPageView;
 import view.SignUpView;
 import view.StartView;
 
@@ -44,6 +45,7 @@ public class Controller extends JFrame {
         SignUpView signUpView = new SignUpView(model, this);
         ChatListView chatListView = new ChatListView(model, this);
         ChatView chatView = new ChatView(model, this);
+        MyPageView mypageView = new MyPageView(model, this);
 
         contentPane.add(startView, "start");
         contentPane.add(homeView, "home");
@@ -51,6 +53,7 @@ public class Controller extends JFrame {
         contentPane.add(signUpView, "signup");
         contentPane.add(chatListView, "chatlist");
         contentPane.add(chatView, "chat");
+        contentPane.add(mypageView, "mypage");
 
         cardLayout.show(contentPane, "start"); // Show the start screen
 
