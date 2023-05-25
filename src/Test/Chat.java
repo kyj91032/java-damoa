@@ -47,6 +47,27 @@ public class Chat extends JPanel {
 		tf.requestFocus();
 		
 	}
+	
+
+	public Statement getStmt() {
+		return stmt;
+	}
+
+
+	public void setStmt(Statement stmt) {
+		this.stmt = stmt;
+	}
+
+
+	public App getApp() {
+		return app;
+	}
+
+
+	public void setApp(App app) {
+		this.app = app;
+	}
+
 
 	private void bottomPanel() {
 		JPanel panel_1 = new JPanel();

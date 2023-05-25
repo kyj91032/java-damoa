@@ -11,13 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.sql.Statement;
 
 import javax.swing.JPanel;
-import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -35,16 +31,11 @@ public class ChatList extends JPanel {
 	private Statement stmt;
 	private App app;
 	private DefaultListModel listModel;
-	private Chat chat;
-	private String label;
-	private Chat[] chats;
 
-	public ChatList(Statement stmt, App app, Chat chat) {
+	public ChatList(Statement stmt, App app) {
 		this.stmt = stmt;
 		this.app = app;
-		this.chat = chat;
-		
-		
+
 		setPreferredSize(new Dimension(400, 570));
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
@@ -54,33 +45,8 @@ public class ChatList extends JPanel {
 		ListPanel();
 		
 		TopPanel();
-		
-		createChats(); 
 
 	}
-	
-	
-	public Chat getChat() {
-	    return chat;
-	}
-	
-	public String getLabel() {
-        return label;
-    }
-	
-	private void createChats() {
-	    int numChats = 3; // Chat 객체의 수
-
-	    chats = new Chat[numChats]; // Chat 객체 배열 생성
-
-	    for (int i = 0; i < numChats; i++) {
-	        chats[i] = new Chat(stmt, app); // Chat 객체 생성 후 배열 요소에 할당
-	    }
-	}
-	
-	
-	
-	
 	
 	private void TopPanel() {
 		setLayout(null);
@@ -142,29 +108,69 @@ public class ChatList extends JPanel {
 	    ImageIcon alicon2 = new ImageIcon(alimage2);
 
 	    listModel = new DefaultListModel<>();
-	    listModel.addElement(new ImageLabelItem(alicon2, "항목 1", chats[0].getChat())); // Chat 객체 전달
-	    listModel.addElement(new ImageLabelItem(liicon2, "항목 2", chats[1].getChat())); // Chat 객체 전달
-	    listModel.addElement(new ImageLabelItem(scicon2, "항목 3", chats[2].getChat())); // Chat 객체 전달
+	    listModel.addElement(new ImageLabelItem(alicon2, "항목 1"));
+	    listModel.addElement(new ImageLabelItem(liicon2, "항목 2"));
+	    listModel.addElement(new ImageLabelItem(scicon2, "항목 3"));
 
 	    JList<ImageLabelItem> list = new JList<>(listModel);
 	    list.setCellRenderer(new ImageLabelListCellRenderer());
 	    list.addMouseListener(new MouseAdapter() {
 	        @Override
 	        public void mouseClicked(MouseEvent e) {
-	            if (e.getClickCount() == 2) {
-	                ImageLabelItem selectedItem = list.getSelectedValue();
-	                Chat selectedChat = selectedItem.getChat();
-	                // Chat 객체 사용
+	            if (e.getClickCount() == 2)
 	                app.showCard("chat");
-	            }
 	        }
 	    });
 
 	    scrollPane.setViewportView(list);
 	}
 
+	class ImageLabelItem {
+	    private ImageIcon image;
+	    private String label;
 
+	    public ImageLabelItem(ImageIcon image, String label) {
+	        this.image = image;
+	        this.label = label;
+	    }
 
+	    public String getLabel() {
+	        return label;
+	    }
+	}
+
+	class ImageLabelListCellRenderer extends JPanel implements ListCellRenderer<ImageLabelItem> {
+	    private JLabel imageLabel;
+	    private JLabel textLabel;
+
+	    public ImageLabelListCellRenderer() {
+	        setLayout(new BorderLayout());
+	        setOpaque(true);
+
+	        imageLabel = new JLabel();
+	        textLabel = new JLabel();
+
+	        add(imageLabel, BorderLayout.WEST);
+	        add(textLabel, BorderLayout.CENTER);
+	    }
+
+	    @Override
+	    public Component getListCellRendererComponent(JList<? extends ImageLabelItem> list, ImageLabelItem value, int index,
+	                                                  boolean isSelected, boolean cellHasFocus) {
+	        imageLabel.setIcon(value.image);
+	        textLabel.setText(value.getLabel());
+
+	        if (isSelected) {
+	            setBackground(list.getSelectionBackground());
+	            setForeground(list.getSelectionForeground());
+	        } else {
+	            setBackground(list.getBackground());
+	            setForeground(list.getForeground());
+	        }
+
+	        return this;
+	    }
+	}
 
 	private void btnPanel() {
 		JPanel panel = new JPanel();
@@ -176,12 +182,27 @@ public class ChatList extends JPanel {
 		JButton btnNewButton_2 = new JButton("홈");
 		btnNewButton_2.setBackground(new Color(255, 255, 255));
 		panel.add(btnNewButton_2);
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				app.showCard("home"); // 홈 버튼 누르면 홈 화면 보여줌
+			}
+		});
 
 		JButton btnNewButton_4 = new JButton("모집하기");
 		btnNewButton_4.setBackground(new Color(255, 255, 255));
+		btnNewButton_4.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			app.showCard("recruit"); // if 로그인이 안돼있다면 실행으로. 추가 예정
+			}
+		});
 		panel.add(btnNewButton_4);
 
 		JButton btnNewButton_3 = new JButton("채팅");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				app.showCard("chatlist");
+			}
+		});
 		btnNewButton_3.setBackground(new Color(255, 255, 255));
 		panel.add(btnNewButton_3);
 
@@ -189,5 +210,10 @@ public class ChatList extends JPanel {
 		btnNewButton.setBackground(new Color(255, 255, 255));
 		panel.add(btnNewButton);
 		setVisible(true);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				app.showCard("login"); // if 로그인이 안돼있다면 실행으로. 추가 예정
+			}
+		});
 	}
 }

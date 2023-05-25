@@ -22,7 +22,6 @@ public class App extends JFrame {
 	
 	private static Connection conn;
 	private static Statement stmt;
-	private static Chat chat;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -71,14 +70,28 @@ public class App extends JFrame {
 
         setContentPane(contentPane);
 
-        ChatList chatlist = new ChatList(stmt, this, chat);
-   
-
-  
-        contentPane.add(chatlist, "chatlist");
-
+        Start start = new Start();
+        Home home = new Home(this); // home 생성 시 app(this)를 넘겨서 home에서 showCard를 호출할 수 있게 함.
+        Login login = new Login(stmt, this);
+        SignUp signup = new SignUp(stmt, this);
+        Chat chat = new Chat(stmt,this);
+        ChatList chatlist = new ChatList(stmt, this);
         
-        cardLayout.show(contentPane, "start"); // 시작화면 보여줌
+        Recruit recruit = new Recruit(this);
+        RecruitComplete recruitComplete = new RecruitComplete(this);
+        
+
+        contentPane.add(start, "start");
+        contentPane.add(home, "home");
+        contentPane.add(login, "login");
+        contentPane.add(signup, "signup");
+        contentPane.add(chatlist, "chatlist");
+        contentPane.add(chat, "chat");
+        contentPane.add(recruitComplete, "recruitComplete");
+        contentPane.add(recruit, "recruit");
+        
+        
+        cardLayout.show(contentPane, "home"); // 시작화면 보여줌
         
         timer = new Timer(1500, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
