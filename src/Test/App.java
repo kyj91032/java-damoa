@@ -74,13 +74,20 @@ public class App extends JFrame {
         setContentPane(contentPane);
         
         chats = new ArrayList<>();
+        
+        Chat chat1 = new Chat(stmt, this, chats);
+        Chat chat2 = new Chat(stmt, this, chats);
+        Chat chat3 = new Chat(stmt, this, chats);
+        
+        chats.add(chat1);
+        chats.add(chat2);
+        chats.add(chat3);
 
         Start start = new Start();
         Home home = new Home(this); // home 생성 시 app(this)를 넘겨서 home에서 showCard를 호출할 수 있게 함.
         Login login = new Login(stmt, this);
         SignUp signup = new SignUp(stmt, this);
         ChatList chatlist = new ChatList(stmt, this, chat);
-        
         Recruit recruit = new Recruit(this);
         RecruitComplete recruitComplete = new RecruitComplete(this);
         
@@ -92,13 +99,11 @@ public class App extends JFrame {
         contentPane.add(chatlist, "chatlist");
         contentPane.add(recruitComplete, "recruitComplete");
         contentPane.add(recruit, "recruit");
-        
-        
-//        contentPane.add(chat, "chat");
+//      contentPane.add(chat, "chat");
         
         for (int i = 0; i < chats.size(); i++) {
             chat = chats.get(i);
-            contentPane.add(chat, "chat" + (i+1));
+            contentPane.add(chat, "chat" + i);
         }
         
         cardLayout.show(contentPane, "start"); // 시작화면 보여줌
@@ -118,8 +123,5 @@ public class App extends JFrame {
     public void showCard(String cardName) { // 화면 전환 메소드
         cardLayout.show(contentPane, cardName);
     }
-   
-    
-    
 }
 

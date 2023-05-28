@@ -35,7 +35,7 @@ import Test.ChatList.ImageLabelListCellRenderer;
 public class ChatList extends JPanel {
 	private Statement stmt;
 	private App app;
-	private DefaultListModel listModel;
+	private DefaultListModel<ImageLabelItem> listModel;
 	private Chat chat;
 	private ArrayList<Chat> chats;
 
@@ -120,7 +120,7 @@ public class ChatList extends JPanel {
 	    Image alimage2 = alimage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 	    ImageIcon alicon2 = new ImageIcon(alimage2);
 
-	    DefaultListModel<ImageLabelItem> listModel = new DefaultListModel<>();
+	    listModel = new DefaultListModel<>();
 	    listModel.addElement(new ImageLabelItem(alicon2, "항목 1"));
 	    listModel.addElement(new ImageLabelItem(liicon2, "항목 2"));
 	    listModel.addElement(new ImageLabelItem(scicon2, "항목 3"));
@@ -134,7 +134,7 @@ public class ChatList extends JPanel {
 	        public void mouseClicked(MouseEvent e) {
 	        	 int index = list.getSelectedIndex();
 	        	 for (int i = 0; i < listModel.getSize(); i++) {
-	        		 if ((e.getClickCount() == 2) && (index == i)) {
+	        		 if ((e.getClickCount() == 2) && (index == (i+1))) {
 	        			 app.showCard("chat"+(i+1));
 	        		 }
 				}
