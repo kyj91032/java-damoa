@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -19,6 +20,8 @@ public class App extends JFrame {
     private JPanel contentPane;
     private CardLayout cardLayout;
 	private Timer timer;
+	private Chat chat;
+	private ArrayList<Chat> chats;
 	
 	private static Connection conn;
 	private static Statement stmt;
@@ -67,15 +70,16 @@ public class App extends JFrame {
         contentPane = new JPanel();
         cardLayout = new CardLayout();
         contentPane.setLayout(cardLayout);
-
+        
         setContentPane(contentPane);
+        
+        chats = new ArrayList<>();
 
         Start start = new Start();
         Home home = new Home(this); // home 생성 시 app(this)를 넘겨서 home에서 showCard를 호출할 수 있게 함.
         Login login = new Login(stmt, this);
         SignUp signup = new SignUp(stmt, this);
-        Chat chat = new Chat(stmt,this);
-        ChatList chatlist = new ChatList(stmt, this);
+        ChatList chatlist = new ChatList(stmt, this, chat);
         
         Recruit recruit = new Recruit(this);
         RecruitComplete recruitComplete = new RecruitComplete(this);
@@ -86,12 +90,18 @@ public class App extends JFrame {
         contentPane.add(login, "login");
         contentPane.add(signup, "signup");
         contentPane.add(chatlist, "chatlist");
-        contentPane.add(chat, "chat");
         contentPane.add(recruitComplete, "recruitComplete");
         contentPane.add(recruit, "recruit");
         
         
-        cardLayout.show(contentPane, "home"); // 시작화면 보여줌
+//        contentPane.add(chat, "chat");
+        
+        for (int i = 0; i < chats.size(); i++) {
+            chat = chats.get(i);
+            contentPane.add(chat, "chat" + (i+1));
+        }
+        
+        cardLayout.show(contentPane, "start"); // 시작화면 보여줌
         
         timer = new Timer(1500, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
