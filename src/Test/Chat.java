@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -19,6 +20,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.JScrollPane;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+
 import javax.swing.ScrollPaneConstants;
 
 public class Chat extends JPanel {
@@ -29,16 +32,21 @@ public class Chat extends JPanel {
 	private JTextArea ta;
 	private JTextField tf;
 	private JButton backbtn;
+	private JPanel card;
+	private ArrayList<Chat> chats;
 
-	public Chat(Statement stmt, App app) {
+	public Chat(Statement stmt, App app, ArrayList<Chat> chats) {
 		this.stmt = stmt;
 		this.app = app;
+		this.chats = chats;
+
 
 		setPreferredSize(new Dimension(400, 570));
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
 		
 		border = BorderFactory.createLineBorder(Color.BLACK);
+		card = new JPanel();
 		
 		topPanel();
 		
@@ -46,28 +54,9 @@ public class Chat extends JPanel {
 		
 		tf.requestFocus();
 		
+		
+		
 	}
-	
-
-	public Statement getStmt() {
-		return stmt;
-	}
-
-
-	public void setStmt(Statement stmt) {
-		this.stmt = stmt;
-	}
-
-
-	public App getApp() {
-		return app;
-	}
-
-
-	public void setApp(App app) {
-		this.app = app;
-	}
-
 
 	private void bottomPanel() {
 		JPanel panel_1 = new JPanel();
@@ -172,4 +161,6 @@ public class Chat extends JPanel {
 		panel.add(lblNewLabel_1);
 		
 	}
+
 }
+

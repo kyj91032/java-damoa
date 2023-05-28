@@ -1,6 +1,7 @@
 package Test;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -12,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.DefaultListModel;
@@ -27,25 +29,36 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import Test.ChatList.ImageLabelItem;
+import Test.ChatList.ImageLabelListCellRenderer;
+
 public class ChatList extends JPanel {
 	private Statement stmt;
 	private App app;
 	private DefaultListModel listModel;
+	private Chat chat;
+	private ArrayList<Chat> chats;
 
-	public ChatList(Statement stmt, App app) {
+	public ChatList(Statement stmt, App app, Chat chat) {
 		this.stmt = stmt;
 		this.app = app;
+		this.chat = chat;
 
 		setPreferredSize(new Dimension(400, 570));
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
-
+		
 		btnPanel();
 
 		ListPanel();
 		
 		TopPanel();
-
+		
+		chats = new ArrayList<>();
+		chats.add(new Chat(stmt, app, chats));
+		chats.add(new Chat(stmt, app, chats));
+		chats.add(new Chat(stmt, app, chats));
+		
 	}
 	
 	private void TopPanel() {
@@ -107,20 +120,27 @@ public class ChatList extends JPanel {
 	    Image alimage2 = alimage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 	    ImageIcon alicon2 = new ImageIcon(alimage2);
 
-	    listModel = new DefaultListModel<>();
+	    DefaultListModel<ImageLabelItem> listModel = new DefaultListModel<>();
 	    listModel.addElement(new ImageLabelItem(alicon2, "항목 1"));
 	    listModel.addElement(new ImageLabelItem(liicon2, "항목 2"));
 	    listModel.addElement(new ImageLabelItem(scicon2, "항목 3"));
 
+	    
+	    
 	    JList<ImageLabelItem> list = new JList<>(listModel);
 	    list.setCellRenderer(new ImageLabelListCellRenderer());
 	    list.addMouseListener(new MouseAdapter() {
 	        @Override
 	        public void mouseClicked(MouseEvent e) {
-	            if (e.getClickCount() == 2)
-	                app.showCard("chat");
+	        	 int index = list.getSelectedIndex();
+	        	 for (int i = 0; i < listModel.getSize(); i++) {
+	        		 if ((e.getClickCount() == 2) && (index == i)) {
+	        			 app.showCard("chat"+(i+1));
+	        		 }
+				}
 	        }
 	    });
+
 
 	    scrollPane.setViewportView(list);
 	}
@@ -131,12 +151,13 @@ public class ChatList extends JPanel {
 
 	    public ImageLabelItem(ImageIcon image, String label) {
 	        this.image = image;
-	        this.label = label;
+	        this.label = label;	   
 	    }
 
 	    public String getLabel() {
 	        return label;
 	    }
+	    
 	}
 
 	class ImageLabelListCellRenderer extends JPanel implements ListCellRenderer<ImageLabelItem> {

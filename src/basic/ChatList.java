@@ -42,7 +42,7 @@ public class ChatList extends JPanel {
 		setPreferredSize(new Dimension(400, 570));
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
-
+		
 		btnPanel();
 
 		ListPanel();
