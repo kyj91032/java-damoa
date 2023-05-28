@@ -103,7 +103,7 @@ public class App extends JFrame {
         
         for (int i = 0; i < chats.size(); i++) {
             chat = chats.get(i);
-            contentPane.add(chat, "chat" + i);
+            contentPane.add(chat, "chat" + (i+1));
         }
         
         cardLayout.show(contentPane, "start"); // 시작화면 보여줌

@@ -53,9 +53,6 @@ public class Chat extends JPanel {
 		bottomPanel();
 		
 		tf.requestFocus();
-		
-		
-		
 	}
 
 	private void bottomPanel() {
@@ -94,6 +91,7 @@ public class Chat extends JPanel {
 			}
 			
 		});
+		
 		tf.setBounds(12, 6, 309, 32);
 		panel_1.add(tf);
 		tf.setColumns(10);
@@ -109,11 +107,6 @@ public class Chat extends JPanel {
 		ta.setLineWrap(true);
 		scrollPane.setViewportView(ta);
 	}
-
-	
-	
-	
-	
 	
 	private void topPanel() {
 		setLayout(null);

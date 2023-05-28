@@ -29,6 +29,7 @@ import model.Model;
 @Getter
 public class SignUpView extends JPanel implements ActionListener {
 
+
 	private Controller controller;
 	private Model model;
 	private JTextField textField;
@@ -188,4 +189,41 @@ public class SignUpView extends JPanel implements ActionListener {
 	    	controller.showCard("login"); // 회원가입 후 로그인 화면으로 이동
 		}		
 	}
+	
+	public void setController(Controller controller) {
+		this.controller = controller;
+	}
+	
+	public void setModel(Model model) {
+		this.model = model;
+	}
+	
+	public void setTextField(JTextField textField) {
+		this.textField = textField;
+	}
+	
+	public void setPasswordField(JPasswordField passwordField) {
+		this.passwordField = passwordField;
+	}
+	
+	public void setPasswordField_1(JPasswordField passwordField_1) {
+		this.passwordField_1 = passwordField_1;
+	}
+	
+	public void setTextField_1(JTextField textField_1) {
+		this.textField_1 = textField_1;
+	}
+	
+	public void setTextField_2(JTextField textField_2) {
+		this.textField_2 = textField_2;
+	}
+	
+	public void setTextField_3(JTextField textField_3) {
+		this.textField_3 = textField_3;
+	}
+	
+	public void setBtnNewButton(JButton btnNewButton) {
+		this.btnNewButton = btnNewButton;
+	}
+
 }

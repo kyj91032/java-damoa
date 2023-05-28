@@ -92,11 +92,9 @@ public class App extends JFrame {
         contentPane.add(recruit, "recruit");
         
         
-<<<<<<< HEAD
         cardLayout.show(contentPane, "start"); // 시작화면 보여줌
-=======
+
         showCard("start"); // 시작화면 보여줌
->>>>>>> newkyj
         
         timer = new Timer(1500, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
