@@ -78,6 +78,12 @@ public class MyPageView extends JPanel {
 		panel_2.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("참여내역");
+		lblNewLabel_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.showCard("joinlist");
+			}
+		});
 		lblNewLabel_2.setBackground(new Color(255, 255, 255));
 		lblNewLabel_2.setFont(new Font("HY그래픽M", Font.PLAIN, 13));
 		lblNewLabel_2.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
@@ -86,6 +92,12 @@ public class MyPageView extends JPanel {
 		panel_2.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("관심목록");
+		lblNewLabel_2_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.showCard("interest");
+			}
+		});
 		lblNewLabel_2_1.setBackground(new Color(255, 255, 255));
 		lblNewLabel_2_1.setFont(new Font("HY그래픽M", Font.PLAIN, 13));
 		lblNewLabel_2_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
@@ -94,6 +106,12 @@ public class MyPageView extends JPanel {
 		panel_2.add(lblNewLabel_2_1);
 		
 		JLabel lblNewLabel_2_1_1 = new JLabel("내 모집");
+		lblNewLabel_2_1_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.showCard("recruitlist");
+			}
+		});
 		lblNewLabel_2_1_1.setBackground(new Color(255, 255, 255));
 		lblNewLabel_2_1_1.setFont(new Font("HY그래픽M", Font.PLAIN, 13));
 		lblNewLabel_2_1_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));

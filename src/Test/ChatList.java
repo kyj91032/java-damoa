@@ -153,13 +153,11 @@ public class ChatList extends JPanel {
 	        this.image = image;
 	        this.label = label;	   
 	    }
-
 	    public String getLabel() {
 	        return label;
 	    }
-	    
 	}
-
+	
 	class ImageLabelListCellRenderer extends JPanel implements ListCellRenderer<ImageLabelItem> {
 	    private JLabel imageLabel;
 	    private JLabel textLabel;
@@ -180,7 +178,6 @@ public class ChatList extends JPanel {
 	                                                  boolean isSelected, boolean cellHasFocus) {
 	        imageLabel.setIcon(value.image);
 	        textLabel.setText(value.getLabel());
-
 	        if (isSelected) {
 	            setBackground(list.getSelectionBackground());
 	            setForeground(list.getSelectionForeground());
@@ -188,7 +185,6 @@ public class ChatList extends JPanel {
 	            setBackground(list.getBackground());
 	            setForeground(list.getForeground());
 	        }
-
 	        return this;
 	    }
 	}

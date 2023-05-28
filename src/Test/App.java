@@ -117,7 +117,6 @@ public class App extends JFrame {
         
         timer.setRepeats(false); // 한 번만 실행되도록 설정
         timer.start(); // 타이머 시작
-
     }
     
     public void showCard(String cardName) { // 화면 전환 메소드

@@ -10,11 +10,17 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import model.Model;
+import view.CategoryView;
 import view.ChatListView;
 import view.ChatView;
 import view.HomeView;
+import view.InterestView;
+import view.JoinListView;
 import view.LoginView;
 import view.MyPageView;
+import view.NoticeView;
+import view.RecruitListView;
+import view.SearchView;
 import view.SignUpView;
 import view.StartView;
 
@@ -46,6 +52,12 @@ public class Controller extends JFrame {
         ChatListView chatListView = new ChatListView(model, this);
         ChatView chatView = new ChatView(model, this);
         MyPageView mypageView = new MyPageView(model, this);
+        JoinListView JoinlistView = new JoinListView(model, this);
+        InterestView interestView = new InterestView(model, this);
+        RecruitListView recruitListView = new RecruitListView(model, this);
+        SearchView searchView = new SearchView(model, this);
+        CategoryView categoryView = new CategoryView(model, this);
+        NoticeView noticeView = new NoticeView(model, this);
 
         contentPane.add(startView, "start");
         contentPane.add(homeView, "home");
@@ -54,6 +66,13 @@ public class Controller extends JFrame {
         contentPane.add(chatListView, "chatlist");
         contentPane.add(chatView, "chat");
         contentPane.add(mypageView, "mypage");
+        contentPane.add(JoinlistView, "joinlist");
+        contentPane.add(interestView, "interest");
+        contentPane.add(recruitListView, "recruitlist");
+        contentPane.add(searchView, "search");
+        contentPane.add(categoryView, "category");
+        contentPane.add(noticeView, "notice");
+        
 
         cardLayout.show(contentPane, "start"); // Show the start screen
 
