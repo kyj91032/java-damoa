@@ -12,8 +12,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JPanel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -30,17 +33,22 @@ import javax.swing.border.MatteBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import controller.Controller;
+import model.ChatRoomEntity;
 import model.Model;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class ChatListView extends JPanel {
 	private Model model;
 	private Controller controller;
+	
 	private DefaultListModel listModel;
 	private ChatView chatview;
 	private ArrayList<ChatView> chats;
 	
 
-	public ChatListView(Model model, Controller controller, ChatView chatview) {
+	public ChatListView(Model model, Controller controller) {
 		this.model = model;
 		this.controller = controller;
 		this.chatview = chatview;
@@ -49,16 +57,13 @@ public class ChatListView extends JPanel {
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
 		
-		btnPanel();
+		TopPanel();		
 
 		ListPanel();
 		
-		TopPanel();
+		btnPanel();
 		
-		chats = new ArrayList<>();
-		chats.add(new ChatView(model, controller, chats));
-		chats.add(new ChatView(model, controller, chats));
-		chats.add(new ChatView(model, controller, chats));
+		
 		
 	}
 	
@@ -101,47 +106,70 @@ public class ChatListView extends JPanel {
 	    scrollPane.setBounds(0, 50, 400, 452);
 	    add(scrollPane);
 
-	    ImageIcon daicon = new ImageIcon("image/damoa.jpeg");
-	    Image daimage = daicon.getImage();
-	    Image daimage2 = daimage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-	    ImageIcon daicon2 = new ImageIcon(daimage2);
-
-	    ImageIcon scicon = new ImageIcon("image/돋보기.jpeg");
-	    Image scimage = scicon.getImage();
-	    Image scimage2 = scimage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-	    ImageIcon scicon2 = new ImageIcon(scimage2);
-
-	    ImageIcon liicon = new ImageIcon("image/목록.jpeg");
-	    Image liimage = liicon.getImage();
-	    Image liimage2 = liimage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-	    ImageIcon liicon2 = new ImageIcon(liimage2);
-
-	    ImageIcon alicon = new ImageIcon("image/종.jpeg");
-	    Image alimage = alicon.getImage();
-	    Image alimage2 = alimage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-	    ImageIcon alicon2 = new ImageIcon(alimage2);
-
+	    // 모집하기 누를 시 채팅방 db 생성하는 메소드 미리 만듦
+//	    try {
+//	    	String imagePath = "image/돋보기.jpeg";
+//            // 이미지 파일 읽기
+//            File imageFile = new File(imagePath);
+//            byte[] imageData = Files.readAllBytes(Path.of(imageFile.toURI()));
+//            
+//
+//            // 쿼리 준비
+//            String query = "INSERT INTO chatroomtable (roomname, description, image) VALUES (?, ?, ?)";
+//            PreparedStatement pstmt = model.getConnection().prepareStatement(query);
+//
+//            // 쿼리 매개변수 설정
+//            pstmt.setString(1, "Chat Room 1"); // 채팅방 이름
+//            pstmt.setString(2, "Description of Chat Room 1"); // 채팅방 설명
+//            pstmt.setBytes(3, imageData); // 이미지 데이터
+//
+//            // 쿼리 실행
+//            pstmt.executeUpdate();
+//
+//            // 리소스 정리
+//            pstmt.close();
+//            model.getConnection().close();
+//
+//            System.out.println("Image inserted successfully.");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+	    
+	    
 	    DefaultListModel<ImageLabelItem> listModel = new DefaultListModel<>();
-	    listModel.addElement(new ImageLabelItem(alicon2, "항목 1"));
-	    listModel.addElement(new ImageLabelItem(liicon2, "항목 2"));
-	    listModel.addElement(new ImageLabelItem(scicon2, "항목 3"));
 
+	    List<ChatRoomEntity> chatRooms = model.getChatListByUserId(model.getCurrentUserId());
 	    
-	    
+	    for (ChatRoomEntity chatRoom : chatRooms) {
+	        ImageIcon imageIcon = new ImageIcon(chatRoom.getImage());
+
+	        // 이미지를 원하는 크기로 조정합니다.
+	        Image scaledImage = imageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+	        ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
+
+	        // ImageLabelItem 객체를 생성하여 ImageIcon과 추가 정보를 저장합니다.
+	        ImageLabelItem item = new ImageLabelItem(scaledImageIcon, chatRoom.getRoomName());
+
+	        // 리스트 모델에 ImageLabelItem을 추가합니다.
+	        listModel.addElement(item);
+	    }
+
+
+	    // JList를 생성하고 리스트 모델을 설정합니다.
 	    JList<ImageLabelItem> list = new JList<>(listModel);
+	    
 	    list.setCellRenderer(new ImageLabelListCellRenderer());
 	    list.addMouseListener(new MouseAdapter() {
 	        @Override
 	        public void mouseClicked(MouseEvent e) {
-	        	 int index = list.getSelectedIndex();
-	        	 for (int i = 0; i < listModel.getSize(); i++) {
-	        		 if ((e.getClickCount() == 2) && (index == i)) {
-	        			 controller.showCard("chat"+(i+1));
-	        		 }
-				}
+				 int index = list.getSelectedIndex();
+				 for (int i = 0; i < listModel.getSize(); i++) {
+					 if ((e.getClickCount() == 2) && (index == i)) {
+						 controller.showCard("chat"+(i+1));
+					 }
+				 }
 	        }
 	    });
-
 
 	    scrollPane.setViewportView(list);
 	}

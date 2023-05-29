@@ -1,16 +1,23 @@
 package model;
 
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import view.SignUpView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Model {
 
@@ -37,6 +44,10 @@ public class Model {
 
     public Statement getStatement() {
         return stmt;
+    }
+    
+    public Connection getConnection() {
+    	return conn;
     }
        
     public void registerUser(SignUpView signupview) { // 회원 등록 메소드
@@ -152,27 +163,109 @@ public class Model {
     public boolean isLoggedin() { // 현재 로그인 상태인지 판단하는 메소드
         return isLoggedIn;
     }
-    
-    public String getNicknameById(int userId) { // userid를 통해 nickname을 가져오는 메소드
-    	String nickname = null;
-    	if(isLoggedIn) {
-            try {
-                String query = "SELECT nickname FROM usertable WHERE userid = " + userId;
-                ResultSet resultSet = stmt.executeQuery(query);
-                if (resultSet.next()) {
-                    nickname = resultSet.getString("nickname");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }    	
-        return nickname;
+       
+    public String getNicknameById(int userId) {
+    	String nickname = currentUser.getNickname();
+    	return nickname;
     }
     
     public void logout() { // 로그아웃 메소드
         isLoggedIn = false;
         currentUser = null;
     }
+    
+    
+    public List<ChatRoomEntity> getChatListByUserId(int userId) {
+        List<ChatRoomEntity> chatRooms = new ArrayList<>();
+
+        try {
+            // user_chatroom 테이블과 chatroomtable을 조인하여 사용자가 속한 채팅방 목록을 가져오는 쿼리
+            String query = "SELECT c.roomid, c.roomname, c.description, c.image " +
+                           "FROM user_chatroom uc " +
+                           "JOIN chatroomtable c ON uc.roomid = c.roomid " +
+                           "WHERE uc.userid = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setInt(1, userId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int roomId = resultSet.getInt("roomid");
+                String roomName = resultSet.getString("roomname");
+                String description = resultSet.getString("description");
+                Blob blob = resultSet.getBlob("image");
+                byte[] imageData = null;
+
+                if (blob != null) {
+                    imageData = blob.getBytes(1, (int) blob.length());
+                }
+
+                ChatRoomEntity chatRoom = new ChatRoomEntity(roomId, roomName, description, imageData);
+                chatRooms.add(chatRoom);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return chatRooms;
+    }
+
+    
+
+//    public List<byte[]> getImagesByUserId(int userId) { // 현재 로그인된 userid를 이용해 chatlist의 이미지를 가져옴
+//        List<byte[]> imageList = new ArrayList<>();
+//        
+//        try {
+//            // user_chatroom 테이블과 chatroomtable을 조인하여 이미지를 가져오는 쿼리
+//            String query = "SELECT c.image " +
+//                           "FROM user_chatroom uc " +
+//                           "JOIN chatroomtable c ON uc.roomid = c.roomid " +
+//                           "WHERE uc.userid = ?";
+//            PreparedStatement preparedStatement = conn.prepareStatement(query);
+//            preparedStatement.setInt(1, userId);
+//            
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//            
+//            while (resultSet.next()) {
+//                Blob blob = resultSet.getBlob("image");
+//                
+//                if (blob != null) {
+//                    byte[] imageData = blob.getBytes(1, (int) blob.length());
+//                    imageList.add(imageData);
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        
+//        return imageList;
+//    }
+//    
+//    public List<String> getRoomNameByUserId(int userId) {
+//        List<String> roomNameList = new ArrayList<>();
+//
+//        try {
+//            // user_chatroom 테이블과 chatroomtable을 조인하여 roomname을 가져오는 쿼리
+//            String query = "SELECT c.roomname " +
+//                           "FROM user_chatroom uc " +
+//                           "JOIN chatroomtable c ON uc.roomid = c.roomid " +
+//                           "WHERE uc.userid = ?";
+//            PreparedStatement preparedStatement = conn.prepareStatement(query);
+//            preparedStatement.setInt(1, userId);
+//
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//
+//            while (resultSet.next()) {
+//                String roomName = resultSet.getString("roomname");
+//                roomNameList.add(roomName);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return roomNameList;
+//    }
+    
 
     
 }

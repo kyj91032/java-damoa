@@ -60,34 +60,30 @@ public class Controller extends JFrame {
         HomeView homeView = new HomeView(model, this);
         LoginView loginView = new LoginView(model, this);
         SignUpView signUpView = new SignUpView(model, this);
-        ChatListView chatListView = new ChatListView(model, this, chatview);
-        ChatView chatView = new ChatView(model, this, chats);
         
         contentPane.add(startView, "start");
         contentPane.add(homeView, "home");
         contentPane.add(loginView, "login");
         contentPane.add(signUpView, "signup");
-        contentPane.add(chatListView, "chatlist");
-        contentPane.add(chatView, "chat");
         
         for (int i = 0; i < chats.size(); i++) {
             chatview = chats.get(i);
             contentPane.add(chatview, "chat" + (i+1));
         }
         
-        cardLayout.show(contentPane, "start"); // Show the start screen
+        cardLayout.show(contentPane, "start");
 
         timer = new Timer(1500, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                showCard("home"); // Show the home screen after 1.5 seconds
-                timer.stop(); // Stop the timer
+                showCard("home"); 
+                timer.stop(); 
             }
         });
 
-        timer.setRepeats(false); // Only execute once
-        timer.start(); // Start the timer
+        timer.setRepeats(false);
+        timer.start();
 
-        model.initDbConn(); // Connect to the database
+        model.initDbConn();
     }
 
     public void startApp() {
@@ -106,7 +102,8 @@ public class Controller extends JFrame {
             }
         } else if (cardName.equals("chatlist")) {
         	if (model.isLoggedin()) {
-        		cardName = "chatlist";
+        		ChatListView chatlistview = new ChatListView(model, this);
+        		contentPane.add(chatlistview, "chatlist");
             } else {
                 cardName = "login";
             }
@@ -114,6 +111,5 @@ public class Controller extends JFrame {
         cardLayout.show(contentPane, cardName);
     }
 
-    
 }
 
