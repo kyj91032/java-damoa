@@ -1,4 +1,4 @@
-package basic;
+package Test;
 
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;

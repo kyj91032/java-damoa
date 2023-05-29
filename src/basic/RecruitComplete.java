@@ -101,6 +101,7 @@ public class RecruitComplete extends JPanel {
 	private void TopPanel() { 
 		setLayout(null);
 		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		panel_1.setBackground(new Color(255, 255, 255));
 		panel_1.setBounds(0, 0, 400, 50);

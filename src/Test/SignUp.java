@@ -1,4 +1,4 @@
-package basic;
+package Test;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -177,6 +177,7 @@ public class SignUp extends JPanel {
 		btnNewButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	        	registerUser();
+
 	        }
 	    });
 	}

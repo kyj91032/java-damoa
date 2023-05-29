@@ -1,4 +1,4 @@
-package basic;
+package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -6,6 +6,10 @@ import java.awt.Font;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import controller.Controller;
+import model.Model;
+
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.BorderFactory;
@@ -18,20 +22,19 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.swing.border.LineBorder;
 
-public class Login extends JPanel {
+public class LoginView extends JPanel {
 	
 	private JTextField textField;
 	private JPasswordField passwordField;
 	
-	private Statement stmt;
-	private App app;
+	private Model model;
+	private Controller controller;
 
 	
-	public Login(Statement stmt, App app) {
-		this.stmt = stmt;
-		this.app = app;
+	public LoginView(Model model, Controller controller) {
+		this.model = model;
+		this.controller = controller;
 		
 		setPreferredSize(new Dimension(400, 570));
 		setBackground(new Color(255, 255, 255));
@@ -48,7 +51,6 @@ public class Login extends JPanel {
 	private void showTopPanel() {
 		setLayout(null);
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_1.setBackground(new Color(255, 255, 255));
 		panel_1.setBounds(0, 0, 400, 50);
 		add(panel_1);
@@ -59,9 +61,24 @@ public class Login extends JPanel {
 		Image daimage2 = daimage.getScaledInstance(50,50 , Image.SCALE_SMOOTH);
 		ImageIcon daicon2 = new ImageIcon(daimage2);
 		
+		ImageIcon scicon = new ImageIcon("image/돋보기.jpeg");
+		Image scimage = scicon.getImage();
+		Image scimage2 = scimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
+		ImageIcon scicon2 = new ImageIcon(scimage2);
+		
+		ImageIcon liicon = new ImageIcon("image/목록.jpeg");
+		Image liimage = liicon.getImage();
+		Image liimage2 = liimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
+		ImageIcon liicon2 = new ImageIcon(liimage2);
+		
+		ImageIcon alicon = new ImageIcon("image/종.jpeg");
+		Image alimage = alicon.getImage();
+		Image alimage2 = alimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
+		ImageIcon alicon2 = new ImageIcon(alimage2);	
+		
 		JLabel dmlbl = new JLabel();
 		dmlbl.setBackground(new Color(240, 240, 240));
-		dmlbl.setBounds(12, 2, 45, 45);
+		dmlbl.setBounds(12, 0, 50, 50);
 		panel_1.add(dmlbl);
 		dmlbl.setIcon(daicon2);
 		
@@ -106,10 +123,10 @@ public class Login extends JPanel {
 		        String password = new String(passwordField.getPassword()); // 비번 저장
 		        
 		        // 여기에서 DB와 비교하여 로그인 처리를 수행하는 로직을 구현
-		        if (checkLogin(username, password)) {
+		        if (model.checkLogin(username, password)) {
 		            // 로그인 성공 시 처리할 코드를 작성 예정
 		            System.out.println("로그인 성공!");
-		            app.showCard("home");
+		            controller.showCard("home");
 		        } else {
 		            // 로그인 실패 시 처리할 코드를 작성 예정
 		            System.out.println("로그인 실패!");
@@ -122,7 +139,7 @@ public class Login extends JPanel {
 		add(btnNewButton_1);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				app.showCard("signup");
+				controller.showCard("signup");
 			}
 		});
 	}
@@ -139,23 +156,18 @@ public class Login extends JPanel {
 		panel.add(btnNewButton_2);
 		btnNewButton_2.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-	            app.showCard("home"); // 홈 버튼 누르면 홈 화면 보여줌
+	            controller.showCard("home"); // 홈 버튼 누르면 홈 화면 보여줌
 	        }
 	    });
 		
 		JButton btnNewButton_4 = new JButton("모집하기");
 		btnNewButton_4.setBackground(Color.WHITE);
-		btnNewButton_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				app.showCard("recruit"); // if 로그인이 안돼있다면 실행으로. 추가 예정
-				}
-			});
 		panel.add(btnNewButton_4);
 		
 		JButton btnNewButton_3 = new JButton("채팅");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				app.showCard("chatlist");
+				controller.showCard("chatlist");
 			}
 		});
 		btnNewButton_3.setBackground(Color.WHITE);
@@ -168,16 +180,6 @@ public class Login extends JPanel {
 
 	
 	
-	private boolean checkLogin(String username, String password) {
-	    // DB와의 비교 로직을 구현
-		try {
-			String query = "SELECT * FROM usertable WHERE username = '" + username + "' AND userpw = '" + password + "'";
-			ResultSet resultSet = stmt.executeQuery(query);
-			return resultSet.next();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-			
-	}
+	
+
 }

@@ -1,4 +1,4 @@
-package basic;
+package Test;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -109,13 +109,13 @@ public class Login extends JPanel {
 		        if (checkLogin(username, password)) {
 		            // 로그인 성공 시 처리할 코드를 작성 예정
 		            System.out.println("로그인 성공!");
-		            app.showCard("home");
 		        } else {
 		            // 로그인 실패 시 처리할 코드를 작성 예정
 		            System.out.println("로그인 실패!");
 		        }
 		    }
 		});
+
 		
 		JButton btnNewButton_1 = new JButton("회원가입");
 		btnNewButton_1.setBounds(242, 367, 97, 23);

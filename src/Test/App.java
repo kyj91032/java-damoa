@@ -1,4 +1,4 @@
-package basic;
+package Test;
 
 import java.awt.CardLayout;
 import java.awt.EventQueue;
@@ -9,33 +9,24 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import javax.swing.UIManager;
-
-import lombok.Getter;
 
 public class App extends JFrame {
 
     private JPanel contentPane;
     private CardLayout cardLayout;
 	private Timer timer;
+	private Chat chat;
+	private ArrayList<Chat> chats;
 	
 	private static Connection conn;
 	private static Statement stmt;
 
     public static void main(String[] args) {
-
-        try {
-            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel"); 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }  // Swing UI 생성 및 실행 코드
-
-    	
-    	
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
@@ -79,15 +70,24 @@ public class App extends JFrame {
         contentPane = new JPanel();
         cardLayout = new CardLayout();
         contentPane.setLayout(cardLayout);
-
+        
         setContentPane(contentPane);
+        
+        chats = new ArrayList<>();
+        
+        Chat chat1 = new Chat(stmt, this, chats);
+        Chat chat2 = new Chat(stmt, this, chats);
+        Chat chat3 = new Chat(stmt, this, chats);
+        
+        chats.add(chat1);
+        chats.add(chat2);
+        chats.add(chat3);
 
         Start start = new Start();
         Home home = new Home(this); // home 생성 시 app(this)를 넘겨서 home에서 showCard를 호출할 수 있게 함.
         Login login = new Login(stmt, this);
         SignUp signup = new SignUp(stmt, this);
-        Chat chat = new Chat(stmt,this);
-        ChatList chatlist = new ChatList(stmt, this);
+        ChatList chatlist = new ChatList(stmt, this, chat);
         Recruit recruit = new Recruit(this);
         RecruitComplete recruitComplete = new RecruitComplete(this);
         
@@ -97,26 +97,26 @@ public class App extends JFrame {
         contentPane.add(login, "login");
         contentPane.add(signup, "signup");
         contentPane.add(chatlist, "chatlist");
-        contentPane.add(chat, "chat");
         contentPane.add(recruitComplete, "recruitComplete");
         contentPane.add(recruit, "recruit");
+//      contentPane.add(chat, "chat");
         
+        for (int i = 0; i < chats.size(); i++) {
+            chat = chats.get(i);
+            contentPane.add(chat, "chat" + (i+1));
+        }
         
         cardLayout.show(contentPane, "start"); // 시작화면 보여줌
-
-
-        showCard("start"); // 시작화면 보여줌
         
-        timer = new Timer(1000, new ActionListener() {
+        timer = new Timer(1500, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                showCard("home"); // 1초 뒤 홈 화면 보여줌
+                showCard("home"); // 1.5초 뒤 홈 화면 보여줌
                 timer.stop(); // 타이머 중지
             }
         });
         
         timer.setRepeats(false); // 한 번만 실행되도록 설정
         timer.start(); // 타이머 시작
-
     }
     
     public void showCard(String cardName) { // 화면 전환 메소드
