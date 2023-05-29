@@ -11,25 +11,23 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import Test.Chat;
-import Test.Recruit;
-import Test.RecruitComplete;
 import model.Model;
 import view.ChatListView;
 import view.ChatView;
 import view.HomeView;
 import view.LoginView;
 import view.MyPageView;
+import view.PostFormView;
 import view.SignUpView;
 import view.StartView;
+import view.PostView;
 
 public class Controller extends JFrame {
 
     private JPanel contentPane;
     private CardLayout cardLayout;
     private Timer timer;
-    private ChatView chatview;
-	private ArrayList<ChatView> chats;
+    
 
     private Model model;
 
@@ -46,30 +44,17 @@ public class Controller extends JFrame {
         contentPane.setLayout(cardLayout);
         setContentPane(contentPane);
         
-        chats = new ArrayList<>();
-        
-        ChatView chat1 = new ChatView(model, this, chats);
-        ChatView chat2 = new ChatView(model, this, chats);
-        ChatView chat3 = new ChatView(model, this, chats);
-        
-        chats.add(chat1);
-        chats.add(chat2);
-        chats.add(chat3);
-
         StartView startView = new StartView();
         HomeView homeView = new HomeView(model, this);
         LoginView loginView = new LoginView(model, this);
         SignUpView signUpView = new SignUpView(model, this);
+        PostFormView postformview = new PostFormView(model, this);
         
         contentPane.add(startView, "start");
         contentPane.add(homeView, "home");
         contentPane.add(loginView, "login");
         contentPane.add(signUpView, "signup");
-        
-        for (int i = 0; i < chats.size(); i++) {
-            chatview = chats.get(i);
-            contentPane.add(chatview, "chat" + (i+1));
-        }
+        contentPane.add(postformview, "postformview");
         
         cardLayout.show(contentPane, "start");
 
@@ -104,12 +89,28 @@ public class Controller extends JFrame {
         	if (model.isLoggedin()) {
         		ChatListView chatlistview = new ChatListView(model, this);
         		contentPane.add(chatlistview, "chatlist");
+        		
+        		// chatrooms를 기반으로 chatview를 생성하는 메소드
+        		
             } else {
                 cardName = "login";
             }
+        } else if (cardName.equals("postformview")) {
+        	if (model.isLoggedin()) {
+        		cardName = "postformview";
+        	} else {
+        		cardName = "login";
+        	}
+        } else if (cardName.equals("postview")) {
+        	PostView postview = new PostView(model, this, model.getCurrentPost());
+        	contentPane.add(postview, "postview");
+        	cardName = "postview";
         }
         cardLayout.show(contentPane, cardName);
     }
-
 }
+
+
+
+
 
