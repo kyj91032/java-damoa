@@ -3,6 +3,7 @@ package basic;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
 
 public class RecruitComplete extends JPanel {
 	private App app;
@@ -24,61 +26,86 @@ public class RecruitComplete extends JPanel {
 		setBackground(new Color(255, 255, 255));
 		
 		
-		JPanel titlePanel = new JPanel();
-		titlePanel.setBackground(new Color(0, 255, 255));
-		titlePanel.setBounds(10, 55, 378, 37);
-		add(titlePanel);
-		titlePanel.setLayout(null);
+		SetTitlePanel();
 		
-		JLabel lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setBounds(0, 0, 378, 37);
-		titlePanel.add(lblNewLabel_1);
+		SetImagePanel();
 		
-		JPanel TextAreaPanel = new JPanel();
-		TextAreaPanel.setBackground(new Color(255, 0, 128));
-		TextAreaPanel.setBounds(10, 274, 378, 236);
-		add(TextAreaPanel);
+		SetKategoriePanel();
 		
-		JPanel KategoriePanel = new JPanel();
-		KategoriePanel.setBackground(new Color(0, 128, 128));
-		KategoriePanel.setBounds(10, 247, 126, 25);
-		add(KategoriePanel);
-		KategoriePanel.setLayout(null);
+		SetRegionPanel();
 		
-		JLabel lblNewLabel_2 = new JLabel("New label");
-		lblNewLabel_2.setBounds(0, 0, 126, 25);
-		KategoriePanel.add(lblNewLabel_2);
+		SetSpecificRegionPanel();
+
+		SetTextArea();
 		
-		JPanel RegionPanel = new JPanel();
-		RegionPanel.setLayout(null);
-		RegionPanel.setBackground(new Color(255, 128, 64));
-		RegionPanel.setBounds(136, 247, 126, 25);
-		add(RegionPanel);
-		
-		JPanel SpecificRegionPanel = new JPanel();
-		SpecificRegionPanel.setLayout(null);
-		SpecificRegionPanel.setBackground(new Color(0, 128, 128));
-		SpecificRegionPanel.setBounds(262, 247, 126, 25);
-		add(SpecificRegionPanel);
-		
-		
-		
-		
+		btnPanel(app);
 		
 		TopPanel(); // 맨위 판넬 설정 (Home.java 내용 가져옴)
 		
-		RecruitBt();
-		
-		HomeBt(app);
 	}
-	
-	
-	
+
+	private void SetTextArea() {
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(255, 255, 255));
+		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		panel.setBounds(10, 260, 380, 232);
+		add(panel);
+		panel.setLayout(null);
+	}
+
+	private void SetImagePanel() {
+		JPanel panel = new JPanel();
+		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		panel.setBackground(new Color(255, 255, 255));
+		panel.setBounds(12, 89, 232, 161);
+		add(panel);
+		panel.setLayout(null);
+	}
+
+	private void SetTitlePanel() {
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(255, 255, 255));
+		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		panel.setBounds(10, 56, 382, 26);
+		add(panel);
+		panel.setLayout(null);
+	}
+
+	private void SetSpecificRegionPanel() {
+		JPanel panel = new JPanel();
+		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		panel.setBackground(new Color(255, 255, 255));
+		panel.setBounds(257, 178, 133, 33);
+		add(panel);
+		panel.setLayout(null);
+	}
+
+	private void SetRegionPanel() {
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(255, 255, 255));
+		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		panel.setBounds(257, 135, 131, 33);
+		add(panel);
+		panel.setLayout(null);
+	}
+
+	private void SetKategoriePanel() {
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(255, 255, 255));
+		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		panel.setBounds(257, 92, 133, 33);
+		add(panel);
+		panel.setLayout(null);
+	}
 	
 	private void TopPanel() { 
 		setLayout(null);
 		JPanel panel_1 = new JPanel();
+<<<<<<< HEAD
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+=======
+		panel_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+>>>>>>> KDH
 		panel_1.setBackground(new Color(255, 255, 255));
 		panel_1.setBounds(0, 0, 400, 50);
 		add(panel_1);
@@ -107,31 +134,50 @@ public class RecruitComplete extends JPanel {
 		
 	}
 
-	private void RecruitBt() {
-		JButton btnNewButton_1 = new JButton("채팅 참여");
-		btnNewButton_1.setBackground(new Color(255, 255, 255));
-		btnNewButton_1.setBounds(255, 523, 133, 37);
-		btnNewButton_1.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
-		add(btnNewButton_1);
-		
+	private void btnPanel(App app) {
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(128, 255, 0));
-		panel.setBounds(10, 99, 378, 141);
+		panel.setBackground(new Color(255, 255, 255));
+		panel.setBounds(0, 500, 400, 70);
 		add(panel);
-		panel.setLayout(null);
-	}
+		panel.setLayout(new GridLayout(1, 4));
+		
+		JButton btnNewButton_2 = new JButton("홈");
+		btnNewButton_2.setBackground(new Color(255, 255, 255));
+		panel.add(btnNewButton_2);
+		btnNewButton_2.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            app.showCard("home"); // 홈 버튼 누르면 홈 화면 보여줌
+	        }
+	    });
 
-	private void HomeBt(App app) {
-		JButton btnNewButton = new JButton("Home");
-		btnNewButton.setBackground(new Color(255, 255, 255));
-		btnNewButton.setBounds(12, 523, 119, 37);
-		btnNewButton.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
-		btnNewButton.addActionListener(new ActionListener() {
+		
+		JButton btnNewButton_4 = new JButton("모집하기");
+		btnNewButton_4.setBackground(new Color(255, 255, 255));
+		panel.add(btnNewButton_4);
+		btnNewButton_4.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            app.showCard("recruit"); // if 로그인이 안돼있다면 실행으로. 추가 예정
+	        }
+	    });
+		
+		
+		JButton btnNewButton_3 = new JButton("채팅");
+		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				app.showCard("home");
+				app.showCard("chatlist");
 			}
 		});
-		add(btnNewButton);
+		btnNewButton_3.setBackground(new Color(255, 255, 255));
+		panel.add(btnNewButton_3);
 		
+		JButton btnNewButton = new JButton("마이페이지");
+		btnNewButton.setBackground(new Color(255, 255, 255));
+		panel.add(btnNewButton);
+		setVisible(true);
+		btnNewButton.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            app.showCard("login"); // if 로그인이 안돼있다면 실행으로. 추가 예정
+	        }
+	    });
 	}
 }
