@@ -26,6 +26,7 @@ public class Model {
     private Statement stmt = null;
     private boolean isLoggedIn = false;
     private UserEntity currentUser; // 현재 로그인되어있는 유저의 정보
+	private PostEntity currentPost;
 
     public void initDbConn() {
         try {
@@ -170,6 +171,10 @@ public class Model {
     	return nickname;
     }
     
+    public UserEntity getCurrentUser() { // 현재 유저 엔티티 getter
+    	return currentUser;
+    }
+    
     public void logout() { // 로그아웃 메소드
         isLoggedIn = false;
         currentUser = null;
@@ -240,13 +245,16 @@ public class Model {
 
             // 쿼리 실행
             statement.executeUpdate();
-
+            
             // 생성된 포스트의 ID 가져오기
+            int postId = 0;
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
-                int postId = generatedKeys.getInt(1);
+                postId = generatedKeys.getInt(1);
                 System.out.println("새로운 포스트 ID: " + postId);
             }
+            
+            currentPost = getPostBypostid(postId);
             
             postformview.getTextField().setText("");
             postformview.getKategorieComboBox().setSelectedItem("카테고리");
@@ -261,8 +269,42 @@ public class Model {
         }
     }
     
-    
+    public PostEntity getPostBypostid(int postId) { // postentity를 초기화하는 메소드
+        String query = "SELECT * FROM posttable WHERE postid = ?";
+        
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, postId);
+            
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    // 결과 데이터를 가져와서 PostEntity 객체로 변환
+                    PostEntity post = new PostEntity();
+                    post.setPostId(resultSet.getInt("postid"));
+                    post.setKategorie(resultSet.getString("kategorie"));
+                    post.setRegion(resultSet.getString("region"));
+                    post.setSpecificregion(resultSet.getString("specificregion"));
+                    post.setTitle(resultSet.getString("title"));
+                    post.setTextArea(resultSet.getString("textarea"));
+                    // 이미지 데이터를 가져올 때에는 필요한 방법으로 처리
+                    
+                    // 예를 들어, byte[] 형태로 이미지 데이터를 가져올 때
+                    post.setImage(resultSet.getBytes("image"));
+                    
+                    post.setUserId(resultSet.getInt("userid"));
+                    
+                    return post;
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return null; // 해당 postid에 대한 데이터를 찾지 못한 경우 null 반환
+    }
        
+    public PostEntity getCurrentPost() { // 현재 포스트 getter
+    	return currentPost;
+    }
     
     
 

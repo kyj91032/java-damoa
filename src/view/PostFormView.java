@@ -85,9 +85,7 @@ public class PostFormView extends JPanel implements ActionListener {
 		
 		SetTextArea(); // 텍스트에리어 설정
 		
-		btnPanel(); // 버튼 판넬
-		
-		
+		btnPanel(); // 버튼 판넬	
 		
 	}
 
@@ -140,9 +138,6 @@ public class PostFormView extends JPanel implements ActionListener {
 	    ImageLabel.setBounds(0, 0, 232, 161);
 	    Imagepanel.add(ImageLabel);
 		add(Imagepanel);
-		
-
-		
 	}
 
 	private void SetTextArea() {     

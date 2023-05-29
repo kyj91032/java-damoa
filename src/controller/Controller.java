@@ -102,8 +102,9 @@ public class Controller extends JFrame {
         		cardName = "login";
         	}
         } else if (cardName.equals("postview")) {
-        	PostView postview = new PostView(model, this);
-        	
+        	PostView postview = new PostView(model, this, model.getCurrentPost());
+        	contentPane.add(postview, "postview");
+        	cardName = "postview";
         }
         cardLayout.show(contentPane, cardName);
     }
