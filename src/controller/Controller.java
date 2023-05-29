@@ -28,8 +28,7 @@ public class Controller extends JFrame {
     private JPanel contentPane;
     private CardLayout cardLayout;
     private Timer timer;
-    private ChatView chatview;
-	private ArrayList<ChatView> chats;
+    
 
     private Model model;
 
@@ -46,16 +45,6 @@ public class Controller extends JFrame {
         contentPane.setLayout(cardLayout);
         setContentPane(contentPane);
         
-        chats = new ArrayList<>();
-        
-        ChatView chat1 = new ChatView(model, this, chats);
-        ChatView chat2 = new ChatView(model, this, chats);
-        ChatView chat3 = new ChatView(model, this, chats);
-        
-        chats.add(chat1);
-        chats.add(chat2);
-        chats.add(chat3);
-
         StartView startView = new StartView();
         HomeView homeView = new HomeView(model, this);
         LoginView loginView = new LoginView(model, this);
@@ -65,11 +54,6 @@ public class Controller extends JFrame {
         contentPane.add(homeView, "home");
         contentPane.add(loginView, "login");
         contentPane.add(signUpView, "signup");
-        
-        for (int i = 0; i < chats.size(); i++) {
-            chatview = chats.get(i);
-            contentPane.add(chatview, "chat" + (i+1));
-        }
         
         cardLayout.show(contentPane, "start");
 
@@ -104,12 +88,20 @@ public class Controller extends JFrame {
         	if (model.isLoggedin()) {
         		ChatListView chatlistview = new ChatListView(model, this);
         		contentPane.add(chatlistview, "chatlist");
+        		
+        		// chatrooms를 기반으로 chatview를 생성하는 메소드
+        		
             } else {
                 cardName = "login";
             }
+        } else if (cardName.equals("chat")) {
+        	
         }
         cardLayout.show(contentPane, cardName);
     }
-
 }
+
+
+
+
 

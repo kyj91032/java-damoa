@@ -36,10 +36,9 @@ public class ChatView extends JPanel {
 	private JPanel card;
 	private ArrayList<ChatView> chats;
 
-	public ChatView(Model model, Controller controller, ArrayList<ChatView> chats) {
+	public ChatView(Model model, Controller controller) {
 		this.model = model;
 		this.controller = controller;
-		this.chats = chats;
 
 		setPreferredSize(new Dimension(400, 570));
 		setBackground(new Color(255, 255, 255));
@@ -53,8 +52,6 @@ public class ChatView extends JPanel {
 		bottomPanel();
 		
 		tf.requestFocus();
-		
-		
 		
 	}
 
