@@ -61,20 +61,13 @@ public class RecruitComplete extends JPanel {
 		SpecificRegionPanel.setBounds(262, 247, 126, 25);
 		add(SpecificRegionPanel);
 		
-		
-		
-		
-		
 		TopPanel(); // 맨위 판넬 설정 (Home.java 내용 가져옴)
 		
 		RecruitBt();
 		
 		HomeBt(app);
 	}
-	
-	
-	
-	
+
 	private void TopPanel() { 
 		setLayout(null);
 		JPanel panel_1 = new JPanel();
@@ -104,7 +97,6 @@ public class RecruitComplete extends JPanel {
 		lblDamoa.setFont(new Font("Franklin Gothic Book", Font.BOLD | Font.ITALIC, 18));
 		lblDamoa.setBounds(124, 17, 78, 23);
 		panel_1.add(lblDamoa);
-		
 	}
 
 	private void RecruitBt() {
@@ -132,6 +124,5 @@ public class RecruitComplete extends JPanel {
 			}
 		});
 		add(btnNewButton);
-		
 	}
 }
