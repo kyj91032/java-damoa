@@ -14,8 +14,10 @@ import view.SignUpView;
 
 public class Model {
 
-    private Connection conn;
-    private Statement stmt;
+    private Connection conn = null;
+    private Statement stmt = null;
+    private boolean isLoggedIn = false;
+    private UserEntity currentUser; // 현재 로그인되어있는 유저의 정보
 
     public void initDbConn() {
         try {
@@ -36,19 +38,7 @@ public class Model {
     public Statement getStatement() {
         return stmt;
     }
-    
-    public boolean checkLogin(String username, String password) {
-	    // DB와의 비교 로직을 구현
-		try {
-			String query = "SELECT * FROM usertable WHERE username = '" + username + "' AND userpw = '" + password + "'";
-			ResultSet resultSet = stmt.executeQuery(query);
-			return resultSet.next();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-    
+       
     public void registerUser(SignUpView signupview) { // 회원 등록 메소드
 	    
     	JTextField textField = signupview.getTextField();
@@ -107,4 +97,82 @@ public class Model {
 	        textField_3.setText("");
 	    }
 	}
+    
+    public boolean checkLogin(String username, String password) { // 로그인 정보가 일치하는지 확인하는 메소드    
+		try {
+			String query = "SELECT * FROM usertable WHERE username = '" + username + "' AND userpw = '" + password + "'";
+			ResultSet resultSet = stmt.executeQuery(query);
+			isLoggedIn = resultSet.next(); // 로그인 여부 업데이트
+			initUserInfo(username);
+            return isLoggedIn;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+    
+    public void initUserInfo(String username) { // 유저 정보 초기화
+        if (isLoggedIn) {
+            try {
+                String query = "SELECT * FROM usertable WHERE username = '" + username + "'";
+                ResultSet resultSet = stmt.executeQuery(query);
+                if (resultSet.next()) {
+                    // 회원 정보 초기화
+                    String _username = resultSet.getString("username");
+                    String password = resultSet.getString("userpw");
+                    String nickname = resultSet.getString("nickname");
+                    String phoneNumber = resultSet.getString("phone");
+                    String birthday = resultSet.getString("birth");
+
+                    currentUser = new UserEntity();
+                    currentUser.init(_username, password, nickname, phoneNumber, birthday);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public int getCurrentUserId() { // id의 초기화
+        if (!isLoggedIn) {
+            return -1; // 로그인되지 않은 경우 -1을 반환
+        }
+        int userId = -1;
+        try {
+            String query = "SELECT userid FROM usertable WHERE username = '" + currentUser.getUsername() + "'";
+            ResultSet resultSet = stmt.executeQuery(query);
+            if (resultSet.next()) {
+                userId = resultSet.getInt("userid");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userId;
+    }
+    
+    public boolean isLoggedin() { // 현재 로그인 상태인지 판단하는 메소드
+        return isLoggedIn;
+    }
+    
+    public String getNicknameById(int userId) { // userid를 통해 nickname을 가져오는 메소드
+    	String nickname = null;
+    	if(isLoggedIn) {
+            try {
+                String query = "SELECT nickname FROM usertable WHERE userid = " + userId;
+                ResultSet resultSet = stmt.executeQuery(query);
+                if (resultSet.next()) {
+                    nickname = resultSet.getString("nickname");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }    	
+        return nickname;
+    }
+    
+    public void logout() { // 로그아웃 메소드
+        isLoggedIn = false;
+        currentUser = null;
+    }
+
+    
 }
