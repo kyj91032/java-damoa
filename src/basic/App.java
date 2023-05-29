@@ -88,6 +88,7 @@ public class App extends JFrame {
         SignUp signup = new SignUp(stmt, this);
         Chat chat = new Chat(stmt,this);
         ChatList chatlist = new ChatList(stmt, this);
+        
         Recruit recruit = new Recruit(this);
         RecruitComplete recruitComplete = new RecruitComplete(this);
         
@@ -102,9 +103,12 @@ public class App extends JFrame {
         contentPane.add(recruit, "recruit");
         
         
+<<<<<<< HEAD
         cardLayout.show(contentPane, "start"); // 시작화면 보여줌
 
 
+=======
+>>>>>>> newkyj
         showCard("start"); // 시작화면 보여줌
         
         timer = new Timer(1000, new ActionListener() {
@@ -122,5 +126,8 @@ public class App extends JFrame {
     public void showCard(String cardName) { // 화면 전환 메소드
         cardLayout.show(contentPane, cardName);
     }
+   
+    
+    
 }
 

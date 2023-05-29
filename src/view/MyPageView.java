@@ -45,7 +45,9 @@ public class MyPageView extends JPanel {
 		add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("nickname");
+		String nickname = model.getNicknameById(model.getCurrentUserId()); // 닉네임 db에서 불러와서 보여줌
+		JLabel lblNewLabel = new JLabel(nickname);
+		System.out.println(nickname);
 		lblNewLabel.setFont(new Font("HY그래픽M", Font.PLAIN, 13));
 		lblNewLabel.setBounds(56, 6, 126, 38);
 		panel.add(lblNewLabel);
@@ -58,6 +60,15 @@ public class MyPageView extends JPanel {
 		btnNewButton.setBounds(256, 12, 117, 29);
 		panel.add(btnNewButton);
 		
+		
+		addCenterPanel();
+		
+		addBtnPanel(controller);
+
+	    setVisible(true);
+	}
+
+	private void addCenterPanel() {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBackground(new Color(201, 219, 178));
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -150,6 +161,25 @@ public class MyPageView extends JPanel {
 		lblNewLabel_2_2_1_1.setBounds(0, 300, 381, 49);
 		panel_2.add(lblNewLabel_2_2_1_1);
 		
+		JLabel lblNewLabel_2_2_1_1_1 = new JLabel("로그아웃");
+		lblNewLabel_2_2_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2_2_1_1_1.setFont(new Font("HY그래픽M", Font.PLAIN, 13));
+		lblNewLabel_2_2_1_1_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		lblNewLabel_2_2_1_1_1.setBackground(Color.WHITE);
+		lblNewLabel_2_2_1_1_1.setBounds(0, 350, 381, 49);
+		panel_2.add(lblNewLabel_2_2_1_1_1);
+		lblNewLabel_2_2_1_1_1.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				model.logout();
+				
+				controller.showCard("login");
+			}
+		});
+		
+	}
+
+	
+	private void addBtnPanel(Controller controller) { // 하단 4메뉴 생성 메소드
 		JPanel panel1 = new JPanel();
 	    panel1.setBackground(new Color(201, 219, 178));
 	    panel1.setBounds(0, 500, 400, 70);
@@ -210,11 +240,9 @@ public class MyPageView extends JPanel {
 	    lblMypage.setBackground(new Color(201, 219, 178));
 	    panel1.add(lblMypage);
 	    lblMypage.addMouseListener(new MouseAdapter() {
-	        public void mouseClicked(MouseEvent e) {
-	            controller.showCard("mypage"); // 라벨 클릭 시 마이페이지 화면 보여줌
+	    	public void mouseClicked(MouseEvent e) {
+	    		controller.showCard("mypage");
 	        }
 	    });
-
-	    setVisible(true);
 	}
 }
