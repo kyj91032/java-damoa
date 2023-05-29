@@ -195,6 +195,11 @@ public class HomeView extends JPanel {
 	    lblRecruitment.setHorizontalAlignment(SwingConstants.CENTER);
 	    lblRecruitment.setBackground(new Color(201, 219, 178));
 	    panel1.add(lblRecruitment);
+	    lblRecruitment.addMouseListener(new MouseAdapter() {
+	    	public void mouseClicked(MouseEvent e) {
+	            controller.showCard("postformview"); // 라벨 클릭 시 채팅 화면 보여줌
+	        }
+	    });
 
 	    
 	    JLabel lblChat = new JLabel();

@@ -1,4 +1,4 @@
-package basic;
+package view;
 
 import java.awt.Color;  
 import java.awt.Dimension;
@@ -35,12 +35,18 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.border.MatteBorder;
-import javax.swing.SwingConstants;
 
-public class Recruit extends JPanel {
+import controller.Controller;
+import model.Model;
+
+import javax.swing.SwingConstants;
+import java.io.ByteArrayOutputStream;
+
+
+public class PostFormView extends JPanel implements ActionListener {
+	
 	private JTextField textField;
 	private Border border;
-	private App app;
 	private JComboBox<String> mainComboBox;
     private JComboBox<String> subComboBox;
 	private String userInput;
@@ -51,12 +57,17 @@ public class Recruit extends JPanel {
 	private JLabel ImageLabel;
 	private ImageIcon defaultImageIcon;
 	private String selectedImagePath;
+	private Model model;
+	private Controller controller;
+	private byte[] imageData;
 	
-	public Recruit(App app) { 
+	
+	public PostFormView(Model model, Controller controller) {
 		
-		this.app = app;
+		this.model = model;
+		this.controller = controller;
 		
-		border = BorderFactory.createLineBorder(Color.BLACK); //테두리 설정
+		border = BorderFactory.createLineBorder(Color.BLACK); // 테두리 설정
 		
 		setPreferredSize(new Dimension(400, 570));
 		setBackground(new Color(255, 255, 255));
@@ -68,7 +79,7 @@ public class Recruit extends JPanel {
 		
 		SetTitleTextField(); // 제목 텍스트필드 설정
 		
-		TopPanel(app); // 맨위 판넬 설정 (Home.java 내용 가져옴)
+		TopPanel(controller); // 맨위 판넬 설정 (Home.java 내용 가져옴)
 		
 		SetImagePanel(); //이미지 판넬 설정
 		
@@ -76,16 +87,7 @@ public class Recruit extends JPanel {
 		
 		btnPanel(); // 버튼 판넬
 		
-		resetFields();
 		
-		
-		JButton btnNewButton_2 = new JButton("<");
-		btnNewButton_2.setBounds(257, 221, 40, 33);
-		add(btnNewButton_2);
-		
-		JButton btnNewButton_3 = new JButton(">");
-		btnNewButton_3.setBounds(348, 221, 40, 33);
-		add(btnNewButton_3);
 		
 	}
 
@@ -101,18 +103,21 @@ public class Recruit extends JPanel {
 		ImageLabel.setBounds(0, 0, 232, 161);
 		Imagepanel.add(ImageLabel);
 		Imagepanel.addMouseListener(new MouseAdapter() {
-
-			@Override
 	        public void mouseClicked(MouseEvent e) {
 	            JFileChooser fileChooser = new JFileChooser();
 	            int result = fileChooser.showOpenDialog(Imagepanel);
 	            if (result == JFileChooser.APPROVE_OPTION) {
 	                File selectedFile = fileChooser.getSelectedFile();
 	                selectedImagePath = selectedFile.getAbsolutePath(); // 선택한 이미지 파일의 경로 저장
-
 	                try {
 	                    // 이미지 로드
 	                    BufferedImage image = ImageIO.read(selectedFile);
+	                    
+	                    ByteArrayOutputStream baos = new ByteArrayOutputStream(); // 이미지 db에 저장하기 위해 byte[]로 변환
+	                    ImageIO.write(image, "png", baos);
+	                    baos.flush();
+	                    imageData = baos.toByteArray();
+	                    baos.close();
 
 	                    // 패널 크기에 맞게 이미지 조정
 	                    Image scaledImage = image.getScaledInstance(Imagepanel.getWidth(),
@@ -131,10 +136,13 @@ public class Recruit extends JPanel {
 	            }
 	        }
 	    });
-
+		
 	    ImageLabel.setBounds(0, 0, 232, 161);
 	    Imagepanel.add(ImageLabel);
 		add(Imagepanel);
+		
+
+		
 	}
 
 	private void SetTextArea() {     
@@ -167,7 +175,7 @@ public class Recruit extends JPanel {
 		add(textArea);
 	}
 
-	private void TopPanel(App app) {     
+	private void TopPanel(Controller controller) {     
 		setLayout(null);
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
@@ -198,31 +206,8 @@ public class Recruit extends JPanel {
 		btnNewButton_4.setForeground(new Color(0, 0, 255));
 		btnNewButton_4.setBounds(327, 10, 61, 30);
 		panel_1.add(btnNewButton_4);
+		btnNewButton_4.addActionListener(this);
 		
-		btnNewButton_4.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	    		String sql = "INSERT INTO posttable (title, kategorie, region, specificregion, textarea) VALUES (?, ?, ?, ?, ?)";
-	   		 try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/damoa",
-	   				 "root", "1234");
-	   	             PreparedStatement statement = connection.prepareStatement(sql)) {
-	   	            // 값 설정
-	   	            statement.setString(1, textField.getText()); // JTextField에서 입력된 값
-	   	            statement.setString(2, (String) KategorieComboBox.getSelectedItem()); // JComboBox에서 선택된 값
-	   	            statement.setString(3, (String) mainComboBox.getSelectedItem()); // JComboBox에서 선택된 값
-	   	            statement.setString(4, (String) subComboBox.getSelectedItem()); // JComboBox에서 선택된 값
-	   	            statement.setString(5, textArea.getText()); // JTextArea에서 입력된 값
-
-	   	            // 쿼리 실행
-	   	            statement.executeUpdate();
-
-	   	            System.out.println("값이 성공적으로 저장되었습니다.");
-	   	        } catch (SQLException ex) {
-	   	            System.out.println("값을 저장하는 동안 오류가 발생했습니다: " + ex.getMessage());
-	   	        }
-	        	app.showCard("recruitComplete"); 
-	        	resetFields(); // 필드 초기화 메소드 호출
-	        }
-	    });
 	}
 
 	private void SetTitleTextField() {      
@@ -362,7 +347,7 @@ public class Recruit extends JPanel {
         subComboBox.setBackground(new Color(255, 255, 255));
         subComboBox.setFont(new Font("굴림", Font.BOLD, 15));
         add(mainComboBox);
-        add(subComboBox); 
+        add(subComboBox);
  }
 
 	private void KategoriaComboBox() {       
@@ -379,67 +364,139 @@ public class Recruit extends JPanel {
 	}
 
 	private void btnPanel() { 
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(255, 255, 255));
-		panel.setBounds(0, 500, 400, 70);
-		add(panel);
-		panel.setLayout(new GridLayout(1, 4));
-		
-		JButton btnNewButton_2 = new JButton("홈");
-		btnNewButton_2.setBackground(new Color(255, 255, 255));
-		panel.add(btnNewButton_2);
-		btnNewButton_2.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            app.showCard("home"); // 홈 버튼 누르면 홈 화면 보여줌
-	            resetFields(); // 필드 초기화 메소드 호출
+		JPanel panel1 = new JPanel();
+	    panel1.setBackground(new Color(201, 219, 178));
+	    panel1.setBounds(0, 500, 400, 70);
+	    add(panel1);
+	    panel1.setLayout(new GridLayout(1, 4));
+
+	    JLabel lblHome = new JLabel();
+	    lblHome.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
+	    ImageIcon homeicon = new ImageIcon("image/homebutton2.png");
+	    Image imghome = homeicon.getImage();
+	    Image imghome2 = imghome.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		ImageIcon imgicon2 = new ImageIcon(imghome2);
+	    lblHome.setIcon(imgicon2);
+	    lblHome.setHorizontalAlignment(SwingConstants.CENTER);
+	    lblHome.setBackground(new Color(201, 219, 178));
+	    panel1.add(lblHome);
+	    lblHome.addMouseListener(new MouseAdapter() {
+	        public void mouseClicked(MouseEvent e) {
+	            controller.showCard("home"); // 라벨 클릭 시 홈 화면 보여줌
+	        }
+	    });
+	    
+	    JLabel lblRecruitment = new JLabel();
+	    lblRecruitment.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
+	    ImageIcon posticon = new ImageIcon("image/postbutton3.png");
+	    Image imgpost = posticon.getImage();
+	    Image imgpost2 = imgpost.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		ImageIcon posticon2 = new ImageIcon(imgpost2);
+		lblRecruitment.setIcon(posticon2);
+	    lblRecruitment.setHorizontalAlignment(SwingConstants.CENTER);
+	    lblRecruitment.setBackground(new Color(201, 219, 178));
+	    panel1.add(lblRecruitment);
+	    lblRecruitment.addMouseListener(new MouseAdapter() {
+	    	public void mouseClicked(MouseEvent e) {
+	            controller.showCard("postformview"); // 라벨 클릭 시 채팅 화면 보여줌
 	        }
 	    });
 
-		
-		JButton btnNewButton_4 = new JButton("모집하기");
-		btnNewButton_4.setBackground(new Color(255, 255, 255));
-		panel.add(btnNewButton_4);
-		btnNewButton_4.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            app.showCard("recruit"); // if 로그인이 안돼있다면 실행으로. 추가 예정
-	            resetFields(); // 필드 초기화 메소드 호출
+	    
+	    JLabel lblChat = new JLabel();
+	    lblChat.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
+	    ImageIcon chaticon = new ImageIcon("image/chatbutton.png");
+	    Image imgchat = chaticon.getImage();
+	    Image imgchat2 = imgchat.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		ImageIcon iconchat2 = new ImageIcon(imgchat2);
+		lblChat.setIcon(iconchat2);
+	    lblChat.setHorizontalAlignment(SwingConstants.CENTER);
+	    lblChat.setBackground(new Color(201, 219, 178));
+	    panel1.add(lblChat);
+	    lblChat.addMouseListener(new MouseAdapter() {
+	        public void mouseClicked(MouseEvent e) {
+	        	
+	            controller.showCard("chatlist"); // 라벨 클릭 시 채팅 화면 보여줌
 	        }
 	    });
-		
-		
-		JButton btnNewButton_3 = new JButton("채팅");
-		btnNewButton_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				app.showCard("chatlist");
-				resetFields(); // 필드 초기화 메소드 호출
-			}
-		});
-		btnNewButton_3.setBackground(new Color(255, 255, 255));
-		panel.add(btnNewButton_3);
-		
-		JButton btnNewButton = new JButton("마이페이지");
-		btnNewButton.setBackground(new Color(255, 255, 255));
-		panel.add(btnNewButton);
-		setVisible(true);
-		btnNewButton.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            app.showCard("login"); // if 로그인이 안돼있다면 실행으로. 추가 예정
-	            resetFields(); // 필드 초기화 메소드 호출
+
+	    JLabel lblMypage = new JLabel();
+	    ImageIcon mypageicon = new ImageIcon("image/mypage.png");
+	    Image imgmypage = mypageicon.getImage();
+	    Image imgmypage2 = imgmypage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		ImageIcon iconmypage2 = new ImageIcon(imgmypage2);
+		lblMypage.setIcon(iconmypage2);
+	    lblMypage.setHorizontalAlignment(SwingConstants.CENTER);
+	    lblMypage.setBackground(new Color(201, 219, 178));
+	    panel1.add(lblMypage);
+	    lblMypage.addMouseListener(new MouseAdapter() {
+	        public void mouseClicked(MouseEvent e) {
+	        	controller.showCard("mypage");       
 	        }
 	    });
 	}
 	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object obj = e.getSource();
+		
+		if(obj == btnNewButton_4) {
+			model.postForm(this);
+			controller.showCard("postview");
+		}
+		
+	}
 	
-	private void resetFields() { 
-        textField.setText(" 제목 : ");
-        selectedImagePath = null; // 이미지 경로 초기화
-        ImageLabel.setIcon(defaultImageIcon); // 초기 상태 이미지로 설정
-        ImageLabel.setText("이미지를 등록하세요"); // 텍스트 초기화
-        //mainComboBox.setSelectedItem(null);
-        //subComboBox.setSelectedItem(null);
-        //KategorieComboBox.setSelectedItem(null);
-        textArea.setText(" 내용을 입력하세요 : ");
-    }
+
+	public JTextField getTextField() {
+		return textField;
+	}
+
+	public void setTextField(JTextField textField) {
+		this.textField = textField;
+	}
+
+	public JComboBox<String> getMainComboBox() {
+		return mainComboBox;
+	}
+
+	public void setMainComboBox(JComboBox<String> mainComboBox) {
+		this.mainComboBox = mainComboBox;
+	}
+
+	public JComboBox<String> getSubComboBox() {
+		return subComboBox;
+	}
+
+	public void setSubComboBox(JComboBox<String> subComboBox) {
+		this.subComboBox = subComboBox;
+	}
+
+	public JComboBox<String> getKategorieComboBox() {
+		return KategorieComboBox;
+	}
+
+	public void setKategorieComboBox(JComboBox<String> kategorieComboBox) {
+		KategorieComboBox = kategorieComboBox;
+	}
+
+	public JTextArea getTextArea() {
+		return textArea;
+	}
+
+	public void setTextArea(JTextArea textArea) {
+		this.textArea = textArea;
+	}
+
+	public byte[] getImageData() {
+		return imageData;
+	}
+
+	public void setImageData(byte[] imageData) {
+		this.imageData = imageData;
+	}
+
+	
 }
 
 

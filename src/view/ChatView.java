@@ -108,10 +108,6 @@ public class ChatView extends JPanel {
 	}
 
 	
-	
-	
-	
-	
 	private void topPanel() {
 		setLayout(null);
 		JPanel panel_1 = new JPanel();
@@ -135,7 +131,7 @@ public class ChatView extends JPanel {
 		backbtn.setBounds(12, 2, 45, 45);
 		backbtn.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) { 
-				controller.showCard("chatlist"); 
+				controller.showCard("chatlist");
 				} 
 			});
 		panel_1.add(backbtn);

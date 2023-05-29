@@ -11,17 +11,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import Test.Chat;
-import Test.Recruit;
-import Test.RecruitComplete;
 import model.Model;
 import view.ChatListView;
 import view.ChatView;
 import view.HomeView;
 import view.LoginView;
 import view.MyPageView;
+import view.PostFormView;
 import view.SignUpView;
 import view.StartView;
+import view.PostView;
 
 public class Controller extends JFrame {
 
@@ -49,11 +48,13 @@ public class Controller extends JFrame {
         HomeView homeView = new HomeView(model, this);
         LoginView loginView = new LoginView(model, this);
         SignUpView signUpView = new SignUpView(model, this);
+        PostFormView postformview = new PostFormView(model, this);
         
         contentPane.add(startView, "start");
         contentPane.add(homeView, "home");
         contentPane.add(loginView, "login");
         contentPane.add(signUpView, "signup");
+        contentPane.add(postformview, "postformview");
         
         cardLayout.show(contentPane, "start");
 
@@ -94,7 +95,14 @@ public class Controller extends JFrame {
             } else {
                 cardName = "login";
             }
-        } else if (cardName.equals("chat")) {
+        } else if (cardName.equals("postformview")) {
+        	if (model.isLoggedin()) {
+        		cardName = "postformview";
+        	} else {
+        		cardName = "login";
+        	}
+        } else if (cardName.equals("postview")) {
+        	PostView postview = new PostView(model, this);
         	
         }
         cardLayout.show(contentPane, cardName);
