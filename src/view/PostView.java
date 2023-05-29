@@ -35,7 +35,9 @@ public class PostView extends JPanel {
 								
 		btnPanel(controller);
 		
-		TopPanel(); // 맨위 판넬 설정 (Home.java 내용 가져옴)
+		TopPanel();
+		
+		CenterPanel();
 		
 	}
 
@@ -71,9 +73,45 @@ public class PostView extends JPanel {
 		lblDamoa.setFont(new Font("Franklin Gothic Book", Font.BOLD | Font.ITALIC, 18));
 		lblDamoa.setBounds(124, 17, 78, 23);
 		panel_1.add(lblDamoa);
-		
 	}
 
+
+
+	private void CenterPanel() {
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
+		panel.setBounds(0, 50, 400, 451);
+		add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lblNewLabel_1.setBounds(0, 0, 400, 217);
+		panel.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("??님의 모집");
+		lblNewLabel_2.setBounds(0, 218, 200, 21);
+		panel.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("제목");
+		lblNewLabel_3.setBounds(0, 240, 200, 40);
+		panel.add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_4 = new JLabel("카테고리");
+		lblNewLabel_4.setBounds(202, 240, 198, 40);
+		panel.add(lblNewLabel_4);
+		
+		JLabel lblNewLabel_5 = new JLabel("글 내용");
+		lblNewLabel_5.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lblNewLabel_5.setBounds(0, 280, 400, 171);
+		panel.add(lblNewLabel_5);
+		
+		JLabel lblNewLabel_2_1 = new JLabel("지역");
+		lblNewLabel_2_1.setBounds(202, 218, 198, 21);
+		panel.add(lblNewLabel_2_1);
+	}
+
+	
 	private void btnPanel(Controller controller) {
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
