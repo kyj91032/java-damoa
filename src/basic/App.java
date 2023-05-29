@@ -13,6 +13,7 @@ import java.sql.Statement;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.UIManager;
 
 public class App extends JFrame {
 
@@ -24,6 +25,15 @@ public class App extends JFrame {
 	private static Statement stmt;
 
     public static void main(String[] args) {
+
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel"); 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }  // Swing UI 생성 및 실행 코드
+
+    	
+    	
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
@@ -91,11 +101,11 @@ public class App extends JFrame {
         contentPane.add(recruit, "recruit");
         
         
-        cardLayout.show(contentPane, "home"); // 시작화면 보여줌
+        cardLayout.show(contentPane, "start"); // 시작화면 보여줌
         
-        timer = new Timer(1500, new ActionListener() {
+        timer = new Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                showCard("home"); // 1.5초 뒤 홈 화면 보여줌
+                showCard("home"); // 1초 뒤 홈 화면 보여줌
                 timer.stop(); // 타이머 중지
             }
         });
