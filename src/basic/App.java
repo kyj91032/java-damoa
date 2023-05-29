@@ -103,11 +103,9 @@ public class App extends JFrame {
         
         
         cardLayout.show(contentPane, "start"); // 시작화면 보여줌
-<<<<<<< HEAD
+
 
         showCard("start"); // 시작화면 보여줌
-=======
->>>>>>> KDH
         
         timer = new Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
