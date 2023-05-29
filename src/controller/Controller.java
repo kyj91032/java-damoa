@@ -1,26 +1,25 @@
 package controller;
 
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import Test.Chat;
+import Test.Recruit;
+import Test.RecruitComplete;
 import model.Model;
-import view.CategoryView;
 import view.ChatListView;
 import view.ChatView;
 import view.HomeView;
-import view.InterestView;
-import view.JoinListView;
 import view.LoginView;
 import view.MyPageView;
-import view.NoticeView;
-import view.RecruitListView;
-import view.SearchView;
 import view.SignUpView;
 import view.StartView;
 
@@ -29,6 +28,8 @@ public class Controller extends JFrame {
     private JPanel contentPane;
     private CardLayout cardLayout;
     private Timer timer;
+    private ChatView chatview;
+	private ArrayList<ChatView> chats;
 
     private Model model;
 
@@ -44,49 +45,45 @@ public class Controller extends JFrame {
 
         contentPane.setLayout(cardLayout);
         setContentPane(contentPane);
+        
+        chats = new ArrayList<>();
+        
+        ChatView chat1 = new ChatView(model, this, chats);
+        ChatView chat2 = new ChatView(model, this, chats);
+        ChatView chat3 = new ChatView(model, this, chats);
+        
+        chats.add(chat1);
+        chats.add(chat2);
+        chats.add(chat3);
 
         StartView startView = new StartView();
-        HomeView homeView = new HomeView(this);
+        HomeView homeView = new HomeView(model, this);
         LoginView loginView = new LoginView(model, this);
         SignUpView signUpView = new SignUpView(model, this);
-        ChatListView chatListView = new ChatListView(model, this);
-        ChatView chatView = new ChatView(model, this);
-        MyPageView mypageView = new MyPageView(model, this);
-        JoinListView JoinlistView = new JoinListView(model, this);
-        InterestView interestView = new InterestView(model, this);
-        RecruitListView recruitListView = new RecruitListView(model, this);
-        SearchView searchView = new SearchView(model, this);
-        CategoryView categoryView = new CategoryView(model, this);
-        NoticeView noticeView = new NoticeView(model, this);
-
+        
         contentPane.add(startView, "start");
         contentPane.add(homeView, "home");
         contentPane.add(loginView, "login");
         contentPane.add(signUpView, "signup");
-        contentPane.add(chatListView, "chatlist");
-        contentPane.add(chatView, "chat");
-        contentPane.add(mypageView, "mypage");
-        contentPane.add(JoinlistView, "joinlist");
-        contentPane.add(interestView, "interest");
-        contentPane.add(recruitListView, "recruitlist");
-        contentPane.add(searchView, "search");
-        contentPane.add(categoryView, "category");
-        contentPane.add(noticeView, "notice");
         
-
-        cardLayout.show(contentPane, "start"); // Show the start screen
+        for (int i = 0; i < chats.size(); i++) {
+            chatview = chats.get(i);
+            contentPane.add(chatview, "chat" + (i+1));
+        }
+        
+        cardLayout.show(contentPane, "start");
 
         timer = new Timer(1500, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                showCard("home"); // Show the home screen after 1.5 seconds
-                timer.stop(); // Stop the timer
+                showCard("home"); 
+                timer.stop(); 
             }
         });
 
-        timer.setRepeats(false); // Only execute once
-        timer.start(); // Start the timer
+        timer.setRepeats(false);
+        timer.start();
 
-        model.initDbConn(); // Connect to the database
+        model.initDbConn();
     }
 
     public void startApp() {
@@ -94,6 +91,25 @@ public class Controller extends JFrame {
     }
 
     public void showCard(String cardName) {
+        if (cardName.equals("mypage")) {
+            if (model.isLoggedin()) {
+                // 로그인이 되어있을 경우 MyPageView 생성
+                MyPageView myPageView = new MyPageView(model, this);
+                contentPane.add(myPageView, "mypage");
+            } else {
+                // 로그인이 되어있지 않을 경우 로그인 화면으로 이동
+                cardName = "login";
+            }
+        } else if (cardName.equals("chatlist")) {
+        	if (model.isLoggedin()) {
+        		ChatListView chatlistview = new ChatListView(model, this);
+        		contentPane.add(chatlistview, "chatlist");
+            } else {
+                cardName = "login";
+            }
+        }
         cardLayout.show(contentPane, cardName);
     }
+
 }
+

@@ -82,16 +82,17 @@ public class App extends JFrame {
         chats.add(chat1);
         chats.add(chat2);
         chats.add(chat3);
+               
 
         Start start = new Start();
         Home home = new Home(this); // home 생성 시 app(this)를 넘겨서 home에서 showCard를 호출할 수 있게 함.
         Login login = new Login(stmt, this);
         SignUp signup = new SignUp(stmt, this);
         ChatList chatlist = new ChatList(stmt, this, chat);
+        
         Recruit recruit = new Recruit(this);
         RecruitComplete recruitComplete = new RecruitComplete(this);
         
-
         contentPane.add(start, "start");
         contentPane.add(home, "home");
         contentPane.add(login, "login");
@@ -99,7 +100,7 @@ public class App extends JFrame {
         contentPane.add(chatlist, "chatlist");
         contentPane.add(recruitComplete, "recruitComplete");
         contentPane.add(recruit, "recruit");
-//      contentPane.add(chat, "chat");
+        
         
         for (int i = 0; i < chats.size(); i++) {
             chat = chats.get(i);
