@@ -181,6 +181,11 @@ public class LoginView extends JPanel {
 	    lblRecruitment.setHorizontalAlignment(SwingConstants.CENTER);
 	    lblRecruitment.setBackground(new Color(201, 219, 178));
 	    panel1.add(lblRecruitment);
+	    lblRecruitment.addMouseListener(new MouseAdapter() {
+	    	public void mouseClicked(MouseEvent e) {
+	            controller.showCard("postform"); // 라벨 클릭 시 채팅 화면 보여줌
+	        }
+	    });
 
 	    
 	    JLabel lblChat = new JLabel();
@@ -210,7 +215,7 @@ public class LoginView extends JPanel {
 	    panel1.add(lblMypage);
 	    lblMypage.addMouseListener(new MouseAdapter() {
 	        public void mouseClicked(MouseEvent e) {
-	        	controller.showCard("mypage");
+	        	controller.showCard("mypage");       
 	        }
 	    });
 	}

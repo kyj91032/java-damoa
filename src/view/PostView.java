@@ -119,7 +119,7 @@ public class PostView extends JPanel {
 	      TitleLabel.setBounds(0, 0, 301, 25);
 	      panel_2.add(TitleLabel);
 	      
-	      JLabel NicknameLabel = new JLabel(model.getNicknameById(currentPost.getUserId()) + "님의 모집");
+	      JLabel NicknameLabel = new JLabel(currentPost.getUserId() + "님의 모집");
 	      NicknameLabel.setBounds(302, 0, 74, 25);
 	      panel_2.add(NicknameLabel);
 	      
@@ -186,7 +186,7 @@ public class PostView extends JPanel {
 	    panel1.add(lblRecruitment);
 	    lblRecruitment.addMouseListener(new MouseAdapter() {
 	    	public void mouseClicked(MouseEvent e) {
-	            controller.showCard("postformview"); // 라벨 클릭 시 채팅 화면 보여줌
+	            controller.showCard("postform"); // 라벨 클릭 시 채팅 화면 보여줌
 	        }
 	    });
 

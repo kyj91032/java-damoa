@@ -393,7 +393,7 @@ public class PostFormView extends JPanel implements ActionListener {
 	    panel1.add(lblRecruitment);
 	    lblRecruitment.addMouseListener(new MouseAdapter() {
 	    	public void mouseClicked(MouseEvent e) {
-	            controller.showCard("postformview"); // 라벨 클릭 시 채팅 화면 보여줌
+	            controller.showCard("postform"); // 라벨 클릭 시 채팅 화면 보여줌
 	        }
 	    });
 
@@ -410,7 +410,6 @@ public class PostFormView extends JPanel implements ActionListener {
 	    panel1.add(lblChat);
 	    lblChat.addMouseListener(new MouseAdapter() {
 	        public void mouseClicked(MouseEvent e) {
-	        	
 	            controller.showCard("chatlist"); // 라벨 클릭 시 채팅 화면 보여줌
 	        }
 	    });
@@ -429,6 +428,7 @@ public class PostFormView extends JPanel implements ActionListener {
 	        	controller.showCard("mypage");       
 	        }
 	    });
+	
 	}
 	
 	@Override
@@ -437,7 +437,7 @@ public class PostFormView extends JPanel implements ActionListener {
 		
 		if(obj == btnNewButton_4) {
 			model.postForm(this);
-			controller.showCard("postview");
+			controller.showCard("home");
 		}
 		
 	}
