@@ -48,36 +48,23 @@ public class PostView extends JPanel {
 	
 	private void TopPanel() { 
 		setLayout(null);
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		panel_1.setBackground(new Color(255, 255, 255));
-		panel_1.setBounds(0, 0, 400, 40);
-		add(panel_1);
-		panel_1.setLayout(null);
 		
 		ImageIcon daicon = new ImageIcon("image/damoa.jpeg");
 		Image daimage = daicon.getImage();
 		Image daimage2 = daimage.getScaledInstance(50,50 , Image.SCALE_SMOOTH);
 		ImageIcon daicon2 = new ImageIcon(daimage2);
-		
-		JLabel dmlbl = new JLabel();
-		dmlbl.setBackground(new Color(240, 240, 240));
-		dmlbl.setBounds(12, 2, 45, 45);
-		panel_1.add(dmlbl);
-		dmlbl.setIcon(daicon2);
 	}
 
 	private void CenterPanel() {
 		JPanel panel = new JPanel();
-	      panel.setBackground(new Color(255, 248, 222));
-	      panel.setBounds(0, 39, 400, 462);
+	      panel.setBackground(new Color(207, 197, 255));
+	      panel.setBounds(0, 0, 400, 564);
 	      add(panel);
 	      panel.setLayout(null);
 	      
 	      JPanel panel_1 = new JPanel();
-	      panel_1.setBackground(new Color(255, 248, 222));
-	      panel_1.setBounds(6, 5, 388, 176);
+	      panel_1.setBackground(new Color(255, 255, 255));
+	      panel_1.setBounds(6, 5, 388, 197);
 	      panel.add(panel_1);
 	      panel_1.setLayout(null);
 	      
@@ -101,24 +88,24 @@ public class PostView extends JPanel {
 	      String postusername = model.getNicknameById(currentPost.getUserId());
 	      
 	      JPanel panel_2 = new JPanel();
-	      panel_2.setBackground(new Color(255, 248, 222));
-	      panel_2.setBounds(6, 184, 388, 32);
+	      panel_2.setBackground(new Color(255, 255, 255));
+	      panel_2.setBounds(6, 203, 388, 38);
 	      panel.add(panel_2);
 	      panel_2.setLayout(null);
 	      
 	      JLabel TitleLabel = new JLabel(currentPost.getTitle());
 	      TitleLabel.setFont(new Font("HY그래픽M", Font.BOLD, 16));
-	      TitleLabel.setBounds(12, 0, 230, 32);
+	      TitleLabel.setBounds(6, 6, 230, 32);
 	      panel_2.add(TitleLabel);
 	      
 	      JLabel NicknameLabel = new JLabel(postusername + "님의 모집");
 	      NicknameLabel.setFont(new Font("HY그래픽M", Font.PLAIN, 12));
-	      NicknameLabel.setBounds(254, 0, 127, 32);
+	      NicknameLabel.setBounds(255, 7, 127, 32);
 	      panel_2.add(NicknameLabel);
 	      
 	      JPanel panel_3 = new JPanel();
-	      panel_3.setBackground(new Color(255, 248, 222));
-	      panel_3.setBounds(6, 219, 388, 233);
+	      panel_3.setBackground(new Color(255, 255, 255));
+	      panel_3.setBounds(6, 243, 388, 254);
 	      panel.add(panel_3);
 	      panel_3.setLayout(null);
 	      
@@ -142,80 +129,40 @@ public class PostView extends JPanel {
 	      SpecificRegionLabel.setFont(new Font("HY그래픽M", Font.PLAIN, 12));
 	      SpecificRegionLabel.setBounds(302, 175, 70, 22);
 	      panel_3.add(SpecificRegionLabel);
+	      
+	      JLabel lblNewLabel = new JLabel("삭제하기");
+	      lblNewLabel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+	      lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+	      lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	      lblNewLabel.setBounds(16, 509, 165, 38);
+	      panel.add(lblNewLabel);
+	      
+	      JLabel lblNewLabel_1 = new JLabel("채팅방 참여하기");
+	      lblNewLabel_1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+	      lblNewLabel_1.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+	      lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+	      lblNewLabel_1.setBounds(215, 509, 165, 38);
+	      panel.add(lblNewLabel_1);
 		
 		
 	}
 	
 	private void btnPanel() {
-		JPanel panel1 = new JPanel();
-	    panel1.setBackground(new Color(255, 248, 222));
-	    panel1.setBounds(0, 500, 400, 70);
-	    add(panel1);
-	    panel1.setLayout(new GridLayout(1, 4));
-
-	    JLabel lblHome = new JLabel();
-	    lblHome.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
 	    ImageIcon homeicon = new ImageIcon("image/homebutton2.png");
 	    Image imghome = homeicon.getImage();
 	    Image imghome2 = imghome.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		ImageIcon imgicon2 = new ImageIcon(imghome2);
-	    lblHome.setIcon(imgicon2);
-	    lblHome.setHorizontalAlignment(SwingConstants.CENTER);
-	    lblHome.setBackground(new Color(201, 219, 178));
-	    panel1.add(lblHome);
-	    lblHome.addMouseListener(new MouseAdapter() {
-	        public void mouseClicked(MouseEvent e) {
-	            controller.showCard("home"); // 라벨 클릭 시 홈 화면 보여줌
-	        }
-	    });
-	    
-	    JLabel lblRecruitment = new JLabel();
-	    lblRecruitment.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
 	    ImageIcon posticon = new ImageIcon("image/postbutton3.png");
 	    Image imgpost = posticon.getImage();
 	    Image imgpost2 = imgpost.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		ImageIcon posticon2 = new ImageIcon(imgpost2);
-		lblRecruitment.setIcon(posticon2);
-	    lblRecruitment.setHorizontalAlignment(SwingConstants.CENTER);
-	    lblRecruitment.setBackground(new Color(201, 219, 178));
-	    panel1.add(lblRecruitment);
-	    lblRecruitment.addMouseListener(new MouseAdapter() {
-	    	public void mouseClicked(MouseEvent e) {
-	            controller.showCard("postform"); // 라벨 클릭 시 채팅 화면 보여줌
-	        }
-	    });
-
-	    
-	    JLabel lblChat = new JLabel();
-	    lblChat.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
 	    ImageIcon chaticon = new ImageIcon("image/chatbutton.png");
 	    Image imgchat = chaticon.getImage();
 	    Image imgchat2 = imgchat.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		ImageIcon iconchat2 = new ImageIcon(imgchat2);
-		lblChat.setIcon(iconchat2);
-	    lblChat.setHorizontalAlignment(SwingConstants.CENTER);
-	    lblChat.setBackground(new Color(201, 219, 178));
-	    panel1.add(lblChat);
-	    lblChat.addMouseListener(new MouseAdapter() {
-	        public void mouseClicked(MouseEvent e) {
-	            controller.showCard("chatlist"); // 라벨 클릭 시 채팅 화면 보여줌
-	        }
-	    });
-
-	    JLabel lblMypage = new JLabel();
 	    ImageIcon mypageicon = new ImageIcon("image/mypage.png");
 	    Image imgmypage = mypageicon.getImage();
 	    Image imgmypage2 = imgmypage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		ImageIcon iconmypage2 = new ImageIcon(imgmypage2);
-		lblMypage.setIcon(iconmypage2);
-	    lblMypage.setHorizontalAlignment(SwingConstants.CENTER);
-	    lblMypage.setBackground(new Color(201, 219, 178));
-	    panel1.add(lblMypage);
-	    lblMypage.addMouseListener(new MouseAdapter() {
-	        public void mouseClicked(MouseEvent e) {
-	        	controller.showCard("mypage");       
-	        }
-	    });
 	}
-	
 }
