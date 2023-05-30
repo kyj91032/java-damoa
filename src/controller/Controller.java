@@ -57,7 +57,7 @@ public class Controller extends JFrame {
         contentPane.add(inithomeview, "inithome");
         contentPane.add(loginView, "login");
         contentPane.add(signUpView, "signup");
-        contentPane.add(postformview, "postformview");
+        contentPane.add(postformview, "postform");
         
         cardLayout.show(contentPane, "start");
 
@@ -98,16 +98,16 @@ public class Controller extends JFrame {
             } else {
                 cardName = "login";
             }
-        } else if (cardName.equals("postformview")) {
+        } else if (cardName.equals("postform")) {
         	if (model.isLoggedin()) {
-        		cardName = "postformview";
+        		cardName = "postform";
         	} else {
         		cardName = "login";
         	}
-        } else if (cardName.equals("postview")) {
+        } else if (cardName.equals("post")) {
         	PostView postview = new PostView(model, this, model.getCurrentPost());
-        	contentPane.add(postview, "postview");
-        	cardName = "postview";
+        	contentPane.add(postview, "post");
+        	
         } else if (cardName.equals("home")) {
         	homeview = new HomeView(model, this);
         	contentPane.add(homeview, "home");

@@ -368,6 +368,9 @@ public class Model {
         return posts;
     }
 
+    public void setCurrentPost(PostEntity post) {
+        currentPost = post;
+    }
 
     
 
