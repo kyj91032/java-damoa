@@ -438,6 +438,7 @@ public class PostFormView extends JPanel implements ActionListener {
 		if(obj == btnNewButton_4) {
 			model.postForm(this);
 			controller.showCard("postview");
+			
 		}
 		
 	}

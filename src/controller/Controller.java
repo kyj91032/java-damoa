@@ -64,7 +64,7 @@ public class Controller extends JFrame {
                 timer.stop(); 
             }
         });
-
+        
         timer.setRepeats(false);
         timer.start();
 

@@ -96,6 +96,24 @@ public class CategoryView extends JPanel {
 		lblNewLabel_1_5.setBounds(288, 155, 85, 85);
 		lblNewLabel_1_5.setBorder(border);
 		panel_1.add(lblNewLabel_1_5);
+		
+		JLabel lblNewLabel_1_3_1 = new JLabel("카테고리 7");
+		lblNewLabel_1_3_1.setEnabled(false);
+		lblNewLabel_1_3_1.setBounds(24, 288, 85, 85);
+		lblNewLabel_1_3.setBorder(border);
+		panel_1.add(lblNewLabel_1_3_1);
+		
+		JLabel lblNewLabel_1_3_2 = new JLabel("카테고리 8");
+		lblNewLabel_1_3_2.setEnabled(false);
+		lblNewLabel_1_3_2.setBounds(152, 288, 85, 85);
+		lblNewLabel_1_3.setBorder(border);
+		panel_1.add(lblNewLabel_1_3_2);
+		
+		JLabel lblNewLabel_1_3_3 = new JLabel("카테고리 9");
+		lblNewLabel_1_3_3.setEnabled(false);
+		lblNewLabel_1_3_3.setBounds(288, 288, 85, 85);
+		lblNewLabel_1_3.setBorder(border);
+		panel_1.add(lblNewLabel_1_3_3);
 	}
 	
 	

@@ -102,34 +102,34 @@ public class ChatListView extends JPanel {
 	    scrollPane.setBounds(0, 50, 400, 452);
 	    add(scrollPane);
 
-	    // 모집하기 누를 시 채팅방 db 생성하는 메소드 미리 만듦
-//	    try {
-//	    	String imagePath = "image/돋보기.jpeg";
-//            // 이미지 파일 읽기
-//            File imageFile = new File(imagePath);
-//            byte[] imageData = Files.readAllBytes(Path.of(imageFile.toURI()));
-//            
-//
-//            // 쿼리 준비
-//            String query = "INSERT INTO chatroomtable (roomname, description, image) VALUES (?, ?, ?)";
-//            PreparedStatement pstmt = model.getConnection().prepareStatement(query);
-//
-//            // 쿼리 매개변수 설정
-//            pstmt.setString(1, "Chat Room 1"); // 채팅방 이름
-//            pstmt.setString(2, "Description of Chat Room 1"); // 채팅방 설명
-//            pstmt.setBytes(3, imageData); // 이미지 데이터
-//
-//            // 쿼리 실행
-//            pstmt.executeUpdate();
-//
-//            // 리소스 정리
-//            pstmt.close();
-//            model.getConnection().close();
-//
-//            System.out.println("Image inserted successfully.");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+	     //모집하기 누를 시 채팅방 db 생성하는 메소드 미리 만듦
+	    try {
+	    	String imagePath = "image/돋보기.jpeg";
+            // 이미지 파일 읽기
+            File imageFile = new File(imagePath);
+            byte[] imageData = Files.readAllBytes(Path.of(imageFile.toURI()));
+            
+
+            // 쿼리 준비
+            String query = "INSERT INTO chatroomtable (roomname, description, image) VALUES (?, ?, ?)";
+            PreparedStatement pstmt = model.getConnection().prepareStatement(query);
+
+            // 쿼리 매개변수 설정
+            pstmt.setString(1, "Chat Room 1"); // 채팅방 이름
+            pstmt.setString(2, "Description of Chat Room 1"); // 채팅방 설명
+            pstmt.setBytes(3, imageData); // 이미지 데이터
+
+            // 쿼리 실행
+            pstmt.executeUpdate();
+
+            // 리소스 정리
+            pstmt.close();
+            model.getConnection().close();
+
+            System.out.println("Image inserted successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 	    
 	    
 	    DefaultListModel<ImageLabelItem> listModel = new DefaultListModel<>();
@@ -251,6 +251,11 @@ public class ChatListView extends JPanel {
 	    lblRecruitment.setHorizontalAlignment(SwingConstants.CENTER);
 	    lblRecruitment.setBackground(new Color(201, 219, 178));
 	    panel1.add(lblRecruitment);
+	    lblRecruitment.addMouseListener(new MouseAdapter() {
+	        public void mouseClicked(MouseEvent e) {
+	            controller.showCard("postformview"); 
+	        }
+	    });
 
 	    
 	    JLabel lblChat = new JLabel();

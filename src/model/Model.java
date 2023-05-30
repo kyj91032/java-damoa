@@ -305,11 +305,4 @@ public class Model {
     public PostEntity getCurrentPost() { // 현재 포스트 getter
     	return currentPost;
     }
-    
-    
-
-
-    
-
-    
 }

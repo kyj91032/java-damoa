@@ -26,6 +26,8 @@ import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class LoginView extends JPanel {
 	
@@ -114,6 +116,25 @@ public class LoginView extends JPanel {
 		textField.setColumns(10);
 		
 		passwordField = new JPasswordField();
+		passwordField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				String username = textField.getText(); // 아이디 저장
+		        String password = new String(passwordField.getPassword()); // 비번 저장
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (model.checkLogin(username, password)) {
+					System.out.println("로그인 성공!");
+		            controller.showCard("home");
+		            textField.setText("");
+		            passwordField.setText("");
+					}else {
+		            System.out.println("로그인 실패!");
+		            textField.setText("");
+		            passwordField.setText("");
+		        }
+				}
+			}
+		});
 		passwordField.setBounds(49, 275, 290, 30);
 		add(passwordField);
 		
