@@ -10,17 +10,6 @@
     	<artifactId>mysql-connector-java</artifactId>
     	<version>8.0.28</version>
 	</dependency>
-	<dependency>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok</artifactId>
-        <version>1.18.20</version>
-        <scope>provided</scope>
-    </dependency>
-	<dependency>
-		<groupId>db</groupId>
-		<artifactId>db</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</dependency>
   </dependencies>
   
   

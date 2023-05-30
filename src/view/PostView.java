@@ -80,43 +80,73 @@ public class PostView extends JPanel {
 
 	private void CenterPanel() {
 		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(0, 50, 400, 451);
-		add(panel);
-		panel.setLayout(null);
-		
-	    if (currentPost != null) {
-	    	JLabel lblNewLabel_1 = new JLabel("");
-	    	byte[] imgData = currentPost.getImage();
-	    	if (imgData != null) {
-	    	    ImageIcon imageIcon = new ImageIcon(imgData);
-	    	    lblNewLabel_1.setIcon(imageIcon);
-	    	}
-			lblNewLabel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-			lblNewLabel_1.setBounds(0, 0, 400, 217);
-			panel.add(lblNewLabel_1);
-			
-			JLabel lblNewLabel_2 = new JLabel(model.getNicknameById(currentPost.getUserId()) + "님의 모집");
-			lblNewLabel_2.setBounds(0, 218, 200, 21);
-			panel.add(lblNewLabel_2);
-			
-			JLabel lblNewLabel_3 = new JLabel(currentPost.getTitle());
-			lblNewLabel_3.setBounds(0, 240, 200, 40);
-			panel.add(lblNewLabel_3);
-			
-			JLabel lblNewLabel_4 = new JLabel(currentPost.getKategorie());
-			lblNewLabel_4.setBounds(202, 240, 198, 40);
-			panel.add(lblNewLabel_4);
-			
-			JLabel lblNewLabel_5 = new JLabel(currentPost.getTextArea());
-			lblNewLabel_5.setBorder(new LineBorder(new Color(0, 0, 0)));
-			lblNewLabel_5.setBounds(0, 280, 400, 171);
-			panel.add(lblNewLabel_5);
-			
-			JLabel lblNewLabel_2_1 = new JLabel(currentPost.getRegion() + " " + currentPost.getSpecificregion());
-			lblNewLabel_2_1.setBounds(202, 218, 198, 21);
-			panel.add(lblNewLabel_2_1);
-	    }
+	      panel.setBackground(Color.WHITE);
+	      panel.setBounds(0, 50, 400, 451);
+	      add(panel);
+	      panel.setLayout(null);
+	      
+	      JPanel panel_1 = new JPanel();
+	      panel_1.setBounds(12, 45, 376, 156);
+	      panel.add(panel_1);
+	      panel_1.setLayout(null);
+	      
+	      
+	      if (currentPost != null) {
+	          JLabel ImageLabel = new JLabel("New label");
+	          byte[] imgData = currentPost.getImage();
+	          if (imgData != null) {
+	              ImageIcon imageIcon = new ImageIcon(imgData);
+	              Image image = imageIcon.getImage();
+	              int labelWidth = 376; // 라벨의 너비 값을 직접 설정
+	              int imageHeight = 156; 
+	              Image scaledImage = image.getScaledInstance(labelWidth, imageHeight, Image.SCALE_SMOOTH);
+	              ImageIcon scaledIcon = new ImageIcon(scaledImage);
+	              ImageLabel.setIcon(scaledIcon);
+	          }
+	          ImageLabel.setBounds(0, 0, 376, 156);
+	          panel_1.add(ImageLabel);
+	      }
+
+	      
+	      
+	      JPanel panel_2 = new JPanel();
+	      panel_2.setBounds(12, 10, 376, 25);
+	      panel.add(panel_2);
+	      panel_2.setLayout(null);
+	      
+	      JLabel TitleLabel = new JLabel(currentPost.getTitle());
+	      TitleLabel.setFont(new Font("한컴 고딕", Font.BOLD, 20));
+	      TitleLabel.setBounds(0, 0, 301, 25);
+	      panel_2.add(TitleLabel);
+	      
+	      JLabel NicknameLabel = new JLabel(model.getNicknameById(currentPost.getUserId()) + "님의 모집");
+	      NicknameLabel.setBounds(302, 0, 74, 25);
+	      panel_2.add(NicknameLabel);
+	      
+	      JPanel panel_3 = new JPanel();
+	      panel_3.setBounds(12, 211, 376, 230);
+	      panel.add(panel_3);
+	      panel_3.setLayout(null);
+	      
+	      JLabel TextAreaLabel = new JLabel(currentPost.getTextarea());
+	      TextAreaLabel.setVerticalAlignment(SwingConstants.TOP);
+	      TextAreaLabel.setBounds(0, 0, 376, 200);
+	      panel_3.add(TextAreaLabel);
+	      
+	      JLabel kategorieLabel = new JLabel(currentPost.getKategorie());
+	      kategorieLabel.setFont(new Font("한컴 고딕", Font.BOLD, 12));
+	      kategorieLabel.setBounds(10, 205, 70, 25);
+	      panel_3.add(kategorieLabel);
+	      
+	      JLabel RegoinLabel = new JLabel(currentPost.getRegion());
+	      RegoinLabel.setFont(new Font("한컴 고딕", Font.BOLD, 8));
+	      RegoinLabel.setBounds(226, 207, 70, 20);
+	      panel_3.add(RegoinLabel);
+	      
+	      JLabel SpecificRegionLabel = new JLabel (currentPost.getSpecificRegion()); 
+	      SpecificRegionLabel.setFont(new Font("한컴 고딕", Font.BOLD, 8));
+	      SpecificRegionLabel.setBounds(300, 210, 70, 20);
+	      panel_3.add(SpecificRegionLabel);
 		
 		
 	}
