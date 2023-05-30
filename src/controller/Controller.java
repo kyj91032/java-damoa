@@ -31,11 +31,14 @@ public class Controller extends JFrame {
 
     private Model model;
 	private HomeView homeview;
+	private String previousCard; // 이전에 보여준 카드의 이름을 저장하는 변수
+
 	
     public Controller() {
         contentPane = new JPanel();
         cardLayout = new CardLayout();
         model = new Model();
+        previousCard = "start";
         
         model.initDbConn();
 
@@ -48,13 +51,13 @@ public class Controller extends JFrame {
         setContentPane(contentPane);
         
         StartView startView = new StartView();
-        HomeView inithomeview = new HomeView(model, this);
+        homeview = new HomeView(model, this);
         LoginView loginView = new LoginView(model, this);
         SignUpView signUpView = new SignUpView(model, this);
         PostFormView postformview = new PostFormView(model, this);
         
         contentPane.add(startView, "start");
-        contentPane.add(inithomeview, "inithome");
+        contentPane.add(homeview, "home");
         contentPane.add(loginView, "login");
         contentPane.add(signUpView, "signup");
         contentPane.add(postformview, "postform");
@@ -63,7 +66,7 @@ public class Controller extends JFrame {
 
         timer = new Timer(1500, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                showCard("inithome");
+                showCard("home");
                 timer.stop(); 
             }
         });
@@ -109,9 +112,13 @@ public class Controller extends JFrame {
         	contentPane.add(postview, "post");
         	
         } else if (cardName.equals("home")) {
-        	homeview = new HomeView(model, this);
-        	contentPane.add(homeview, "home");
+        	
+            homeview = new HomeView(model, this);
+            contentPane.add(homeview, "home");
+            
+
         }
+        previousCard = cardName;
         cardLayout.show(contentPane, cardName);
     }
 }
