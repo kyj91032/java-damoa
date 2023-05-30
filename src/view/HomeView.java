@@ -285,7 +285,7 @@ public class HomeView extends JPanel {
 	    panel1.add(lblRecruitment);
 	    lblRecruitment.addMouseListener(new MouseAdapter() {
 	    	public void mouseClicked(MouseEvent e) {
-	            controller.showCard("postformview"); // 라벨 클릭 시 채팅 화면 보여줌
+	            controller.showCard("postform"); // 라벨 클릭 시 채팅 화면 보여줌
 	        }
 	    });
 
