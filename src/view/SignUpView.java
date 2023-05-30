@@ -23,7 +23,6 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import controller.Controller;
-import lombok.Getter;
 import model.Model;
 
 
@@ -185,7 +184,7 @@ public class SignUpView extends JPanel implements ActionListener {
       
       if(obj == btnNewButton) {
          model.registerUser(this);
-         controller.showCard("login"); // 회원가입 후 로그인 화면으로 이동
+          controller.showCard("login"); // 회원가입 후 로그인 화면으로 이동
       }      
    }
 
