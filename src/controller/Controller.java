@@ -67,7 +67,7 @@ public class Controller extends JFrame {
         timer = new Timer(1500, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 showCard("home");
-                timer.stop(); 
+                timer.stop();
             }
         });
 

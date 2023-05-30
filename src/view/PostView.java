@@ -52,7 +52,7 @@ public class PostView extends JPanel {
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		panel_1.setBackground(new Color(255, 255, 255));
-		panel_1.setBounds(0, 0, 400, 50);
+		panel_1.setBounds(0, 0, 400, 40);
 		add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -66,27 +66,18 @@ public class PostView extends JPanel {
 		dmlbl.setBounds(12, 2, 45, 45);
 		panel_1.add(dmlbl);
 		dmlbl.setIcon(daicon2);
-		
-		JLabel lblNewLabel = new JLabel("세상 사람");
-		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-		lblNewLabel.setBounds(74, 0, 58, 23);
-		panel_1.add(lblNewLabel);
-		
-		JLabel lblDamoa = new JLabel("damoa");
-		lblDamoa.setFont(new Font("Franklin Gothic Book", Font.BOLD | Font.ITALIC, 18));
-		lblDamoa.setBounds(124, 17, 78, 23);
-		panel_1.add(lblDamoa);
 	}
 
 	private void CenterPanel() {
 		JPanel panel = new JPanel();
-	      panel.setBackground(Color.WHITE);
-	      panel.setBounds(0, 50, 400, 451);
+	      panel.setBackground(new Color(255, 248, 222));
+	      panel.setBounds(0, 39, 400, 462);
 	      add(panel);
 	      panel.setLayout(null);
 	      
 	      JPanel panel_1 = new JPanel();
-	      panel_1.setBounds(12, 45, 376, 156);
+	      panel_1.setBackground(new Color(255, 248, 222));
+	      panel_1.setBounds(6, 5, 388, 176);
 	      panel.add(panel_1);
 	      panel_1.setLayout(null);
 	      
@@ -110,42 +101,46 @@ public class PostView extends JPanel {
 	      String postusername = model.getNicknameById(currentPost.getUserId());
 	      
 	      JPanel panel_2 = new JPanel();
-	      panel_2.setBounds(12, 10, 376, 25);
+	      panel_2.setBackground(new Color(255, 248, 222));
+	      panel_2.setBounds(6, 184, 388, 32);
 	      panel.add(panel_2);
 	      panel_2.setLayout(null);
 	      
 	      JLabel TitleLabel = new JLabel(currentPost.getTitle());
-	      TitleLabel.setFont(new Font("한컴 고딕", Font.BOLD, 20));
-	      TitleLabel.setBounds(0, 0, 301, 25);
+	      TitleLabel.setFont(new Font("HY그래픽M", Font.BOLD, 16));
+	      TitleLabel.setBounds(12, 0, 230, 32);
 	      panel_2.add(TitleLabel);
 	      
 	      JLabel NicknameLabel = new JLabel(postusername + "님의 모집");
-	      NicknameLabel.setBounds(302, 0, 74, 25);
+	      NicknameLabel.setFont(new Font("HY그래픽M", Font.PLAIN, 12));
+	      NicknameLabel.setBounds(254, 0, 127, 32);
 	      panel_2.add(NicknameLabel);
 	      
 	      JPanel panel_3 = new JPanel();
-	      panel_3.setBounds(12, 211, 376, 230);
+	      panel_3.setBackground(new Color(255, 248, 222));
+	      panel_3.setBounds(6, 219, 388, 233);
 	      panel.add(panel_3);
 	      panel_3.setLayout(null);
 	      
 	      JLabel TextAreaLabel = new JLabel(currentPost.getTextarea());
+	      TextAreaLabel.setFont(new Font("HY그래픽M", Font.PLAIN, 12));
 	      TextAreaLabel.setVerticalAlignment(SwingConstants.TOP);
-	      TextAreaLabel.setBounds(0, 0, 376, 200);
+	      TextAreaLabel.setBounds(12, 21, 364, 179);
 	      panel_3.add(TextAreaLabel);
 	      
 	      JLabel kategorieLabel = new JLabel(currentPost.getKategorie());
-	      kategorieLabel.setFont(new Font("한컴 고딕", Font.BOLD, 12));
-	      kategorieLabel.setBounds(10, 205, 70, 25);
+	      kategorieLabel.setFont(new Font("HY그래픽M", Font.PLAIN, 14));
+	      kategorieLabel.setBounds(12, 175, 70, 25);
 	      panel_3.add(kategorieLabel);
 	      
 	      JLabel RegoinLabel = new JLabel(currentPost.getRegion());
-	      RegoinLabel.setFont(new Font("한컴 고딕", Font.BOLD, 8));
-	      RegoinLabel.setBounds(226, 207, 70, 20);
+	      RegoinLabel.setFont(new Font("HY그래픽M", Font.PLAIN, 12));
+	      RegoinLabel.setBounds(228, 175, 70, 22);
 	      panel_3.add(RegoinLabel);
 	      
 	      JLabel SpecificRegionLabel = new JLabel (currentPost.getSpecificRegion()); 
-	      SpecificRegionLabel.setFont(new Font("한컴 고딕", Font.BOLD, 8));
-	      SpecificRegionLabel.setBounds(300, 210, 70, 20);
+	      SpecificRegionLabel.setFont(new Font("HY그래픽M", Font.PLAIN, 12));
+	      SpecificRegionLabel.setBounds(302, 175, 70, 22);
 	      panel_3.add(SpecificRegionLabel);
 		
 		
@@ -153,7 +148,7 @@ public class PostView extends JPanel {
 	
 	private void btnPanel() {
 		JPanel panel1 = new JPanel();
-	    panel1.setBackground(new Color(201, 219, 178));
+	    panel1.setBackground(new Color(255, 248, 222));
 	    panel1.setBounds(0, 500, 400, 70);
 	    add(panel1);
 	    panel1.setLayout(new GridLayout(1, 4));
