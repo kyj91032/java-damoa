@@ -54,7 +54,4 @@ public class UserEntity {
 	public void setBirth(String birth) {
 		this.birth = birth;
 	}
-    
-    
-    
 }

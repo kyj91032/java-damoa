@@ -9,13 +9,18 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
 import controller.Controller;
+import model.ChatRoomEntity;
 import model.Model;
+import model.PostEntity;
+import view.ChatListView.ImageLabelItem;
+import view.ChatListView.ImageLabelListCellRenderer;
 
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.JButton;
@@ -25,15 +30,18 @@ import javax.swing.JInternalFrame;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JToolBar;
 import javax.swing.LayoutFocusTraversalPolicy;
+import javax.swing.ListCellRenderer;
 import javax.swing.JList;
 import java.awt.GridLayout;
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.border.BevelBorder;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
@@ -143,25 +151,102 @@ public class HomeView extends JPanel {
 		
 		
 	}
-
-	
-	
 	
 	private void Centerbtn() {
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(new Color(255, 255, 255));
-		panel_2.setBounds(0, 50, 400, 450);
-		add(panel_2);
-		panel_2.setLayout(null);
+		
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 400, 450);
-		panel_2.add(scrollPane);
+		scrollPane.setBounds(0, 50, 400, 453);
+		add(scrollPane);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		
-		JList list = new JList();
+		
+		DefaultListModel<ImageLabelItem> listModel = new DefaultListModel<>();
+
+		List<PostEntity> posts = model.getAllPosts();
+	    
+		for (PostEntity post : posts) {
+	        ImageIcon imageIcon = new ImageIcon(post.getImage());
+
+	        // 이미지를 원하는 크기로 조정합니다.
+	        Image scaledImage = imageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+	        ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
+
+	        // ImageLabelItem 객체를 생성하여 ImageIcon과 추가 정보를 저장합니다.
+	        ImageLabelItem item = new ImageLabelItem(scaledImageIcon, post.getTitle());
+
+	        // 리스트 모델에 ImageLabelItem을 추가합니다.
+	        listModel.addElement(item);
+	    }
+	    
+	    // JList를 생성하고 리스트 모델을 설정합니다.
+	    JList<ImageLabelItem> list = new JList<>(listModel);
+	    list.setCellRenderer(new ImageLabelListCellRenderer());
+	    
+	    
+	    list.addMouseListener(new MouseAdapter() {
+	        @Override
+	        public void mouseClicked(MouseEvent e) {
+				 int index = list.getSelectedIndex();
+				 for (int i = 0; i < listModel.getSize(); i++) {
+					 if ((e.getClickCount() == 2) && (index == i)) {
+						 controller.showCard("post"+(i+1));
+					 }
+				 }
+	        }
+	    });
+		
 		
 		scrollPane.setViewportView(list);
+		
+		
+	}
+	
+	class ImageLabelItem {
+	    private ImageIcon image;
+	    private String label;
+
+	    public ImageLabelItem(ImageIcon image, String label) {
+	        this.image = image;
+	        this.label = label;	   
+	    }
+
+	    public String getLabel() {
+	        return label;
+	    }
+	}
+
+	class ImageLabelListCellRenderer extends JPanel implements ListCellRenderer<ImageLabelItem> {
+	    private JLabel imageLabel;
+	    private JLabel textLabel;
+	
+	    public ImageLabelListCellRenderer() {
+	        setLayout(new BorderLayout());
+	        setOpaque(true);
+	
+	        imageLabel = new JLabel();
+	        textLabel = new JLabel();
+	
+	        add(imageLabel, BorderLayout.WEST);
+	        add(textLabel, BorderLayout.CENTER);
+	    }
+
+	    @Override
+	    public Component getListCellRendererComponent(JList<? extends ImageLabelItem> list, ImageLabelItem value, int index,
+	                                                  boolean isSelected, boolean cellHasFocus) {
+	        imageLabel.setIcon(value.image);
+	        textLabel.setText(value.getLabel());
+
+	        if (isSelected) {
+	            setBackground(list.getSelectionBackground());
+	            setForeground(list.getSelectionForeground());
+	        } else {
+	            setBackground(list.getBackground());
+	            setForeground(list.getForeground());
+	        }
+
+	        return this;
+	    }
 	}
 
 	

@@ -23,7 +23,6 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import controller.Controller;
-import lombok.Getter;
 import model.Model;
 
 

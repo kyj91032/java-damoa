@@ -1,79 +1,61 @@
 package model;
 
 public class PostEntity {
-    
-	private int postId;
+    private int postId;
     private String kategorie;
     private String region;
-    private String specificregion;
-    private String title;
-    private String textArea;
+    private String specificRegion;
+    private String textarea;
     private byte[] image;
     private int userId;
-    
-    
-    
+    private String title;
+    private int roomId;
+
+    public PostEntity(int postId, String kategorie, String region, String specificRegion, String textarea, byte[] image, int userId, String title, int roomId) {
+        this.postId = postId;
+        this.kategorie = kategorie;
+        this.region = region;
+        this.specificRegion = specificRegion;
+        this.textarea = textarea;
+        this.image = image;
+        this.userId = userId;
+        this.title = title;
+        this.roomId = roomId;
+    }
+
     public int getPostId() {
         return postId;
     }
-    
-    public void setPostId(int postId) {
-        this.postId = postId;
-    }
-    
+
     public String getKategorie() {
         return kategorie;
     }
-    
-    public void setKategorie(String kategorie) {
-        this.kategorie = kategorie;
-    }
-    
+
     public String getRegion() {
         return region;
     }
-    
-    public void setRegion(String region) {
-        this.region = region;
+
+    public String getSpecificRegion() {
+        return specificRegion;
     }
-    
-    public String getSpecificregion() {
-        return specificregion;
+
+    public String getTextarea() {
+        return textarea;
     }
-    
-    public void setSpecificregion(String specificregion) {
-        this.specificregion = specificregion;
-    }
-    
-    public String getTitle() {
-        return title;
-    }
-    
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    
-    public String getTextArea() {
-        return textArea;
-    }
-    
-    public void setTextArea(String textArea) {
-        this.textArea = textArea;
-    }
-    
+
     public byte[] getImage() {
         return image;
     }
-    
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-    
+
     public int getUserId() {
         return userId;
     }
-    
-    public void setUserId(int userId) {
-        this.userId = userId;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getRoomId() {
+        return roomId;
     }
 }
