@@ -1,68 +1,56 @@
 package view;
 
-import java.awt.EventQueue;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-import javax.swing.JFrame;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
 import controller.Controller;
 import model.Model;
+import model.PostEntity;
 
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import java.awt.CardLayout;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import javax.swing.JScrollPane;
-import javax.swing.JInternalFrame;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JToolBar;
-import javax.swing.LayoutFocusTraversalPolicy;
-import javax.swing.JList;
-import java.awt.GridLayout;
-import javax.swing.AbstractListModel;
-import javax.swing.BorderFactory;
-import javax.swing.border.BevelBorder;
-import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class HomeView extends JPanel {
+public class PostView extends JPanel {
 	
 	private Controller controller;
 	private Model model;
+	private PostEntity currentPost;
 	
-	public HomeView(Model model, Controller controller) {
-		
-		this.model = model;
+	public PostView(Model model, Controller controller, PostEntity currentPost) {
 		this.controller = controller;
+		this.model = model;
+		this.currentPost = currentPost;
 		
 		setPreferredSize(new Dimension(400, 570));
-		setBackground(Color.white);
-		
-		
+		setBackground(new Color(255, 255, 255));
+				
 		TopPanel();
 		
-		Centerbtn();
+		CenterPanel();
 		
 		btnPanel();
-		
 	}
-
 	
-	private void TopPanel() {
+	private void TopPanel() { 
 		setLayout(null);
 		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		panel_1.setBackground(new Color(255, 255, 255));
 		panel_1.setBounds(0, 0, 400, 50);
 		add(panel_1);
@@ -73,60 +61,11 @@ public class HomeView extends JPanel {
 		Image daimage2 = daimage.getScaledInstance(50,50 , Image.SCALE_SMOOTH);
 		ImageIcon daicon2 = new ImageIcon(daimage2);
 		
-		ImageIcon scicon = new ImageIcon("image/돋보기.jpeg");
-		Image scimage = scicon.getImage();
-		Image scimage2 = scimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-		ImageIcon scicon2 = new ImageIcon(scimage2);
-		
-		ImageIcon liicon = new ImageIcon("image/목록.jpeg");
-		Image liimage = liicon.getImage();
-		Image liimage2 = liimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-		ImageIcon liicon2 = new ImageIcon(liimage2);
-		
-		ImageIcon alicon = new ImageIcon("image/종.jpeg");
-		Image alimage = alicon.getImage();
-		Image alimage2 = alimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-		ImageIcon alicon2 = new ImageIcon(alimage2);	
-		
 		JLabel dmlbl = new JLabel();
 		dmlbl.setBackground(new Color(240, 240, 240));
-		dmlbl.setBounds(12, 0, 50, 50);
+		dmlbl.setBounds(12, 2, 45, 45);
 		panel_1.add(dmlbl);
 		dmlbl.setIcon(daicon2);
-		
-		JButton categorytbtn = new JButton();
-		categorytbtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controller.showCard("category");
-			}
-		});
-		categorytbtn.setForeground(new Color(255, 255, 255));
-		categorytbtn.setBounds(317, 10, 30, 30);
-		categorytbtn.setBorder(BorderFactory.createEmptyBorder());
-		panel_1.add(categorytbtn);
-		categorytbtn.setIcon(liicon2);
-		
-		JButton alrimbtn = new JButton();
-		alrimbtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controller.showCard("notice");
-			}
-		});
-		alrimbtn.setBounds(358, 10, 30, 30);
-		alrimbtn.setBorder(BorderFactory.createEmptyBorder());
-		panel_1.add(alrimbtn);
-		alrimbtn.setIcon(alicon2);
-		
-		JButton searchbtn = new JButton();
-		searchbtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controller.showCard("search");
-			}
-		});
-		searchbtn.setBounds(276, 10, 30, 30);
-		searchbtn.setBorder(BorderFactory.createEmptyBorder());
-		panel_1.add(searchbtn);
-		searchbtn.setIcon(scicon2);
 		
 		JLabel lblNewLabel = new JLabel("세상 사람");
 		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 12));
@@ -137,30 +76,50 @@ public class HomeView extends JPanel {
 		lblDamoa.setFont(new Font("Franklin Gothic Book", Font.BOLD | Font.ITALIC, 18));
 		lblDamoa.setBounds(124, 17, 78, 23);
 		panel_1.add(lblDamoa);
+	}
+
+	private void CenterPanel() {
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
+		panel.setBounds(0, 50, 400, 451);
+		add(panel);
+		panel.setLayout(null);
+		
+	    if (currentPost != null) {
+	    	JLabel lblNewLabel_1 = new JLabel("");
+	    	byte[] imgData = currentPost.getImage();
+	    	if (imgData != null) {
+	    	    ImageIcon imageIcon = new ImageIcon(imgData);
+	    	    lblNewLabel_1.setIcon(imageIcon);
+	    	}
+			lblNewLabel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+			lblNewLabel_1.setBounds(0, 0, 400, 217);
+			panel.add(lblNewLabel_1);
+			
+			JLabel lblNewLabel_2 = new JLabel(model.getNicknameById(currentPost.getUserId()) + "님의 모집");
+			lblNewLabel_2.setBounds(0, 218, 200, 21);
+			panel.add(lblNewLabel_2);
+			
+			JLabel lblNewLabel_3 = new JLabel(currentPost.getTitle());
+			lblNewLabel_3.setBounds(0, 240, 200, 40);
+			panel.add(lblNewLabel_3);
+			
+			JLabel lblNewLabel_4 = new JLabel(currentPost.getKategorie());
+			lblNewLabel_4.setBounds(202, 240, 198, 40);
+			panel.add(lblNewLabel_4);
+			
+			JLabel lblNewLabel_5 = new JLabel(currentPost.getTextArea());
+			lblNewLabel_5.setBorder(new LineBorder(new Color(0, 0, 0)));
+			lblNewLabel_5.setBounds(0, 280, 400, 171);
+			panel.add(lblNewLabel_5);
+			
+			JLabel lblNewLabel_2_1 = new JLabel(currentPost.getRegion() + " " + currentPost.getSpecificregion());
+			lblNewLabel_2_1.setBounds(202, 218, 198, 21);
+			panel.add(lblNewLabel_2_1);
+	    }
 		
 		
 	}
-
-	
-	
-	
-	private void Centerbtn() {
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(new Color(255, 255, 255));
-		panel_2.setBounds(0, 50, 400, 450);
-		add(panel_2);
-		panel_2.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 400, 450);
-		panel_2.add(scrollPane);
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		
-		JList list = new JList();
-		
-		scrollPane.setViewportView(list);
-	}
-
 	
 	private void btnPanel() {
 		JPanel panel1 = new JPanel();
@@ -233,5 +192,5 @@ public class HomeView extends JPanel {
 	        }
 	    });
 	}
+	
 }
-

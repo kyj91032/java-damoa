@@ -61,10 +61,7 @@ public class ChatListView extends JPanel {
 
 		ListPanel();
 		
-		btnPanel();
-		
-		
-		
+		btnPanel();		
 	}
 	
 	private void TopPanel() {
@@ -96,10 +93,9 @@ public class ChatListView extends JPanel {
 		lblDamoa.setFont(new Font("Franklin Gothic Book", Font.BOLD | Font.ITALIC, 18));
 		lblDamoa.setBounds(124, 17, 78, 23);
 		panel_1.add(lblDamoa);
-		
-		
 	}
 
+	
 	private void ListPanel() {
 	    JScrollPane scrollPane = new JScrollPane();
 	    scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -153,12 +149,12 @@ public class ChatListView extends JPanel {
 	        // 리스트 모델에 ImageLabelItem을 추가합니다.
 	        listModel.addElement(item);
 	    }
-
-
+	    
+	    
 	    // JList를 생성하고 리스트 모델을 설정합니다.
 	    JList<ImageLabelItem> list = new JList<>(listModel);
-	    
 	    list.setCellRenderer(new ImageLabelListCellRenderer());
+	    
 	    list.addMouseListener(new MouseAdapter() {
 	        @Override
 	        public void mouseClicked(MouseEvent e) {
@@ -192,14 +188,14 @@ public class ChatListView extends JPanel {
 	class ImageLabelListCellRenderer extends JPanel implements ListCellRenderer<ImageLabelItem> {
 	    private JLabel imageLabel;
 	    private JLabel textLabel;
-
+	
 	    public ImageLabelListCellRenderer() {
 	        setLayout(new BorderLayout());
 	        setOpaque(true);
-
+	
 	        imageLabel = new JLabel();
 	        textLabel = new JLabel();
-
+	
 	        add(imageLabel, BorderLayout.WEST);
 	        add(textLabel, BorderLayout.CENTER);
 	    }

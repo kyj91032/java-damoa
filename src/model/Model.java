@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import view.PostFormView;
 import view.SignUpView;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class Model {
     private Statement stmt = null;
     private boolean isLoggedIn = false;
     private UserEntity currentUser; // 현재 로그인되어있는 유저의 정보
+	private PostEntity currentPost;
 
     public void initDbConn() {
         try {
@@ -169,13 +171,17 @@ public class Model {
     	return nickname;
     }
     
+    public UserEntity getCurrentUser() { // 현재 유저 엔티티 getter
+    	return currentUser;
+    }
+    
     public void logout() { // 로그아웃 메소드
         isLoggedIn = false;
         currentUser = null;
     }
     
     
-    public List<ChatRoomEntity> getChatListByUserId(int userId) {
+    public List<ChatRoomEntity> getChatListByUserId(int userId) { // userid를 이용해 chatlist를 가져오는 메소드
         List<ChatRoomEntity> chatRooms = new ArrayList<>();
 
         try {
@@ -211,60 +217,98 @@ public class Model {
     }
 
     
+    public void postForm(PostFormView postformview) { // 모집하기 글 db로 올리는 메소드
+    	
+        String title = postformview.getTextField().getText(); // JTextField에서 입력된 값
+        String kategorie = (String) postformview.getKategorieComboBox().getSelectedItem(); // JComboBox에서 선택된 값
+        String region = (String) postformview.getMainComboBox().getSelectedItem(); // JComboBox에서 선택된 값
+        String specificregion = (String) postformview.getSubComboBox().getSelectedItem(); // JComboBox에서 선택된 값
+        String textarea = postformview.getTextArea().getText(); // JTextArea에서 입력된 값
+        byte[] image = postformview.getImageData(); // 이미지 데이터 (BLOB 형태)
 
-//    public List<byte[]> getImagesByUserId(int userId) { // 현재 로그인된 userid를 이용해 chatlist의 이미지를 가져옴
-//        List<byte[]> imageList = new ArrayList<>();
-//        
-//        try {
-//            // user_chatroom 테이블과 chatroomtable을 조인하여 이미지를 가져오는 쿼리
-//            String query = "SELECT c.image " +
-//                           "FROM user_chatroom uc " +
-//                           "JOIN chatroomtable c ON uc.roomid = c.roomid " +
-//                           "WHERE uc.userid = ?";
-//            PreparedStatement preparedStatement = conn.prepareStatement(query);
-//            preparedStatement.setInt(1, userId);
-//            
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//            
-//            while (resultSet.next()) {
-//                Blob blob = resultSet.getBlob("image");
-//                
-//                if (blob != null) {
-//                    byte[] imageData = blob.getBytes(1, (int) blob.length());
-//                    imageList.add(imageData);
-//                }
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        
-//        return imageList;
-//    }
-//    
-//    public List<String> getRoomNameByUserId(int userId) {
-//        List<String> roomNameList = new ArrayList<>();
-//
-//        try {
-//            // user_chatroom 테이블과 chatroomtable을 조인하여 roomname을 가져오는 쿼리
-//            String query = "SELECT c.roomname " +
-//                           "FROM user_chatroom uc " +
-//                           "JOIN chatroomtable c ON uc.roomid = c.roomid " +
-//                           "WHERE uc.userid = ?";
-//            PreparedStatement preparedStatement = conn.prepareStatement(query);
-//            preparedStatement.setInt(1, userId);
-//
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//
-//            while (resultSet.next()) {
-//                String roomName = resultSet.getString("roomname");
-//                roomNameList.add(roomName);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return roomNameList;
-//    }
+        // 입력된 정보의 유효성 검사
+        if (title.isEmpty() || kategorie.isEmpty() || region.isEmpty() || specificregion.isEmpty() || textarea.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "모든 항목을 입력해주세요.", "글 올리기 실패", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            String query = "INSERT INTO posttable (kategorie, region, specificregion, title, textarea, image, userid) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, kategorie);
+            statement.setString(2, region);
+            statement.setString(3, specificregion);
+            statement.setString(4, title);
+            statement.setString(5, textarea);
+            statement.setBytes(6, image);
+            statement.setInt(7, getCurrentUserId()); // Replace getUserId() with the appropriate method to retrieve the user ID
+
+            // 쿼리 실행
+            statement.executeUpdate();
+            
+            // 생성된 포스트의 ID 가져오기
+            int postId = 0;
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                postId = generatedKeys.getInt(1);
+                System.out.println("새로운 포스트 ID: " + postId);
+            }
+            
+            currentPost = getPostBypostid(postId);
+            
+            postformview.getTextField().setText("");
+            postformview.getKategorieComboBox().setSelectedItem("카테고리");
+            postformview.getMainComboBox().setSelectedItem("지역");
+            postformview.getSubComboBox().setSelectedItem(null);
+            postformview.getTextArea().setText("");
+            
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "글 올리기 중 오류가 발생했습니다.", "글 올리기 실패", JOptionPane.ERROR_MESSAGE);            
+            ex.printStackTrace();
+        }
+    }
+    
+    public PostEntity getPostBypostid(int postId) { // postentity를 초기화하는 메소드
+        String query = "SELECT * FROM posttable WHERE postid = ?";
+        
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, postId);
+            
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    // 결과 데이터를 가져와서 PostEntity 객체로 변환
+                    PostEntity post = new PostEntity();
+                    post.setPostId(resultSet.getInt("postid"));
+                    post.setKategorie(resultSet.getString("kategorie"));
+                    post.setRegion(resultSet.getString("region"));
+                    post.setSpecificregion(resultSet.getString("specificregion"));
+                    post.setTitle(resultSet.getString("title"));
+                    post.setTextArea(resultSet.getString("textarea"));
+                    // 이미지 데이터를 가져올 때에는 필요한 방법으로 처리
+                    
+                    // 예를 들어, byte[] 형태로 이미지 데이터를 가져올 때
+                    post.setImage(resultSet.getBytes("image"));
+                    
+                    post.setUserId(resultSet.getInt("userid"));
+                    
+                    return post;
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return null; // 해당 postid에 대한 데이터를 찾지 못한 경우 null 반환
+    }
+       
+    public PostEntity getCurrentPost() { // 현재 포스트 getter
+    	return currentPost;
+    }
+    
+    
+
+
     
 
     
