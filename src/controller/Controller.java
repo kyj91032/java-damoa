@@ -30,11 +30,14 @@ public class Controller extends JFrame {
     
 
     private Model model;
-
+	private HomeView homeview;
+	
     public Controller() {
         contentPane = new JPanel();
         cardLayout = new CardLayout();
         model = new Model();
+        
+        model.initDbConn();
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(415, 610);
@@ -45,13 +48,13 @@ public class Controller extends JFrame {
         setContentPane(contentPane);
         
         StartView startView = new StartView();
-        HomeView homeView = new HomeView(model, this);
+        HomeView inithomeview = new HomeView(model, this);
         LoginView loginView = new LoginView(model, this);
         SignUpView signUpView = new SignUpView(model, this);
         PostFormView postformview = new PostFormView(model, this);
         
         contentPane.add(startView, "start");
-        contentPane.add(homeView, "home");
+        contentPane.add(inithomeview, "inithome");
         contentPane.add(loginView, "login");
         contentPane.add(signUpView, "signup");
         contentPane.add(postformview, "postformview");
@@ -60,7 +63,7 @@ public class Controller extends JFrame {
 
         timer = new Timer(1500, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                showCard("home"); 
+                showCard("inithome");
                 timer.stop(); 
             }
         });
@@ -68,7 +71,7 @@ public class Controller extends JFrame {
         timer.setRepeats(false);
         timer.start();
 
-        model.initDbConn();
+        
     }
 
     public void startApp() {
@@ -105,12 +108,10 @@ public class Controller extends JFrame {
         	PostView postview = new PostView(model, this, model.getCurrentPost());
         	contentPane.add(postview, "postview");
         	cardName = "postview";
+        } else if (cardName.equals("home")) {
+        	homeview = new HomeView(model, this);
+        	contentPane.add(homeview, "home");
         }
         cardLayout.show(contentPane, cardName);
     }
 }
-
-
-
-
-
