@@ -182,16 +182,19 @@ public class HomeView extends JPanel {
 	    
 	    
 	    list.addMouseListener(new MouseAdapter() {
-	        @Override
-	        public void mouseClicked(MouseEvent e) {
-				 int index = list.getSelectedIndex();
-				 for (int i = 0; i < listModel.getSize(); i++) {
-					 if ((e.getClickCount() == 2) && (index == i)) {
-						 controller.showCard("post"+(i+1));
-					 }
-				 }
-	        }
-	    });
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int index = list.getSelectedIndex();
+                if (model.isLoggedin()) { // Check if the user is logged in
+                    PostEntity selectedPost = posts.get(index);
+                    model.setCurrentPost(selectedPost);
+                    controller.showCard("post");
+                } else {
+                	controller.showCard("login");
+                }
+            }
+        });
+
 		
 		
 		scrollPane.setViewportView(list);

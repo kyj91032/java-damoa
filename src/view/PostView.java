@@ -119,7 +119,7 @@ public class PostView extends JPanel {
 	      TitleLabel.setBounds(0, 0, 301, 25);
 	      panel_2.add(TitleLabel);
 	      
-	      JLabel NicknameLabel = new JLabel(model.getNicknameById(currentPost.getUserId()) + "님의 모집");
+	      JLabel NicknameLabel = new JLabel(currentPost.getUserId() + "님의 모집");
 	      NicknameLabel.setBounds(302, 0, 74, 25);
 	      panel_2.add(NicknameLabel);
 	      
