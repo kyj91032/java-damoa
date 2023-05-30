@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 
 import controller.Controller;
 import model.Model;
+import model.UserEntity;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 
@@ -23,12 +25,17 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.SystemColor;
+import javax.swing.JTextField;
 
 public class MyPageView extends JPanel {
 	
 	private Model model;
 	private Controller controller;
-	private JLabel lblNewLabel_1;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
 	
 	public MyPageView(Model model, Controller controller) {
 		
@@ -38,7 +45,15 @@ public class MyPageView extends JPanel {
 		setPreferredSize(new Dimension(400, 570));
 		setBackground(new Color(221, 238, 255));
 		setLayout(null);
+				
+		addCenterPanel();
 		
+		addBtnPanel(controller);
+
+	    setVisible(true);
+	}
+
+	private void addCenterPanel() {
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(170, 200, 167));
 		panel.setBounds(0, 0, 400, 50);
@@ -52,129 +67,7 @@ public class MyPageView extends JPanel {
 		lblNewLabel.setBounds(56, 6, 126, 38);
 		panel.add(lblNewLabel);
 		
-		JButton btnNewButton = new JButton("프로필 보기");
-		btnNewButton.setBorderPainted(false);
-		btnNewButton.setOpaque(false);
-		btnNewButton.setBackground(new Color(219, 223, 234));
-		btnNewButton.setFont(new Font("HY그래픽M", Font.PLAIN, 13));
-		btnNewButton.setBounds(256, 12, 117, 29);
-		panel.add(btnNewButton);
 		
-		
-		addCenterPanel();
-		
-		addBtnPanel(controller);
-
-	    setVisible(true);
-	}
-
-	private void addCenterPanel() {
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBackground(new Color(201, 219, 178));
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(0, 50, 400, 450);
-		add(scrollPane);
-		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(new Color(246, 255, 222));
-		scrollPane.setViewportView(panel_2);
-		panel_2.setLayout(null);
-		
-		lblNewLabel_1 = new JLabel("나의 참여");
-		lblNewLabel_1.setBackground(new Color(201, 219, 178));
-		lblNewLabel_1.setFont(new Font("HY그래픽M", Font.PLAIN, 13));
-		lblNewLabel_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		lblNewLabel_1.setBounds(0, 0, 381, 25);
-		panel_2.add(lblNewLabel_1);
-		
-		JLabel lblNewLabel_2 = new JLabel("참여내역");
-		lblNewLabel_2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				controller.showCard("joinlist");
-			}
-		});
-		lblNewLabel_2.setBackground(new Color(255, 255, 255));
-		lblNewLabel_2.setFont(new Font("HY그래픽M", Font.PLAIN, 13));
-		lblNewLabel_2.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setBounds(0, 25, 381, 49);
-		panel_2.add(lblNewLabel_2);
-		
-		JLabel lblNewLabel_2_1 = new JLabel("관심목록");
-		lblNewLabel_2_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				controller.showCard("interest");
-			}
-		});
-		lblNewLabel_2_1.setBackground(new Color(255, 255, 255));
-		lblNewLabel_2_1.setFont(new Font("HY그래픽M", Font.PLAIN, 13));
-		lblNewLabel_2_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		lblNewLabel_2_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2_1.setBounds(0, 75, 381, 49);
-		panel_2.add(lblNewLabel_2_1);
-		
-		JLabel lblNewLabel_2_1_1 = new JLabel("내 모집");
-		lblNewLabel_2_1_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				controller.showCard("recruitlist");
-			}
-		});
-		lblNewLabel_2_1_1.setBackground(new Color(255, 255, 255));
-		lblNewLabel_2_1_1.setFont(new Font("HY그래픽M", Font.PLAIN, 13));
-		lblNewLabel_2_1_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		lblNewLabel_2_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2_1_1.setBounds(0, 125, 381, 49);
-		panel_2.add(lblNewLabel_2_1_1);
-		
-		JLabel lblNewLabel_1_1 = new JLabel("기타");
-		lblNewLabel_1_1.setBackground(new Color(201, 219, 178));
-		lblNewLabel_1_1.setFont(new Font("HY그래픽M", Font.PLAIN, 13));
-		lblNewLabel_1_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		lblNewLabel_1_1.setBounds(0, 175, 381, 25);
-		panel_2.add(lblNewLabel_1_1);
-		
-		JLabel lblNewLabel_2_2 = new JLabel("알림설정");
-		lblNewLabel_2_2.setBackground(new Color(255, 255, 255));
-		lblNewLabel_2_2.setFont(new Font("HY그래픽M", Font.PLAIN, 13));
-		lblNewLabel_2_2.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		lblNewLabel_2_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2_2.setBounds(0, 200, 381, 49);
-		panel_2.add(lblNewLabel_2_2);
-		
-		JLabel lblNewLabel_2_2_1 = new JLabel("고객센터");
-		lblNewLabel_2_2_1.setBackground(new Color(255, 255, 255));
-		lblNewLabel_2_2_1.setFont(new Font("HY그래픽M", Font.PLAIN, 13));
-		lblNewLabel_2_2_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		lblNewLabel_2_2_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2_2_1.setBounds(0, 250, 381, 49);
-		panel_2.add(lblNewLabel_2_2_1);
-		
-		JLabel lblNewLabel_2_2_1_1 = new JLabel("신고내역");
-		lblNewLabel_2_2_1_1.setBackground(new Color(255, 255, 255));
-		lblNewLabel_2_2_1_1.setFont(new Font("HY그래픽M", Font.PLAIN, 13));
-		lblNewLabel_2_2_1_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		lblNewLabel_2_2_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2_2_1_1.setBounds(0, 300, 381, 49);
-		panel_2.add(lblNewLabel_2_2_1_1);
-		
-		JLabel lblNewLabel_2_2_1_1_1 = new JLabel("로그아웃");
-		lblNewLabel_2_2_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2_2_1_1_1.setFont(new Font("HY그래픽M", Font.PLAIN, 13));
-		lblNewLabel_2_2_1_1_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		lblNewLabel_2_2_1_1_1.setBackground(Color.WHITE);
-		lblNewLabel_2_2_1_1_1.setBounds(0, 350, 381, 49);
-		panel_2.add(lblNewLabel_2_2_1_1_1);
-		lblNewLabel_2_2_1_1_1.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				model.logout();
-				
-				controller.showCard("login");
-			}
-		});
 		
 	}
 
@@ -245,9 +138,79 @@ public class MyPageView extends JPanel {
 	    lblMypage.setHorizontalAlignment(SwingConstants.CENTER);
 	    lblMypage.setBackground(new Color(201, 219, 178));
 	    panel1.add(lblMypage);
+	    
+	    JPanel panel_2 = new JPanel();
+	    panel_2.setLayout(null);
+	    panel_2.setBackground(new Color(246, 255, 222));
+	    panel_2.setBounds(0, 49, 400, 454);
+	    add(panel_2);
+	    
+	    JLabel lblNewLabel_2_2_1_1_1 = new JLabel("로그아웃");
+	    lblNewLabel_2_2_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+	    lblNewLabel_2_2_1_1_1.setFont(new Font("HY그래픽M", Font.PLAIN, 13));
+	    lblNewLabel_2_2_1_1_1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+	    lblNewLabel_2_2_1_1_1.setBackground(Color.WHITE);
+	    lblNewLabel_2_2_1_1_1.setBounds(219, 380, 140, 46);
+	    panel_2.add(lblNewLabel_2_2_1_1_1);
+	    
+	    JLabel lblNewLabel_2_2_1_1_1_1 = new JLabel("정보 수정하기");
+	    lblNewLabel_2_2_1_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+	    lblNewLabel_2_2_1_1_1_1.setFont(new Font("HY그래픽M", Font.PLAIN, 13));
+	    lblNewLabel_2_2_1_1_1_1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+	    lblNewLabel_2_2_1_1_1_1.setBackground(Color.WHITE);
+	    lblNewLabel_2_2_1_1_1_1.setBounds(37, 380, 140, 46);
+	    panel_2.add(lblNewLabel_2_2_1_1_1_1);
+	    
+	    JLabel lblNewLabel_1 = new JLabel("아이디");
+	    lblNewLabel_1.setBounds(37, 44, 57, 15);
+	    panel_2.add(lblNewLabel_1);
+	    
+	    JLabel lblNewLabel_1_1 = new JLabel("비밀번호");
+	    lblNewLabel_1_1.setBounds(37, 87, 57, 15);
+	    panel_2.add(lblNewLabel_1_1);
+	    
+	    JLabel lblNewLabel_1_2 = new JLabel("닉네임");
+	    lblNewLabel_1_2.setBounds(37, 131, 57, 15);
+	    panel_2.add(lblNewLabel_1_2);
+	    
+	    JLabel lblNewLabel_1_3 = new JLabel("전화번호");
+	    lblNewLabel_1_3.setBounds(37, 176, 57, 15);
+	    panel_2.add(lblNewLabel_1_3);
+	    
+	    JLabel lblNewLabel_1_4 = new JLabel("생년월일");
+	    lblNewLabel_1_4.setBounds(37, 224, 57, 15);
+	    panel_2.add(lblNewLabel_1_4);
+	    
+	    
+	    UserEntity currentUser = model.getCurrentUser();
+	    
+	    textField = new JTextField(currentUser.getUsername());
+	    textField.setBounds(172, 41, 116, 21);
+	    panel_2.add(textField);
+	    textField.setColumns(10);
+	    
+	    textField_1 = new JTextField(currentUser.getUserpw());
+	    textField_1.setColumns(10);
+	    textField_1.setBounds(172, 84, 116, 21);
+	    panel_2.add(textField_1);
+	    
+	    textField_2 = new JTextField(currentUser.getNickname());
+	    textField_2.setColumns(10);
+	    textField_2.setBounds(172, 128, 116, 21);
+	    panel_2.add(textField_2);
+	    
+	    textField_3 = new JTextField(currentUser.getPhone());
+	    textField_3.setColumns(10);
+	    textField_3.setBounds(172, 173, 116, 21);
+	    panel_2.add(textField_3);
+	    
+	    textField_4 = new JTextField(currentUser.getBirth());
+	    textField_4.setColumns(10);
+	    textField_4.setBounds(172, 221, 116, 21);
+	    panel_2.add(textField_4);
 	    lblMypage.addMouseListener(new MouseAdapter() {
 	        public void mouseClicked(MouseEvent e) {
-	        	controller.showCard("mypage");       
+	        	controller.showCard("mypage");
 	        }
 	    });
 	}
