@@ -112,14 +112,10 @@ public class Controller extends JFrame {
         	contentPane.add(postview, "post");
         	
         } else if (cardName.equals("home")) {
-        	if (previousCard.equals("postform")) {
-                // postform에서 돌아온 경우 기존의 HomeView를 보여줌
-                contentPane.add(homeview, "home");
-            } else {
-                // 그 외의 경우 새로운 HomeView를 생성하여 추가
-                homeview = new HomeView(model, this);
-                contentPane.add(homeview, "home");
-            }
+        	
+            homeview = new HomeView(model, this);
+            contentPane.add(homeview, "home");
+            
 
         }
         previousCard = cardName;
