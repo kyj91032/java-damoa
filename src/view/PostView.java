@@ -75,13 +75,13 @@ public class PostView extends JPanel {
 	          if (imgData != null) {
 	              ImageIcon imageIcon = new ImageIcon(imgData);
 	              Image image = imageIcon.getImage();
-	              int labelWidth = 376; // 라벨의 너비 값을 직접 설정
-	              int imageHeight = 156; 
+	              int labelWidth = 388; // 라벨의 너비 값을 직접 설정
+	              int imageHeight = 197;
 	              Image scaledImage = image.getScaledInstance(labelWidth, imageHeight, Image.SCALE_SMOOTH);
 	              ImageIcon scaledIcon = new ImageIcon(scaledImage);
 	              ImageLabel.setIcon(scaledIcon);
 	          }
-	          ImageLabel.setBounds(0, 0, 376, 156);
+	          ImageLabel.setBounds(0, 0, 388, 197);
 	          panel_1.add(ImageLabel);
 	      }
 
