@@ -36,6 +36,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.LineBorder;
 
 public class HomeView extends JPanel {
 	
@@ -63,6 +65,7 @@ public class HomeView extends JPanel {
 	private void TopPanel() {
 		setLayout(null);
 		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 0)));
 		panel_1.setBackground(new Color(255, 255, 255));
 		panel_1.setBounds(0, 0, 400, 50);
 		add(panel_1);
@@ -89,8 +92,8 @@ public class HomeView extends JPanel {
 		ImageIcon alicon2 = new ImageIcon(alimage2);	
 		
 		JLabel dmlbl = new JLabel();
-		dmlbl.setBackground(new Color(240, 240, 240));
-		dmlbl.setBounds(12, 0, 50, 50);
+		dmlbl.setBackground(new Color(255, 0, 128));
+		dmlbl.setBounds(12, 0, 50, 40);
 		panel_1.add(dmlbl);
 		dmlbl.setIcon(daicon2);
 		
@@ -170,7 +173,10 @@ public class HomeView extends JPanel {
 	    panel1.setLayout(new GridLayout(1, 4));
 
 	    JLabel lblHome = new JLabel();
-	    lblHome.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
+	    lblHome.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 3, true), 
+	    		" home ", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
+	    Font titleFont = new Font("한컴 말랑말랑 Regular", Font.BOLD, 16);
+        ((TitledBorder) lblHome.getBorder()).setTitleFont(titleFont);
 	    ImageIcon homeicon = new ImageIcon("image/homebutton2.png");
 	    Image imghome = homeicon.getImage();
 	    Image imghome2 = imghome.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -186,7 +192,10 @@ public class HomeView extends JPanel {
 	    });
 	    
 	    JLabel lblRecruitment = new JLabel();
-	    lblRecruitment.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
+	    lblRecruitment.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 3, true), 
+	    		" 모집하기 ", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
+	    Font titleFont1 = new Font("한컴 말랑말랑 Regular", Font.BOLD, 16);
+        ((TitledBorder) lblRecruitment.getBorder()).setTitleFont(titleFont1);
 	    ImageIcon posticon = new ImageIcon("image/postbutton3.png");
 	    Image imgpost = posticon.getImage();
 	    Image imgpost2 = imgpost.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -203,7 +212,10 @@ public class HomeView extends JPanel {
 
 	    
 	    JLabel lblChat = new JLabel();
-	    lblChat.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
+	    lblChat.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 3, true), 
+	    		" 채 팅 ", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
+	    Font titleFont2 = new Font("한컴 말랑말랑 Regular", Font.BOLD, 16);
+        ((TitledBorder) lblChat.getBorder()).setTitleFont(titleFont2);
 	    ImageIcon chaticon = new ImageIcon("image/chatbutton.png");
 	    Image imgchat = chaticon.getImage();
 	    Image imgchat2 = imgchat.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -219,6 +231,10 @@ public class HomeView extends JPanel {
 	    });
 
 	    JLabel lblMypage = new JLabel();
+	    lblMypage.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 3, true), 
+	    		"마이페이지", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
+	    Font titleFont3 = new Font("한컴 말랑말랑 Regular", Font.BOLD, 16);
+        ((TitledBorder) lblMypage.getBorder()).setTitleFont(titleFont3);
 	    ImageIcon mypageicon = new ImageIcon("image/mypage.png");
 	    Image imgmypage = mypageicon.getImage();
 	    Image imgmypage2 = imgmypage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);

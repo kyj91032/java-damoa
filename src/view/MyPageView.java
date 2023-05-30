@@ -179,7 +179,7 @@ public class MyPageView extends JPanel {
 	}
 
 	
-	private void addBtnPanel(Controller controller) { // 하단 4메뉴 생성 메소드
+	private void addBtnPanel(Controller controller) { // 하단 4메뉴 생성 메소드 
 		JPanel panel1 = new JPanel();
 	    panel1.setBackground(new Color(201, 219, 178));
 	    panel1.setBounds(0, 500, 400, 70);
@@ -187,7 +187,7 @@ public class MyPageView extends JPanel {
 	    panel1.setLayout(new GridLayout(1, 4));
 
 	    JLabel lblHome = new JLabel();
-	    lblHome.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
+	    lblHome.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 	    ImageIcon homeicon = new ImageIcon("image/homebutton2.png");
 	    Image imghome = homeicon.getImage();
 	    Image imghome2 = imghome.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -203,7 +203,7 @@ public class MyPageView extends JPanel {
 	    });
 	    
 	    JLabel lblRecruitment = new JLabel();
-	    lblRecruitment.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
+	    lblRecruitment.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 	    ImageIcon posticon = new ImageIcon("image/postbutton3.png");
 	    Image imgpost = posticon.getImage();
 	    Image imgpost2 = imgpost.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -215,7 +215,7 @@ public class MyPageView extends JPanel {
 
 	    
 	    JLabel lblChat = new JLabel();
-	    lblChat.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
+	    lblChat.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 	    ImageIcon chaticon = new ImageIcon("image/chatbutton.png");
 	    Image imgchat = chaticon.getImage();
 	    Image imgchat2 = imgchat.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -231,6 +231,7 @@ public class MyPageView extends JPanel {
 	    });
 
 	    JLabel lblMypage = new JLabel();
+	    lblMypage.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 	    ImageIcon mypageicon = new ImageIcon("image/mypage.png");
 	    Image imgmypage = mypageicon.getImage();
 	    Image imgmypage2 = imgmypage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);

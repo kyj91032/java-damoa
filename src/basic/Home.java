@@ -29,6 +29,12 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.UIManager;
 
 public class Home extends JPanel {
 	
@@ -162,8 +168,15 @@ public class Home extends JPanel {
 		add(panel);
 		panel.setLayout(new GridLayout(1, 4));
 		
-		JButton btnNewButton_2 = new JButton("홈");
+		ImageIcon icon = new ImageIcon("image/newhomeBt.png");
+		JButton btnNewButton_2 = new JButton(icon);
+	    Image imgpost = icon.getImage();
+	    Image imgpost2 = imgpost.getScaledInstance(70, 60, Image.SCALE_SMOOTH);
+		ImageIcon posticon2 = new ImageIcon(imgpost2);
+		btnNewButton_2.setIcon(posticon2);
 		btnNewButton_2.setBackground(new Color(255, 255, 255));
+		btnNewButton_2.setBorder(UIManager.getBorder("OptionPane.border"));
+        // JButton 생성 및 이미지 아이콘 설정
 		panel.add(btnNewButton_2);
 		btnNewButton_2.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {

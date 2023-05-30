@@ -257,8 +257,8 @@ public class Model {
             currentPost = getPostBypostid(postId);
             
             postformview.getTextField().setText("");
-            postformview.getKategorieComboBox().setSelectedItem("카테고리");
-            postformview.getMainComboBox().setSelectedItem("지역");
+            postformview.getKategorieComboBox().setSelectedItem(0);
+            postformview.getMainComboBox().setSelectedItem(0);
             postformview.getSubComboBox().setSelectedItem(null);
             postformview.getTextArea().setText("");
             

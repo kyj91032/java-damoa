@@ -435,8 +435,7 @@ public class Recruit extends JPanel {
         selectedImagePath = null; // 이미지 경로 초기화
         ImageLabel.setIcon(defaultImageIcon); // 초기 상태 이미지로 설정
         ImageLabel.setText("이미지를 등록하세요"); // 텍스트 초기화
-        //mainComboBox.setSelectedItem(null);
-        //subComboBox.setSelectedItem(null);
+        //mainComboBox.setSelectedItem(0);
         //KategorieComboBox.setSelectedItem(null);
         textArea.setText(" 내용을 입력하세요 : ");
     }
