@@ -58,7 +58,7 @@ public class PostView extends JPanel {
 	private void CenterPanel() {
 		JPanel panel = new JPanel();
 	      panel.setBackground(new Color(207, 197, 255));
-	      panel.setBounds(0, 0, 400, 564);
+	      panel.setBounds(0, 0, 400, 570);
 	      add(panel);
 	      panel.setLayout(null);
 	      
@@ -105,7 +105,7 @@ public class PostView extends JPanel {
 	      
 	      JPanel panel_3 = new JPanel();
 	      panel_3.setBackground(new Color(255, 255, 255));
-	      panel_3.setBounds(6, 243, 388, 254);
+	      panel_3.setBounds(6, 243, 388, 271);
 	      panel.add(panel_3);
 	      panel_3.setLayout(null);
 	      
@@ -134,14 +134,14 @@ public class PostView extends JPanel {
 	      lblNewLabel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 	      lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 	      lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	      lblNewLabel.setBounds(16, 509, 165, 38);
+	      lblNewLabel.setBounds(16, 526, 165, 38);
 	      panel.add(lblNewLabel);
 	      
 	      JLabel lblNewLabel_1 = new JLabel("채팅방 참여하기");
 	      lblNewLabel_1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 	      lblNewLabel_1.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 	      lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-	      lblNewLabel_1.setBounds(215, 509, 165, 38);
+	      lblNewLabel_1.setBounds(215, 526, 165, 38);
 	      panel.add(lblNewLabel_1);
 		
 		
