@@ -112,11 +112,13 @@ public class Controller extends JFrame {
         	contentPane.add(postview, "post");
         	
         } else if (cardName.equals("home")) {
-        	
             homeview = new HomeView(model, this);
             contentPane.add(homeview, "home");
             
-
+        } else if (cardName.equals("chat")) {
+        	ChatView chatview = new ChatView(model, this, model.getCurrentChatMessages());
+        	contentPane.add(chatview, "chat");
+        	
         }
         previousCard = cardName;
         cardLayout.show(contentPane, cardName);
