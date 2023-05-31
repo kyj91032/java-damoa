@@ -28,6 +28,7 @@ import javax.swing.border.Border;
 
 import controller.Controller;
 import model.Model;
+import javax.swing.JRadioButton;
 
 
 public class TestSingUp extends JPanel implements ActionListener {
@@ -106,7 +107,7 @@ public class TestSingUp extends JPanel implements ActionListener {
 	  Image phoneimage2 = phoneimage.getScaledInstance(33, 33, Image.SCALE_SMOOTH);
 	  ImageIcon phoneicon2 = new ImageIcon(phoneimage2);
 	  lblNewLabel_2_1.setIcon(phoneicon2);
-      lblNewLabel_2_1.setBounds(52, 345, 35, 35);
+      lblNewLabel_2_1.setBounds(70, 349, 35, 35);
       panel.add(lblNewLabel_2_1);
       
       PhoneField = new JTextField();
@@ -114,7 +115,7 @@ public class TestSingUp extends JPanel implements ActionListener {
       PhoneField.setBorder(compoundBorder);
       PhoneField.setText("전화번호");
       PhoneField.setColumns(10);
-      PhoneField.setBounds(88, 350, 250, 30);
+      PhoneField.setBounds(105, 354, 250, 30);
       String initialText5 = "전화번호";
       if (!PhoneField.hasFocus() && PhoneField.getText().equals(initialText5)) {
     	  PhoneField.setForeground(Color.GRAY); // 회색으로 텍스트 색상 변경
@@ -143,7 +144,7 @@ public class TestSingUp extends JPanel implements ActionListener {
       nicknameField.setBorder(compoundBorder);
       nicknameField.setText("닉네임");
       nicknameField.setColumns(10);
-      nicknameField.setBounds(88, 300, 250, 30);
+      nicknameField.setBounds(105, 304, 250, 30);
       String initialText4 = "닉네임";
       if (!nicknameField.hasFocus() && nicknameField.getText().equals(initialText4)) {
     	  nicknameField.setForeground(Color.GRAY); // 회색으로 텍스트 색상 변경
@@ -173,7 +174,7 @@ public class TestSingUp extends JPanel implements ActionListener {
 	  Image loginimage2 = loginimage.getScaledInstance(28, 28, Image.SCALE_SMOOTH);
 	  ImageIcon loginicon2 = new ImageIcon(loginimage2);
 	  lblNewLabel_2.setIcon(loginicon2);
-      lblNewLabel_2.setBounds(52, 295, 35, 35);
+      lblNewLabel_2.setBounds(70, 299, 35, 35);
       panel.add(lblNewLabel_2);
       
       passwordField = new JPasswordField();
@@ -181,7 +182,7 @@ public class TestSingUp extends JPanel implements ActionListener {
       passwordField.setBorder(compoundBorder);
       String initialText3 = "비밀번호 확인";
       passwordField.setText(initialText3);
-      passwordField.setBounds(88, 215, 250, 30);
+      passwordField.setBounds(105, 215, 250, 30);
       if (new String(passwordField.getPassword()).equals(initialText3)) {
           passwordField.setForeground(Color.GRAY); // 회색으로 텍스트 색상 변경
           passwordField.setEchoChar((char) 0); // 점으로 표시하지 않음
@@ -213,7 +214,7 @@ public class TestSingUp extends JPanel implements ActionListener {
 	  Image passwordimage2 = passwordimage.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 	  ImageIcon passwordicon2 = new ImageIcon(passwordimage2);
       lblNewLabel_1_1.setIcon(passwordicon2);
-      lblNewLabel_1_1.setBounds(52, 210, 35, 35);
+      lblNewLabel_1_1.setBounds(70, 210, 35, 35);
       panel.add(lblNewLabel_1_1);
       
       passwordField_1 = new JPasswordField();
@@ -221,7 +222,7 @@ public class TestSingUp extends JPanel implements ActionListener {
       passwordField_1.setBorder(compoundBorder);
       String initialText2 = "비밀번호";
       passwordField_1.setText(initialText2);
-      passwordField_1.setBounds(88, 165, 250, 30);
+      passwordField_1.setBounds(105, 165, 250, 30);
       if (new String(passwordField_1.getPassword()).equals(initialText2)) {
           passwordField_1.setForeground(Color.GRAY); // 회색으로 텍스트 색상 변경
           passwordField_1.setEchoChar((char) 0); // 점으로 표시하지 않음
@@ -249,7 +250,7 @@ public class TestSingUp extends JPanel implements ActionListener {
 
       
       JLabel lblNewLabel_1 = new JLabel("");
-      lblNewLabel_1.setBounds(52, 160, 35, 35);
+      lblNewLabel_1.setBounds(70, 160, 35, 35);
 	  lblNewLabel_1.setIcon(passwordicon2);
       panel.add(lblNewLabel_1);
       
@@ -258,7 +259,7 @@ public class TestSingUp extends JPanel implements ActionListener {
       idField.setBorder(compoundBorder);
       idField.setText("아이디");
       idField.setColumns(10);
-      idField.setBounds(88, 115, 250, 30);
+      idField.setBounds(105, 115, 250, 30);
       String initialText = "아이디";
       if (!idField.hasFocus() && idField.getText().equals(initialText)) {
     	  idField.setForeground(Color.GRAY); // 회색으로 텍스트 색상 변경
@@ -284,7 +285,7 @@ public class TestSingUp extends JPanel implements ActionListener {
       
       JLabel lblNewLabel = new JLabel("");
 	  lblNewLabel.setIcon(loginicon2);
-      lblNewLabel.setBounds(52, 110, 35, 35);
+      lblNewLabel.setBounds(70, 110, 35, 35);
       panel.add(lblNewLabel);
       
       birthField = new JTextField();
@@ -292,7 +293,7 @@ public class TestSingUp extends JPanel implements ActionListener {
       birthField.setBorder(compoundBorder);
       birthField.setText("생년월일(6자리)");
       birthField.setColumns(10);
-      birthField.setBounds(88, 400, 250, 30);
+      birthField.setBounds(105, 404, 250, 30);
       String initialText6 = "생년월일(6자리)";
       if (!birthField.hasFocus() && birthField.getText().equals(initialText6)) {
     	  birthField.setForeground(Color.GRAY); // 회색으로 텍스트 색상 변경
@@ -322,16 +323,16 @@ public class TestSingUp extends JPanel implements ActionListener {
 	  Image birthimage2 = birthimage.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 	  ImageIcon birthicon2 = new ImageIcon(birthimage2);
 	  lblNewLabel_2_1_3.setIcon(birthicon2);
-      lblNewLabel_2_1_3.setBounds(52, 395, 35, 35);
+      lblNewLabel_2_1_3.setBounds(70, 399, 35, 35);
       panel.add(lblNewLabel_2_1_3);
       
       JLabel lblNewLabel_3 = new JLabel("");
       ImageIcon singupicon = new ImageIcon("image/회원가입.jpg");
 	  Image singupimage = singupicon.getImage();
-	  Image singupimage2 = singupimage.getScaledInstance(285, 60, Image.SCALE_SMOOTH);
+	  Image singupimage2 = singupimage.getScaledInstance(165, 50, Image.SCALE_SMOOTH);
 	  ImageIcon singupicon2 = new ImageIcon(singupimage2);
 	  lblNewLabel_3.setIcon(singupicon2);
-      lblNewLabel_3.setBounds(52, 459, 286, 72);
+      lblNewLabel_3.setBounds(187, 466, 168, 53);
       panel.add(lblNewLabel_3);
       
       JLabel lblNewLabel_4 = new JLabel("");
