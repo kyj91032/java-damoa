@@ -133,14 +133,14 @@ public class Model {
                 ResultSet resultSet = stmt.executeQuery(query);
                 if (resultSet.next()) {
                     // 회원 정보 초기화
+                	int userid = resultSet.getInt("userid");
                     String _username = resultSet.getString("username");
                     String password = resultSet.getString("userpw");
                     String nickname = resultSet.getString("nickname");
                     String phoneNumber = resultSet.getString("phone");
                     String birthday = resultSet.getString("birth");
 
-                    currentUser = new UserEntity();
-                    currentUser.init(_username, password, nickname, phoneNumber, birthday);
+                    currentUser = new UserEntity(userid, _username, password, nickname, phoneNumber, birthday);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -372,7 +372,30 @@ public class Model {
         currentPost = post;
     }
 
-    
+    public void updateUserData(UserEntity updateUserEntity) {
+        if (!isLoggedIn || currentUser == null) {
+            return;
+        }
 
-    
+        try {
+            // usertable에서 사용자 정보 업데이트
+            String query = "UPDATE usertable SET username = ?, userpw = ?, nickname = ?, phone = ?, birth = ? WHERE userid = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, updateUserEntity.getUsername());
+            statement.setString(2, updateUserEntity.getUserpw());
+            statement.setString(3, updateUserEntity.getNickname());
+            statement.setString(4, updateUserEntity.getPhone());
+            statement.setString(5, updateUserEntity.getBirth());
+            statement.setInt(6, updateUserEntity.getUserid());
+            statement.executeUpdate();
+
+            // 업데이트 후 변경된 정보로 currentUser 업데이트
+            initUserInfo(updateUserEntity.getUsername());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }
