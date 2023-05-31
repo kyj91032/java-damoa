@@ -20,6 +20,7 @@ import view.MyPageView;
 import view.PostFormView;
 import view.SignUpView;
 import view.StartView;
+import view.TestSingUp;
 import view.PostView;
 
 public class Controller extends JFrame {
@@ -55,13 +56,14 @@ public class Controller extends JFrame {
         LoginView loginView = new LoginView(model, this);
         SignUpView signUpView = new SignUpView(model, this);
         PostFormView postformview = new PostFormView(model, this);
+        TestSingUp testsingup = new TestSingUp(model, this);
         
         contentPane.add(startView, "start");
         contentPane.add(homeview, "home");
         contentPane.add(loginView, "login");
         contentPane.add(signUpView, "signup");
         contentPane.add(postformview, "postform");
-        
+        contentPane.add(testsingup, "testsingup");
         cardLayout.show(contentPane, "start");
 
         timer = new Timer(1500, new ActionListener() {
