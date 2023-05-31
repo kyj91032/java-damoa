@@ -139,16 +139,6 @@ public class HomeView extends JPanel {
 		panel_1.add(searchbtn);
 		searchbtn.setIcon(scicon2);
 		
-		JLabel lblNewLabel = new JLabel("세상 사람");
-		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-		lblNewLabel.setBounds(74, 0, 58, 23);
-		panel_1.add(lblNewLabel);
-		
-		JLabel lblDamoa = new JLabel("damoa");
-		lblDamoa.setFont(new Font("Franklin Gothic Book", Font.BOLD | Font.ITALIC, 18));
-		lblDamoa.setBounds(124, 17, 78, 23);
-		panel_1.add(lblDamoa);
-		
 		
 	}
 	
@@ -181,6 +171,7 @@ public class HomeView extends JPanel {
 	    
 	    // JList를 생성하고 리스트 모델을 설정합니다.
 	    JList<ImageLabelItem> list = new JList<>(listModel);
+	    list.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 12));
 	    list.setCellRenderer(new ImageLabelListCellRenderer());
 	    
 	    

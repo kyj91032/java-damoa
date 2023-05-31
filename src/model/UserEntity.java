@@ -9,8 +9,9 @@ public class UserEntity {
     private String phone;
     private String birth;
     
-    public void init(String username, String userpw, String nickname, String phone, String birth) {
-        this.username = username;
+    public UserEntity(int userid, String username, String userpw, String nickname, String phone, String birth) {
+        this.userid = userid;
+    	this.username = username;
         this.userpw = userpw;
         this.nickname = nickname;
         this.phone = phone;

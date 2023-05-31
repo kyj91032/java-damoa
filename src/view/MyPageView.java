@@ -10,6 +10,8 @@ import model.Model;
 import model.UserEntity;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 
 import javax.swing.ImageIcon;
@@ -152,6 +154,13 @@ public class MyPageView extends JPanel {
 	    lblNewLabel_2_2_1_1_1.setBackground(Color.WHITE);
 	    lblNewLabel_2_2_1_1_1.setBounds(219, 380, 140, 46);
 	    panel_2.add(lblNewLabel_2_2_1_1_1);
+	    lblNewLabel_2_2_1_1_1.addMouseListener(new MouseAdapter() {
+	    	public void mouseClicked(MouseEvent e) {
+	    		model.logout();
+	    		controller.showCard("login");
+	    		JOptionPane.showMessageDialog(null, "로그아웃되었습니다.", "로그아웃", JOptionPane.INFORMATION_MESSAGE);
+	    	}
+		});
 	    
 	    JLabel lblNewLabel_2_2_1_1_1_1 = new JLabel("정보 수정하기");
 	    lblNewLabel_2_2_1_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -160,6 +169,15 @@ public class MyPageView extends JPanel {
 	    lblNewLabel_2_2_1_1_1_1.setBackground(Color.WHITE);
 	    lblNewLabel_2_2_1_1_1_1.setBounds(37, 380, 140, 46);
 	    panel_2.add(lblNewLabel_2_2_1_1_1_1);
+	    lblNewLabel_2_2_1_1_1_1.addMouseListener(new MouseAdapter() {
+	    	public void mouseClicked(MouseEvent e) {
+	    		UserEntity updateUserEntity = new UserEntity(model.getCurrentUserId(), textField.getText(), textField_1.getText(), textField_2.getText(), 
+	    				textField_3.getText(), textField_4.getText());
+	    		model.updateUserData(updateUserEntity);
+	    		JOptionPane.showMessageDialog(null, "회원정보가 수정되었습니다.", "회원정보수정", JOptionPane.INFORMATION_MESSAGE);
+	    	}
+		});
+	    
 	    
 	    JLabel lblNewLabel_1 = new JLabel("아이디");
 	    lblNewLabel_1.setBounds(37, 44, 57, 15);
