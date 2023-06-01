@@ -29,9 +29,11 @@ import javax.swing.border.Border;
 import controller.Controller;
 import model.Model;
 import javax.swing.JRadioButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
-public class TestSingUp extends JPanel implements ActionListener {
+public class TestSignUp extends JPanel implements ActionListener {
 
    private Controller controller;
    private Model model;
@@ -39,7 +41,7 @@ public class TestSingUp extends JPanel implements ActionListener {
    private JPasswordField passwordField;
    private JPasswordField passwordField_1;
    
-   public TestSingUp(Model model, Controller controller) {
+   public TestSignUp(Model model, Controller controller) {
       
       this.model = model;
       this.controller = controller;
@@ -341,8 +343,23 @@ public class TestSingUp extends JPanel implements ActionListener {
 	  Image damoaimage2 = damoaimage.getScaledInstance(160, 80, Image.SCALE_SMOOTH);
 	  ImageIcon damoaicon2 = new ImageIcon(damoaimage2);
 	  lblNewLabel_4.setIcon(damoaicon2);
-      lblNewLabel_4.setBounds(25, 0, 200, 100);
+      lblNewLabel_4.setBounds(60, 0, 200, 100);
       panel.add(lblNewLabel_4);
+      
+      JLabel lblNewLabel_5 = new JLabel("");
+      lblNewLabel_5.addMouseListener(new MouseAdapter() {
+      	@Override
+      	public void mouseClicked(MouseEvent e) {
+      		controller.showCard("testhome");
+      	}
+      });
+      lblNewLabel_5.setBounds(20, 20, 30, 30);
+      ImageIcon backicon = new ImageIcon("image/뒤로가기.png");
+	  Image backimage = backicon.getImage();
+	  Image backimage2 = backimage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+	  ImageIcon backicon2 = new ImageIcon(backimage2);
+	  lblNewLabel_5.setIcon(backicon2);
+      panel.add(lblNewLabel_5);
       
    }
 
