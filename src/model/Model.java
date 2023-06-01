@@ -620,6 +620,35 @@ public class Model {
 	    }
 	}
 
+	public List<PostEntity> searchPost(String searchText) {
+		List<PostEntity> searchResults = new ArrayList<>();
+
+	    try {
+	        String query = "SELECT * FROM posttable WHERE title LIKE ?";
+	        PreparedStatement statement = conn.prepareStatement(query);
+	        statement.setString(1, "%" + searchText + "%");
+	        ResultSet resultSet = statement.executeQuery();
+
+	        while (resultSet.next()) {
+	            int postId = resultSet.getInt("postid");
+	            String kategorie = resultSet.getString("kategorie");
+	            String region = resultSet.getString("region");
+	            String specificRegion = resultSet.getString("specificregion");
+	            String textarea = resultSet.getString("textarea");
+	            byte[] image = resultSet.getBytes("image");
+	            int userId = resultSet.getInt("userid");
+	            String title = resultSet.getString("title");
+	            int roomId = resultSet.getInt("roomid");
+
+	            PostEntity post = new PostEntity(postId, kategorie, region, specificRegion, textarea, image, userId, title, roomId);
+	            searchResults.add(post);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return searchResults;
+	}
+
 	
 	
 

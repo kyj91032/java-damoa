@@ -46,6 +46,7 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
+import javax.swing.JTextField;
 
 public class HomeView extends JPanel {
 	
@@ -57,6 +58,7 @@ public class HomeView extends JPanel {
 	private JScrollPane scrollPane;
 	private JList<ImageLabelItem> list;
 	private DefaultListModel<ImageLabelItem> listModel;
+	private JTextField textField;
 	
 	public HomeView(Model model, Controller controller) {
 		
@@ -157,6 +159,27 @@ public class HomeView extends JPanel {
 		panel_1.add(categorytbtn);
 		categorytbtn.setIcon(liicon2);
 		
+		textField = new JTextField();
+		textField.setBounds(12, 10, 253, 26);
+		panel_1.add(textField);
+		textField.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("검색");
+		lblNewLabel.setBounds(273, 15, 35, 16);
+		panel_1.add(lblNewLabel);
+		lblNewLabel.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				String searchText = textField.getText();
+				posts = model.searchPost(searchText);
+				
+				remove(scrollPane);
+                
+                Centerbtn();
+                
+                revalidate();
+                repaint();
+			}
+		});
 	}
 	
 	
@@ -203,8 +226,6 @@ public class HomeView extends JPanel {
                 }
             }
         });
-
-		
 		
 		scrollPane.setViewportView(list);
 		
@@ -262,7 +283,7 @@ public class HomeView extends JPanel {
 	private void btnPanel() {
 		JPanel panel1 = new JPanel();
 	    panel1.setBackground(new Color(201, 219, 178));
-	    panel1.setBounds(0, 500, 400, 70);
+	    panel1.setBounds(0, 502, 400, 68);
 	    add(panel1);
 	    panel1.setLayout(new GridLayout(1, 4));
 
