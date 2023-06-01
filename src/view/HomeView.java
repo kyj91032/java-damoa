@@ -2,9 +2,13 @@ package view;
 
 import java.awt.EventQueue;
 import java.awt.Image;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
@@ -21,13 +25,16 @@ import java.awt.CardLayout;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JInternalFrame;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.ScrollPaneLayout;
 import javax.swing.JToolBar;
 import javax.swing.LayoutFocusTraversalPolicy;
 import javax.swing.ListCellRenderer;
@@ -38,6 +45,8 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.border.BevelBorder;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -45,6 +54,7 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.border.LineBorder;
 
 public class HomeView extends JPanel {
@@ -53,12 +63,13 @@ public class HomeView extends JPanel {
 	private Model model;
 	
 	public HomeView(Model model, Controller controller) {
+		setBorder(null);
 		
 		this.model = model;
 		this.controller = controller;
 		
 		setPreferredSize(new Dimension(400, 570));
-		setBackground(Color.white);
+		setBackground(new Color(207, 197, 255));
 		
 		
 		TopPanel();
@@ -72,12 +83,6 @@ public class HomeView extends JPanel {
 	
 	private void TopPanel() {
 		setLayout(null);
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 0)));
-		panel_1.setBackground(new Color(255, 255, 255));
-		panel_1.setBounds(0, 0, 400, 50);
-		add(panel_1);
-		panel_1.setLayout(null);
 		
 		ImageIcon daicon = new ImageIcon("image/damoa.jpeg");
 		Image daimage = daicon.getImage();
@@ -97,58 +102,111 @@ public class HomeView extends JPanel {
 		ImageIcon alicon = new ImageIcon("image/종.jpeg");
 		Image alimage = alicon.getImage();
 		Image alimage2 = alimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-		ImageIcon alicon2 = new ImageIcon(alimage2);	
-		
-		JLabel dmlbl = new JLabel();
-		dmlbl.setBackground(new Color(255, 0, 128));
-		dmlbl.setBounds(12, 0, 50, 40);
-		panel_1.add(dmlbl);
-		dmlbl.setIcon(daicon2);
-		
-		JButton categorytbtn = new JButton();
-		categorytbtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controller.showCard("category");
-			}
-		});
-		categorytbtn.setForeground(new Color(255, 255, 255));
-		categorytbtn.setBounds(317, 10, 30, 30);
-		categorytbtn.setBorder(BorderFactory.createEmptyBorder());
-		panel_1.add(categorytbtn);
-		categorytbtn.setIcon(liicon2);
-		
-		JButton alrimbtn = new JButton();
-		alrimbtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controller.showCard("notice");
-			}
-		});
-		alrimbtn.setBounds(358, 10, 30, 30);
-		alrimbtn.setBorder(BorderFactory.createEmptyBorder());
-		panel_1.add(alrimbtn);
-		alrimbtn.setIcon(alicon2);
-		
-		JButton searchbtn = new JButton();
-		searchbtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controller.showCard("search");
-			}
-		});
-		searchbtn.setBounds(276, 10, 30, 30);
-		searchbtn.setBorder(BorderFactory.createEmptyBorder());
-		panel_1.add(searchbtn);
-		searchbtn.setIcon(scicon2);
+		ImageIcon alicon2 = new ImageIcon(alimage2);
 		
 		
 	}
 	
-	private void Centerbtn() {
+	private void Centerbtn() { 
 		
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 50, 400, 453);
-		add(scrollPane);
+		scrollPane.setBounds(5, 95, 395, 420);
+		scrollPane.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(192, 192, 192)));
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+	    scrollPane.setComponentZOrder(scrollPane.getVerticalScrollBar(), 0);
+	    scrollPane.setComponentZOrder(scrollPane.getViewport(), 1);
+	    scrollPane.getVerticalScrollBar().setOpaque(false);
+
+	    // JScrollPane의 레이아웃을 사용자 정의
+	    scrollPane.setLayout(new ScrollPaneLayout() {
+	      @Override
+	      public void layoutContainer(Container parent) {
+	        JScrollPane scrollPane = (JScrollPane)parent;
+
+	        Rectangle availR = scrollPane.getBounds();
+	        availR.x = availR.y = 0;
+
+	        Insets insets = parent.getInsets();
+	        availR.x = insets.left;
+	        availR.y = insets.top;
+	        availR.width  -= insets.left + insets.right;
+	        availR.height -= insets.top  + insets.bottom;
+
+	        Rectangle vsbR = new Rectangle();
+	        vsbR.width  = 12;
+	        vsbR.height = availR.height;
+	        vsbR.x = availR.x + availR.width - vsbR.width;
+	        vsbR.y = availR.y;
+
+	        if(viewport != null) {
+	          viewport.setBounds(availR);
+	        }
+	        if(vsb != null) {
+	          vsb.setVisible(true);
+	          vsb.setBounds(vsbR);
+	        }
+	      }
+	    });
+
+	 // 수직 스크롤바의 모양을 사용자 정의
+	    scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+	      private final Dimension d = new Dimension();
+	      @Override
+	      protected JButton createDecreaseButton(int orientation) {
+	        return new JButton() {
+	          @Override
+	          public Dimension getPreferredSize() {
+	            return d;
+	          }
+	        };
+	      }
+	      @Override
+	      protected JButton createIncreaseButton(int orientation) {
+	        return new JButton() {
+	          @Override
+	          public Dimension getPreferredSize() {
+	            return d;
+	          }
+	        };
+	      }
+	      @Override
+	      protected void paintTrack(Graphics g, JComponent c, Rectangle r) {
+	        // 트랙(track) 그리기 - 여기서는 그리지 않음
+	      }
+	      @Override
+	      protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
+	        // 슬라이더(thumb) 그리기
+	        Graphics2D g2 = (Graphics2D)g.create();
+	        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+	                            RenderingHints.VALUE_ANTIALIAS_ON);
+	        Color color = null;
+	        JScrollBar sb = (JScrollBar)c;
+	        if(!sb.isEnabled() || r.width > r.height) {
+	          return;
+	        } else if(isDragging) {
+	          color = new Color(200,200,100,200);
+	        } else if(isThumbRollover()) {
+	          color = new Color(255,255,100,200);
+	        } else {
+	          color = new Color(220,220,200,200);
+	        }
+	        g2.setPaint(color);
+	        g2.fillRoundRect(r.x, r.y, r.width, r.height, 10, 10);
+	        g2.setPaint(Color.WHITE);
+	        g2.drawRoundRect(r.x, r.y, r.width, r.height, 10, 10);
+	        g2.dispose();
+	      }
+	      @Override
+	      protected void setThumbBounds(int x, int y, int width, int height) {
+	        super.setThumbBounds(x, y, width, height);
+	        scrollbar.repaint();
+	      }
+	    });
+	    
+
+	    add(scrollPane);
+		
 		
 		
 		DefaultListModel<ImageLabelItem> listModel = new DefaultListModel<>();
@@ -171,6 +229,8 @@ public class HomeView extends JPanel {
 	    
 	    // JList를 생성하고 리스트 모델을 설정합니다.
 	    JList<ImageLabelItem> list = new JList<>(listModel);
+	    list.setBackground(new Color(207, 197, 255));
+	    list.setBorder(null);
 	    list.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 12));
 	    list.setCellRenderer(new ImageLabelListCellRenderer());
 	    
@@ -246,20 +306,22 @@ public class HomeView extends JPanel {
 	
 	private void btnPanel() {
 		JPanel panel1 = new JPanel();
-	    panel1.setBackground(new Color(201, 219, 178));
-	    panel1.setBounds(0, 500, 400, 70);
+		panel1.setBorder(new MatteBorder(2, 0, 0, 0, (Color) new Color(192, 192, 192)));
+	    panel1.setBackground(new Color(207, 197, 255));
+	    panel1.setBounds(0, 507, 400, 63);
 	    add(panel1);
-	    panel1.setLayout(new GridLayout(1, 4));
 
 	    JLabel lblHome = new JLabel();
-	    lblHome.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 3, true), 
+	    lblHome.setBounds(10, 1, 80, 60);
+	    lblHome.setBorder(new TitledBorder(new LineBorder(new Color(207, 197, 255), 3, true), 
 	    		" home ", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
-	    Font titleFont = new Font("한컴 말랑말랑 Regular", Font.BOLD, 16);
+	    Font titleFont = new Font("한컴 말랑말랑 Regular", Font.BOLD, 12);
         ((TitledBorder) lblHome.getBorder()).setTitleFont(titleFont);
 	    ImageIcon homeicon = new ImageIcon("image/homebutton2.png");
 	    Image imghome = homeicon.getImage();
 	    Image imghome2 = imghome.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		ImageIcon imgicon2 = new ImageIcon(imghome2);
+	    panel1.setLayout(null);
 	    lblHome.setIcon(imgicon2);
 	    lblHome.setHorizontalAlignment(SwingConstants.CENTER);
 	    lblHome.setBackground(new Color(201, 219, 178));
@@ -271,9 +333,9 @@ public class HomeView extends JPanel {
 	    });
 	    
 	    JLabel lblRecruitment = new JLabel();
-	    lblRecruitment.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 3, true), 
-	    		" 모집하기 ", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
-	    Font titleFont1 = new Font("한컴 말랑말랑 Regular", Font.BOLD, 16);
+	    lblRecruitment.setBounds(110, 1, 80, 60);
+	    lblRecruitment.setBorder(new TitledBorder(new LineBorder(new Color(207, 197, 255), 3, true), "\uB4F1\uB85D", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
+	    Font titleFont1 = new Font("한컴 말랑말랑 Regular", Font.BOLD, 12);
         ((TitledBorder) lblRecruitment.getBorder()).setTitleFont(titleFont1);
 	    ImageIcon posticon = new ImageIcon("image/postbutton3.png");
 	    Image imgpost = posticon.getImage();
@@ -291,9 +353,9 @@ public class HomeView extends JPanel {
 
 	    
 	    JLabel lblChat = new JLabel();
-	    lblChat.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 3, true), 
-	    		" 채 팅 ", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
-	    Font titleFont2 = new Font("한컴 말랑말랑 Regular", Font.BOLD, 16);
+	    lblChat.setBounds(210, 1, 80, 60);
+	    lblChat.setBorder(new TitledBorder(new LineBorder(new Color(207, 197, 255), 3, true), "\uCC44\uD305", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
+	    Font titleFont2 = new Font("한컴 말랑말랑 Regular", Font.BOLD, 12);
         ((TitledBorder) lblChat.getBorder()).setTitleFont(titleFont2);
 	    ImageIcon chaticon = new ImageIcon("image/chatbutton.png");
 	    Image imgchat = chaticon.getImage();
@@ -310,9 +372,9 @@ public class HomeView extends JPanel {
 	    });
 
 	    JLabel lblMypage = new JLabel();
-	    lblMypage.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 3, true), 
-	    		"마이페이지", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
-	    Font titleFont3 = new Font("한컴 말랑말랑 Regular", Font.BOLD, 16);
+	    lblMypage.setBounds(310, 1, 80, 60);
+	    lblMypage.setBorder(new TitledBorder(new LineBorder(new Color(207, 197, 255), 3, true), "MY", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
+	    Font titleFont3 = new Font("한컴 말랑말랑 Regular", Font.BOLD, 12);
         ((TitledBorder) lblMypage.getBorder()).setTitleFont(titleFont3);
 	    ImageIcon mypageicon = new ImageIcon("image/mypage.png");
 	    Image imgmypage = mypageicon.getImage();
@@ -322,6 +384,23 @@ public class HomeView extends JPanel {
 	    lblMypage.setHorizontalAlignment(SwingConstants.CENTER);
 	    lblMypage.setBackground(new Color(201, 219, 178));
 	    panel1.add(lblMypage);
+	    
+	    JPanel panel_1 = new JPanel();
+	    panel_1.setBackground(new Color(207, 197, 255));
+	    panel_1.setBorder(null);
+	    panel_1.setBounds(0, 0, 400, 50);
+	    add(panel_1);
+	    panel_1.setLayout(null);
+	    
+	    JLabel lblNewLabel_6 = new JLabel(" 다 모 아");
+	    lblNewLabel_6.setFont(new Font("휴먼둥근헤드라인", Font.BOLD, 20));
+	    lblNewLabel_6.setBounds(0, 0, 105, 50);
+	    panel_1.add(lblNewLabel_6);
+	    
+	    JLabel lblNewLabel = new JLabel("최신글 목록");
+	    lblNewLabel.setFont(new Font("함초롬바탕", Font.BOLD, 15));
+	    lblNewLabel.setBounds(10, 70, 95, 20);
+	    add(lblNewLabel);
 	    lblMypage.addMouseListener(new MouseAdapter() {
 	        public void mouseClicked(MouseEvent e) {
 	        	controller.showCard("mypage");       
