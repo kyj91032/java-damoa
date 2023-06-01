@@ -41,14 +41,22 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import javax.swing.JComboBox;
 
 public class HomeView extends JPanel {
 	
 	private Controller controller;
 	private Model model;
+	private List<PostEntity> posts;
+	private String selectedValue;
+	private JComboBox<String> comboBox;
+	private JScrollPane scrollPane;
+	private JList<ImageLabelItem> list;
+	private DefaultListModel<ImageLabelItem> listModel;
 	
 	public HomeView(Model model, Controller controller) {
 		
@@ -58,7 +66,9 @@ public class HomeView extends JPanel {
 		setPreferredSize(new Dimension(400, 570));
 		setBackground(Color.white);
 		
-		TopPanel();
+		posts = model.getAllPosts();
+		
+		TopPanel();	
 		
 		Centerbtn();
 		
@@ -75,64 +85,95 @@ public class HomeView extends JPanel {
 		add(panel_1);
 		panel_1.setLayout(null);
 		
-		ImageIcon daicon = new ImageIcon("image/damoa.jpeg");
-		Image daimage = daicon.getImage();
-		Image daimage2 = daimage.getScaledInstance(50,50 , Image.SCALE_SMOOTH);
-		ImageIcon daicon2 = new ImageIcon(daimage2);
-		
-		ImageIcon scicon = new ImageIcon("image/돋보기.jpeg");
-		Image scimage = scicon.getImage();
-		Image scimage2 = scimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-		ImageIcon scicon2 = new ImageIcon(scimage2);
-		
 		ImageIcon liicon = new ImageIcon("image/목록.jpeg");
 		Image liimage = liicon.getImage();
 		Image liimage2 = liimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
 		ImageIcon liicon2 = new ImageIcon(liimage2);
-		
-		ImageIcon alicon = new ImageIcon("image/종.jpeg");
-		Image alimage = alicon.getImage();
-		Image alimage2 = alimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-		ImageIcon alicon2 = new ImageIcon(alimage2);	
-		
+				
 		JLabel dmlbl = new JLabel();
 		dmlbl.setBackground(new Color(240, 240, 240));
 		dmlbl.setBounds(12, 0, 50, 50);
 		panel_1.add(dmlbl);
-		dmlbl.setIcon(daicon2);
 		
 		JButton categorytbtn = new JButton();
-		categorytbtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
+	    categorytbtn.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	        	
+	        	JFrame newFrame = new JFrame("카테고리");
+	            newFrame.setSize(300, 200);
+	            newFrame.setLocationRelativeTo(null);
+	            newFrame.getContentPane().setLayout(null);
+
+	        	String[] items = {"운동하기", "공동구매", "택시"};
+	        	comboBox = new JComboBox<>(items);
+		        comboBox.setBounds(50, 50, 200, 30);
+		        
+		        comboBox.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+		                // 콤보 박스 값 변경 시 실행되는 작업
+		                selectedValue = (String) comboBox.getSelectedItem();
+		            }
+		        });
+		        newFrame.getContentPane().add(comboBox);
+		
+		        JButton confirmButton = new JButton("확인");
+		        confirmButton.setBounds(100, 100, 100, 30);
+		        confirmButton.addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		                // 확인 버튼 클릭 시 실행되는 작업
+		                selectedValue = (String) comboBox.getSelectedItem();
+		                System.out.println("선택한 값: " + selectedValue);
+		
+		                newFrame.dispose(); // 프레임 닫기
+		                
+		                if (selectedValue == null || selectedValue.equals("전체")) {
+		        	        posts = model.getAllPosts();
+		        	    } else {
+		        	        posts = model.getCategoryPosts(selectedValue);
+		        	    }
+		                
+		             	// 기존의 중앙 버튼을 제거
+	                    remove(scrollPane);
+		                
+		                Centerbtn();
+		                
+		                revalidate();
+	                    repaint();
+		                
+		            }
+		        });
+		        newFrame.getContentPane().add(confirmButton);
+		
+		        newFrame.setVisible(true);
+		    }
 		});
+		
+	    
+	    
+	    
 		categorytbtn.setForeground(new Color(255, 255, 255));
 		categorytbtn.setBounds(348, 6, 30, 30);
 		categorytbtn.setBorder(BorderFactory.createEmptyBorder());
 		panel_1.add(categorytbtn);
 		categorytbtn.setIcon(liicon2);
 		
-		
 	}
+	
+	
 	
 	private void Centerbtn() {
 		
-		
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 50, 400, 453);
 		add(scrollPane);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		
+		listModel = new DefaultListModel<>();
 		
-		DefaultListModel<ImageLabelItem> listModel = new DefaultListModel<>();
-
-		List<PostEntity> posts = model.getAllPosts();
-	    
+		
 		for (PostEntity post : posts) {
 	        ImageIcon imageIcon = new ImageIcon(post.getImage());
 
-	        // 이미지를 원하는 크기로 조정합니다.
 	        Image scaledImage = imageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 	        ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
 
@@ -144,7 +185,7 @@ public class HomeView extends JPanel {
 	    }
 	    
 	    // JList를 생성하고 리스트 모델을 설정합니다.
-	    JList<ImageLabelItem> list = new JList<>(listModel);
+	    list = new JList<>(listModel);
 	    list.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 12));
 	    list.setCellRenderer(new ImageLabelListCellRenderer());
 	    

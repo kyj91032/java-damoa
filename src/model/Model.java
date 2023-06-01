@@ -32,6 +32,7 @@ public class Model {
 	private ArrayList posts; // 현재 모든 글 리스트 
 	private ChatRoomEntity currentChatRoom; // 최근 채팅방 정보
 	private ArrayList currentChatMessages;
+	private ArrayList categoryPosts;
 
     public void initDbConn() {
         try {
@@ -378,6 +379,35 @@ public class Model {
 
         return posts;
     }
+    
+    public List<PostEntity> getCategoryPosts(String category) {
+		categoryPosts = new ArrayList<>();
+		
+		try {
+	        String query = "SELECT * FROM posttable WHERE kategorie = ? ORDER BY postid DESC";
+	        PreparedStatement statement = conn.prepareStatement(query);
+	        statement.setString(1, category);
+	        ResultSet resultSet = statement.executeQuery();
+
+	        while (resultSet.next()) {
+	            int postId = resultSet.getInt("postid");
+	            String kategorie = resultSet.getString("kategorie");
+	            String region = resultSet.getString("region");
+	            String specificRegion = resultSet.getString("specificregion");
+	            String textarea = resultSet.getString("textarea");
+	            byte[] image = resultSet.getBytes("image");
+	            int userId = resultSet.getInt("userid");
+	            String title = resultSet.getString("title");
+	            int roomId = resultSet.getInt("roomid");
+
+	            PostEntity post = new PostEntity(postId, kategorie, region, specificRegion, textarea, image, userId, title, roomId);
+	            categoryPosts.add(post);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+		return categoryPosts;
+	}
 
     public void setCurrentPost(PostEntity post) {
         currentPost = post;
@@ -589,6 +619,8 @@ public class Model {
 	        ex.printStackTrace();
 	    }
 	}
+
+	
 	
 
 }
