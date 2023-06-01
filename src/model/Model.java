@@ -29,14 +29,14 @@ public class Model {
 	private PostEntity currentPost; // 최근 올린 게시글 정보 
 	private ArrayList chatRooms; // 최근 채팅방 목록 정보 
 	private ArrayList posts; // 현재 모든 글 리스트 
+	private ChatRoomEntity currentChatRoom; // 최근 채팅방 정보
+	private ArrayList currentChatMessages;
 
     public void initDbConn() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost/damoa", "root", "1234");
             stmt = conn.createStatement();
-            System.out.println("OK");
-
         } catch (ClassNotFoundException e) {
             System.out.println("The driver does not exist.");
             e.printStackTrace();
@@ -395,7 +395,74 @@ public class Model {
             e.printStackTrace();
         }
     }
+    
+    public void setCurrentChatRoom(ChatRoomEntity chatroom) {
+    	currentChatRoom = chatroom;
+    }
+    
+    public ChatRoomEntity getCurrentChatRoom() {
+    	return currentChatRoom;
+    }
+       
+    
+	public List<ChatMessageEntity> getCurrentChatMessageByRoomid(int roomId) {
+		currentChatMessages = new ArrayList<>();
+		
+		try {
+	        
+			String query = "SELECT * FROM chatMessagetable WHERE roomid = ? ORDER BY messageid ASC";
+			PreparedStatement statement = conn.prepareStatement(query);
+			statement.setInt(1, roomId);
+	        
+	        ResultSet resultSet = statement.executeQuery();
 
+	        while (resultSet.next()) {
+	            int messageId = resultSet.getInt("messageid");
+	            int userId = resultSet.getInt("userid");
+	            String content = resultSet.getString("content");
 
+	            ChatMessageEntity chatMessage = new ChatMessageEntity(messageId, roomId, userId, content);
+	            currentChatMessages.add(chatMessage);
+	        }
+	        
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+		return currentChatMessages;
+	}
+	
+	public List<ChatMessageEntity> getCurrentChatMessages() {
+		return currentChatMessages;
+	}
+	
+
+	public ChatRoomEntity getCurrentChatRoomByRoomId(int roomId) {
+	    
+	    try {
+	        String query = "SELECT * FROM chatRoomTable WHERE roomid = ?";
+	        PreparedStatement statement = conn.prepareStatement(query);
+	        statement.setInt(1, roomId);
+	        ResultSet resultSet = statement.executeQuery();
+	        
+	        if (resultSet.next()) {
+	            String roomName = resultSet.getString("roomname");
+	            String description = resultSet.getString("description");
+	            Blob imageBlob = resultSet.getBlob("image");
+	            byte[] imageBytes = imageBlob.getBytes(1, (int) imageBlob.length());
+	            // 채팅방 정보를 가져와서 ChatRoomEntity 객체 생성
+	            currentChatRoom = new ChatRoomEntity(roomId, roomName, description, imageBytes);
+	        }
+	        
+	        resultSet.close();
+	        statement.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return currentChatRoom;
+	}
+	
+	
 
 }
