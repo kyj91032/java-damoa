@@ -12,6 +12,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.text.BadLocationException;
 
 import view.PostFormView;
 import view.SignUpView;
@@ -56,12 +57,12 @@ public class Model {
        
     public void registerUser(SignUpView signupview) { // 회원 등록 메소드
 	    
-    	JTextField textField = signupview.getTextField();
+    	JTextField textField = signupview.getIdField();
     	JPasswordField passwordField = signupview.getPasswordField();
     	JPasswordField passwordField_1 = signupview.getPasswordField_1();
-    	JTextField textField_1 = signupview.getTextField_1();
-    	JTextField textField_2 = signupview.getTextField_2();
-    	JTextField textField_3 = signupview.getTextField_3();
+    	JTextField textField_1 = signupview.getNicknameField();
+    	JTextField textField_2 = signupview.getPhoneField();
+    	JTextField textField_3 = signupview.getBirthField();
     	
     	String username = textField.getText();
 	    String password = new String(passwordField.getPassword());
@@ -169,8 +170,18 @@ public class Model {
     }
        
     public String getNicknameById(int userId) {
-    	String nickname = currentUser.getNickname();
-    	return nickname;
+        try {
+            String query = "SELECT nickname FROM usertable WHERE userid = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getString("nickname");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
     
     public UserEntity getCurrentUser() { // 현재 유저 엔티티 getter
@@ -344,7 +355,7 @@ public class Model {
         posts = new ArrayList<>();
 
         try {
-            String query = "SELECT * FROM posttable";
+            String query = "SELECT * FROM posttable ORDER BY postid DESC";
             ResultSet resultSet = stmt.executeQuery(query);
 
             while (resultSet.next()) {
@@ -461,6 +472,40 @@ public class Model {
 	    }
 	    
 	    return currentChatRoom;
+	}
+
+	public void insertChatMessage(String message) {
+		int roomId = currentChatRoom.getRoomId();
+	    int userId = currentUser.getUserid();
+	    
+	    try {
+	        String query = "INSERT INTO chatMessagetable (roomid, userid, content) VALUES (?, ?, ?)";
+	        PreparedStatement statement = conn.prepareStatement(query);
+	        statement.setInt(1, roomId);
+	        statement.setInt(2, userId);
+	        statement.setString(3, message);
+	        statement.executeUpdate();
+	        
+	        // 생성된 메시지 정보를 리스트에 추가
+	        int messageId = -1; // 초기값으로 설정
+	        query = "SELECT LAST_INSERT_ID()"; // AUTO_INCREMENT로 생성된 마지막 값 조회
+	        statement = conn.prepareStatement(query);
+	        ResultSet resultSet = statement.executeQuery();
+	        if (resultSet.next()) {
+	            messageId = resultSet.getInt(1);
+	        }
+	        resultSet.close();
+	        statement.close();
+
+	        ChatMessageEntity chatMessage = new ChatMessageEntity(messageId, roomId, userId, message);
+	        currentChatMessages.add(chatMessage);
+	        
+	        
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+		
 	}
 	
 	
