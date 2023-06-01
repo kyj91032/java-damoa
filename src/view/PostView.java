@@ -68,6 +68,16 @@ public class PostView extends JPanel {
 	      panel.add(panel_1);
 	      panel_1.setLayout(null);
 	      
+	      JLabel lblNewLabel_2 = new JLabel("뒤로가기");
+	      lblNewLabel_2.setBounds(6, 6, 61, 16);
+	      panel_1.add(lblNewLabel_2);
+	      lblNewLabel_2.addMouseListener(new MouseAdapter() {
+	          public void mouseClicked(MouseEvent e) {
+	            controller.showCard("home"); // 라벨 클릭 시 홈 화면 보여줌
+	          }
+	      });
+	      
+	      	      
 	      
 	      if (currentPost != null) {
 	          JLabel ImageLabel = new JLabel("New label");
@@ -130,20 +140,36 @@ public class PostView extends JPanel {
 	      SpecificRegionLabel.setBounds(302, 175, 70, 22);
 	      panel_3.add(SpecificRegionLabel);
 	      
-	      JLabel lblNewLabel = new JLabel("삭제하기");
-	      lblNewLabel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-	      lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-	      lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	      lblNewLabel.setBounds(16, 526, 165, 38);
-	      panel.add(lblNewLabel);
 	      
-	      JLabel lblNewLabel_1 = new JLabel("채팅방 참여하기");
-	      lblNewLabel_1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-	      lblNewLabel_1.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-	      lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-	      lblNewLabel_1.setBounds(215, 526, 165, 38);
-	      panel.add(lblNewLabel_1);
-		
+	      if(model.getCurrentPost().getUserId() == model.getCurrentUserId()) {
+	    	  JLabel lblNewLabel = new JLabel("삭제하기");
+		      lblNewLabel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		      lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		      lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		      lblNewLabel.setBounds(16, 526, 165, 38);
+		      panel.add(lblNewLabel);
+		      lblNewLabel.addMouseListener(new MouseAdapter() {
+		    	  public void mouseClicked(MouseEvent e) {
+		    		  model.deletePost(currentPost.getPostId());
+		    		  controller.showCard("home");
+		    	  }
+		      });
+		      
+		      
+	      } else {
+	    	  JLabel lblNewLabel_1 = new JLabel("채팅방 참여하기");
+		      lblNewLabel_1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		      lblNewLabel_1.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		      lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		      lblNewLabel_1.setBounds(215, 526, 165, 38);
+		      panel.add(lblNewLabel_1);
+		      lblNewLabel_1.addMouseListener(new MouseAdapter() {
+		    	  public void mouseClicked(MouseEvent e) {
+		    		  model.userJoinChat(currentPost.getPostId());
+		    		  controller.showCard("chatlist");
+		    	  }
+		      });
+	      }
 		
 	}
 	

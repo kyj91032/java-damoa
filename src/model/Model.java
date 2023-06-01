@@ -508,6 +508,87 @@ public class Model {
 		
 	}
 	
+	public void deletePost(int postId) {
+	    try {
+	        // posttable에서 postId와 관련된 roomId 가져오기
+	        String selectRoomIdQuery = "SELECT roomid FROM posttable WHERE postid = ?";
+	        PreparedStatement selectRoomIdStatement = conn.prepareStatement(selectRoomIdQuery);
+	        selectRoomIdStatement.setInt(1, postId);
+	        ResultSet roomIdResult = selectRoomIdStatement.executeQuery();
+
+	        int roomId = 0;
+	        if (roomIdResult.next()) {
+	            roomId = roomIdResult.getInt("roomid");
+	        }
+
+	        // 외래 키 제약 조건 비활성화
+	        String disableForeignKeyQuery = "SET FOREIGN_KEY_CHECKS = 0";
+	        Statement disableForeignKeyStatement = conn.createStatement();
+	        disableForeignKeyStatement.executeUpdate(disableForeignKeyQuery);
+
+	        // user_chatroom에서 roomId와 관련된 행 삭제
+	        String deleteFromUserChatroomQuery = "DELETE FROM user_chatroom WHERE roomid = ?";
+	        PreparedStatement deleteFromUserChatroomStatement = conn.prepareStatement(deleteFromUserChatroomQuery);
+	        deleteFromUserChatroomStatement.setInt(1, roomId);
+	        deleteFromUserChatroomStatement.executeUpdate();
+
+	        // chatroomtable에서 roomId와 관련된 행 삭제
+	        String deleteFromChatroomtableQuery = "DELETE FROM chatroomtable WHERE roomid = ?";
+	        PreparedStatement deleteFromChatroomtableStatement = conn.prepareStatement(deleteFromChatroomtableQuery);
+	        deleteFromChatroomtableStatement.setInt(1, roomId);
+	        deleteFromChatroomtableStatement.executeUpdate();
+
+	        // posttable에서 postId와 관련된 행 삭제
+	        String deleteFromPosttableQuery = "DELETE FROM posttable WHERE postid = ?";
+	        PreparedStatement deleteFromPosttableStatement = conn.prepareStatement(deleteFromPosttableQuery);
+	        deleteFromPosttableStatement.setInt(1, postId);
+	        deleteFromPosttableStatement.executeUpdate();
+
+	        // chatmessagetable에서 roomId와 관련된 행 삭제
+	        String deleteFromChatmessagetableQuery = "DELETE FROM chatmessagetable WHERE roomid = ?";
+	        PreparedStatement deleteFromChatmessagetableStatement = conn.prepareStatement(deleteFromChatmessagetableQuery);
+	        deleteFromChatmessagetableStatement.setInt(1, roomId);
+	        deleteFromChatmessagetableStatement.executeUpdate();
+
+	        // 외래 키 제약 조건 활성화
+	        String enableForeignKeyQuery = "SET FOREIGN_KEY_CHECKS = 1";
+	        Statement enableForeignKeyStatement = conn.createStatement();
+	        enableForeignKeyStatement.executeUpdate(enableForeignKeyQuery);
+
+	        System.out.println("포스트 삭제 완료");
+
+	    } catch (SQLException ex) {
+	        JOptionPane.showMessageDialog(null, "포스트 삭제 중 오류가 발생했습니다.", "포스트 삭제 실패", JOptionPane.ERROR_MESSAGE);
+	        ex.printStackTrace();
+	    }
+	}
+
+	public void userJoinChat(int postId) {
+		try {
+	        // posttable에서 postId와 관련된 roomId 가져오기
+	        String selectRoomIdQuery = "SELECT roomid FROM posttable WHERE postid = ?";
+	        PreparedStatement selectRoomIdStatement = conn.prepareStatement(selectRoomIdQuery);
+	        selectRoomIdStatement.setInt(1, postId);
+	        ResultSet roomIdResult = selectRoomIdStatement.executeQuery();
+
+	        int roomId = 0;
+	        if (roomIdResult.next()) {
+	            roomId = roomIdResult.getInt("roomid");
+	        }
+
+	        // user_chatroom에 데이터 추가
+	        String userChatroomQuery = "INSERT INTO user_chatroom (roomid, userid) VALUES (?, ?)";
+	        PreparedStatement userChatroomStatement = conn.prepareStatement(userChatroomQuery);
+	        userChatroomStatement.setInt(1, roomId);
+	        userChatroomStatement.setInt(2, currentUser.getUserid());
+	        userChatroomStatement.executeUpdate();
+
+	        System.out.println("유저 채팅 참여 완료");
+
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+	}
 	
 
 }

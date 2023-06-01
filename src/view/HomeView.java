@@ -58,7 +58,6 @@ public class HomeView extends JPanel {
 		setPreferredSize(new Dimension(400, 570));
 		setBackground(Color.white);
 		
-		
 		TopPanel();
 		
 		Centerbtn();
@@ -178,7 +177,7 @@ public class HomeView extends JPanel {
                 int index = list.getSelectedIndex();
                 if (model.isLoggedin()) { // Check if the user is logged in
                     PostEntity selectedPost = posts.get(index);
-                    model.setCurrentPost(selectedPost);
+                    model.setCurrentPost(selectedPost); // currentpost가 지정됨.
                     controller.showCard("post");
                 } else {
                 	controller.showCard("login");
