@@ -38,6 +38,7 @@ public class Controller extends JFrame {
         contentPane = new JPanel();
         cardLayout = new CardLayout();
         model = new Model();
+        
         previousCard = "start";
         
         model.initDbConn();

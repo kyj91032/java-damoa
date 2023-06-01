@@ -13,10 +13,18 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.border.LineBorder;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultCaret;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+
 import controller.Controller;
 import model.ChatMessageEntity;
 import model.ChatRoomEntity;
@@ -35,32 +43,35 @@ public class ChatView extends JPanel {
 	private Controller controller;
 	private Border border;
 	private JTextField textField;
-	private JTextArea ta;
+	private JTextPane ta;
 	private JTextField tf;
 	private JButton backbtn;
-	private JPanel card;
 	private ArrayList<ChatView> chats;
 	private List<ChatMessageEntity> chatmessages;
 	private ChatRoomEntity chatroom;
 	private JLabel lblNewLabel;
+	
 
 	public ChatView(Model model, Controller controller, List<ChatMessageEntity> chatmessages) {
 		this.model = model;
 		this.controller = controller;
 		this.chatmessages = chatmessages;
+		
 
 		setPreferredSize(new Dimension(400, 570));
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
 		
 		border = BorderFactory.createLineBorder(Color.BLACK);
-		card = new JPanel();
 		
 		topPanel();
 		
 		bottomPanel();
 		
 		tf.requestFocus();
+		
+		
+		
 		
 	}
 
@@ -78,17 +89,44 @@ public class ChatView extends JPanel {
 		scrollPane.setBounds(0, 175, 400, 345);
 		add(scrollPane);
 		
-		ta = new JTextArea();
+		ta = new JTextPane();
+		ta.setFont(new Font("Hannotate TC", Font.PLAIN, 13));
 		ta.setEditable(false);
-		ta.setLineWrap(true);
+		StyledDocument doc = ta.getStyledDocument();
+		DefaultCaret caret = (DefaultCaret) ta.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		scrollPane.setViewportView(ta);
 		
 		for (ChatMessageEntity chatmessage : chatmessages) {
-			ta.append(chatmessage.getContent() + "\n");
+			System.out.println(chatmessage.getUserId());
+			if(model.getCurrentUserId() == chatmessage.getUserId()) {
+				String message = "[" + model.getNicknameById(chatmessage.getUserId()) + "]님 : " + chatmessage.getContent() + "\n";
+		        SimpleAttributeSet rightAlign = new SimpleAttributeSet();
+		        StyleConstants.setAlignment(rightAlign, StyleConstants.ALIGN_RIGHT);
+		        doc.setParagraphAttributes(doc.getLength(), message.length(), rightAlign, false);
+		        try {
+		            doc.insertString(doc.getLength(), message, null);
+		        } catch (BadLocationException e) {
+		            e.printStackTrace();
+		        }
+			} else {
+				String message = "[" + model.getNicknameById(chatmessage.getUserId()) + "]님 : " + chatmessage.getContent() + "\n";
+		        SimpleAttributeSet rightAlign = new SimpleAttributeSet();
+		        StyleConstants.setAlignment(rightAlign, StyleConstants.ALIGN_LEFT);
+		        doc.setParagraphAttributes(doc.getLength(), message.length(), rightAlign, false);
+		        try {
+		            doc.insertString(doc.getLength(), message, null);
+		        } catch (BadLocationException e) {
+		            e.printStackTrace();
+		        }
+			}
+			
+			
 		}
 		
 		
 		tf = new JTextField();
+		tf.setFont(new Font("Hannotate TC", Font.PLAIN, 13));
 		tf.setBounds(12, 6, 309, 32);
 		panel_1.add(tf);
 		tf.setColumns(10);
@@ -96,24 +134,47 @@ public class ChatView extends JPanel {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					if(!tf.getText().equals("")) {
-						ta.append("["+ model.getNicknameById(model.getCurrentUserId()) +" ]님 : " + tf.getText() + "\n");
+					System.out.println(model.getCurrentUserId());
+					
+					
+					String message = tf.getText();
+					model.insertChatMessage(message);
+					
+					// 채팅창에 새로운 메시지 표시 (UI 업데이트)
+			        String sender = model.getNicknameById(model.getCurrentUserId());
+			        String content = message;
+			        String newMessage = "[" + sender + "]님 : " + content + "\n";
+			        SimpleAttributeSet attributeSet = new SimpleAttributeSet();
+			        StyleConstants.setLineSpacing(attributeSet, 2);
+			        StyleConstants.setFontFamily(attributeSet, "Hannotate TC");
+			        StyleConstants.setFontSize(attributeSet, 13);
+			        StyleConstants.setAlignment(attributeSet, StyleConstants.ALIGN_RIGHT);
+			        int length = ta.getDocument().getLength();
+			        try {
+						ta.getDocument().insertString(length, newMessage, attributeSet);
+					} catch (BadLocationException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-					tf.setText("");
-					tf.requestFocus();
+			        ta.setCaretPosition(length + newMessage.length());
+			        
+			        tf.setText("");
+			        tf.requestFocus();
 				}
+				
 			}
 			
 		});
 		JButton btnNewButton_1 = new JButton("전송");
-		btnNewButton_1.setFont(new Font("굴림", Font.PLAIN, 10));
+		btnNewButton_1.setFont(new Font("굴림", Font.PLAIN, 12));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(!tf.getText().equals("")) {
-					ta.append("["+ model.getNicknameById(model.getCurrentUserId()) +" ]님 : " + tf.getText() + "\n");
-				}
-				tf.setText("");
-				tf.requestFocus();
+				String message = tf.getText();
+		        if (!message.equals("")) {
+		            ta.setText(ta.getText() + "[" + model.getNicknameById(model.getCurrentUserId()) + "]님 : " + message + "\n");
+		        }
+		        tf.setText("");
+		        tf.requestFocus();
 			}
 		});
 		btnNewButton_1.setBounds(333, 6, 55, 36);
