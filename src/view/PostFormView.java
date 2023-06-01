@@ -9,6 +9,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -35,6 +36,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.border.MatteBorder;
+import javax.swing.border.TitledBorder;
 
 import controller.Controller;
 import model.Model;
@@ -70,7 +72,7 @@ public class PostFormView extends JPanel implements ActionListener {
 		border = BorderFactory.createLineBorder(Color.BLACK); // 테두리 설정
 		
 		setPreferredSize(new Dimension(400, 570));
-		setBackground(new Color(255, 255, 255));
+		setBackground(new Color(207, 197, 255));
 		setLayout(null);
 		
 		KategoriaComboBox(); // 카테고리 콤보박스
@@ -91,14 +93,15 @@ public class PostFormView extends JPanel implements ActionListener {
 
 	private void SetImagePanel() {   
 		Imagepanel = new JPanel();
-		Imagepanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		Imagepanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
 		Imagepanel.setBackground(new Color(255, 255, 255));
 		Imagepanel.setBounds(12, 89, 232, 161);
 		Imagepanel.setLayout(null);
 		
 		defaultImageIcon = new ImageIcon("path/to/default/image.png"); // 초기 상태의 이미지 아이콘 경로 설정
 		ImageLabel = new JLabel("이미지를 등록하세요", defaultImageIcon, JLabel.CENTER);
-		ImageLabel.setBounds(0, 0, 232, 161);
+		ImageLabel.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 14));
+		ImageLabel.setBounds(10, 0, 232, 161);
 		Imagepanel.add(ImageLabel);
 		Imagepanel.addMouseListener(new MouseAdapter() {
 	        public void mouseClicked(MouseEvent e) {
@@ -142,6 +145,7 @@ public class PostFormView extends JPanel implements ActionListener {
 
 	private void SetTextArea() {     
 		textArea = new JTextArea();
+		textArea.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 14));
 		textArea.setBackground(new Color(255, 255, 255));
 		textArea.setBounds(10, 260, 380, 234);
 		String initialText = " 내용을 입력하세요 : ";
@@ -166,16 +170,16 @@ public class PostFormView extends JPanel implements ActionListener {
 	            }
 	        }
 	    });
-		textArea.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		textArea.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
 		add(textArea);
 	}
 
 	private void TopPanel(Controller controller) {     
 		setLayout(null);
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		panel_1.setBackground(new Color(255, 255, 255));
-		panel_1.setBounds(0, 0, 400, 50);
+		panel_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(192, 192, 192)));
+		panel_1.setBackground(new Color(207, 197, 255));
+		panel_1.setBounds(0, 0, 400, 40);
 		add(panel_1);
 		
 		ImageIcon daicon = new ImageIcon("image/damoa.jpeg");
@@ -184,22 +188,17 @@ public class PostFormView extends JPanel implements ActionListener {
 		ImageIcon daicon2 = new ImageIcon(daimage2);
 		panel_1.setLayout(null);
 		
-		JLabel dmlbl = new JLabel();
-		dmlbl.setBounds(0, 0, 50, 45);
-		dmlbl.setBackground(new Color(240, 240, 240));
-		panel_1.add(dmlbl);
-		dmlbl.setIcon(daicon2);
-		
 		JLabel lblDamoa = new JLabel("다모아 모집하기");
 		lblDamoa.setVerticalAlignment(SwingConstants.BOTTOM);
 		lblDamoa.setBounds(124, 13, 132, 23);
-		lblDamoa.setFont(new Font("한컴산뜻돋움", Font.BOLD, 18));
+		lblDamoa.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 18));
 		panel_1.add(lblDamoa);
 		
 		btnNewButton_4 = new JButton("완료");
-		btnNewButton_4.setFont(new Font("나눔고딕", Font.BOLD, 15));
+		btnNewButton_4.setBackground(new Color(207, 197, 255));
+		btnNewButton_4.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 12));
 		btnNewButton_4.setForeground(new Color(0, 0, 255));
-		btnNewButton_4.setBounds(327, 10, 61, 30);
+		btnNewButton_4.setBounds(320, 7, 60, 30);
 		panel_1.add(btnNewButton_4);
 		btnNewButton_4.addActionListener(this);
 		
@@ -208,8 +207,8 @@ public class PostFormView extends JPanel implements ActionListener {
 	private void SetTitleTextField() {      
 		textField = new JTextField(20);
 		textField.setBackground(new Color(255, 255, 255));
-		textField.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 15));
-		textField.setBounds(10, 56, 382, 26);
+		textField.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 15));
+		textField.setBounds(10, 50, 380, 30);
 		textField.setColumns(10);
 		String initialText = " 제목 : ";
 	    textField.setText(initialText);
@@ -234,7 +233,7 @@ public class PostFormView extends JPanel implements ActionListener {
 	        }
 	    });
 
-		textField.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		textField.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
 		add(textField);
 	}
 
@@ -337,10 +336,10 @@ public class PostFormView extends JPanel implements ActionListener {
         }); 
         mainComboBox.setBounds(257, 135, 133, 33);
         mainComboBox.setBackground(new Color(255, 255, 255));
-        mainComboBox.setFont(new Font("굴림", Font.BOLD, 15));
+        mainComboBox.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 15));
         subComboBox.setBounds(257, 178, 133, 33);
         subComboBox.setBackground(new Color(255, 255, 255));
-        subComboBox.setFont(new Font("굴림", Font.BOLD, 15));
+        subComboBox.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 15));
         add(mainComboBox);
         add(subComboBox);
  }
@@ -353,36 +352,46 @@ public class PostFormView extends JPanel implements ActionListener {
 		System.arraycopy(partialArray, 0, Kategorie, 1, partialArray.length);
 		KategorieComboBox = new JComboBox(Kategorie);
 		KategorieComboBox.setBackground(new Color(255, 255, 255));
-		KategorieComboBox.setFont(new Font("굴림체", Font.BOLD, 15));
+		KategorieComboBox.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 15));
 		KategorieComboBox.setBounds(257, 92, 133, 33);
 		add(KategorieComboBox);
 	}
 
-	private void btnPanel() { 
+	private void btnPanel() {   
 		JPanel panel1 = new JPanel();
-	    panel1.setBackground(new Color(201, 219, 178));
-	    panel1.setBounds(0, 500, 400, 70);
+		panel1.setBorder(new MatteBorder(2, 0, 0, 0, (Color) new Color(192, 192, 192)));
+	    panel1.setBackground(new Color(207, 197, 255));
+	    panel1.setBounds(0, 507, 400, 63);
 	    add(panel1);
-	    panel1.setLayout(new GridLayout(1, 4));
 
 	    JLabel lblHome = new JLabel();
-	    lblHome.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
+	    lblHome.setBounds(10, 1, 80, 60);
+	    lblHome.setBorder(new TitledBorder(new LineBorder(new Color(207, 197, 255), 3, true), 
+	    		" home ", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
+	    Font titleFont = new Font("한컴 말랑말랑 Regular", Font.BOLD, 12);
+        ((TitledBorder) lblHome.getBorder()).setTitleFont(titleFont);
 	    ImageIcon homeicon = new ImageIcon("image/homebutton2.png");
 	    Image imghome = homeicon.getImage();
 	    Image imghome2 = imghome.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		ImageIcon imgicon2 = new ImageIcon(imghome2);
+	    panel1.setLayout(null);
 	    lblHome.setIcon(imgicon2);
 	    lblHome.setHorizontalAlignment(SwingConstants.CENTER);
 	    lblHome.setBackground(new Color(201, 219, 178));
 	    panel1.add(lblHome);
 	    lblHome.addMouseListener(new MouseAdapter() {
 	        public void mouseClicked(MouseEvent e) {
+	        	resetFields();
 	            controller.showCard("home"); // 라벨 클릭 시 홈 화면 보여줌
 	        }
 	    });
 	    
 	    JLabel lblRecruitment = new JLabel();
-	    lblRecruitment.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
+	    lblRecruitment.setBounds(110, 1, 80, 60);
+	    lblRecruitment.setBorder(new TitledBorder(new LineBorder(new Color(207, 197, 255), 3, true), 
+	    		"\uB4F1\uB85D", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
+	    Font titleFont1 = new Font("한컴 말랑말랑 Regular", Font.BOLD, 12);
+        ((TitledBorder) lblRecruitment.getBorder()).setTitleFont(titleFont1);
 	    ImageIcon posticon = new ImageIcon("image/postbutton3.png");
 	    Image imgpost = posticon.getImage();
 	    Image imgpost2 = imgpost.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -392,14 +401,19 @@ public class PostFormView extends JPanel implements ActionListener {
 	    lblRecruitment.setBackground(new Color(201, 219, 178));
 	    panel1.add(lblRecruitment);
 	    lblRecruitment.addMouseListener(new MouseAdapter() {
-	    	public void mouseClicked(MouseEvent e) {
+	    	public void mouseClicked(MouseEvent e) { 
+	    		resetFields();
 	            controller.showCard("postform"); // 라벨 클릭 시 채팅 화면 보여줌
 	        }
 	    });
 
 	    
 	    JLabel lblChat = new JLabel();
-	    lblChat.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
+	    lblChat.setBounds(210, 1, 80, 60);
+	    lblChat.setBorder(new TitledBorder(new LineBorder(new Color(207, 197, 255), 3, true), 
+	    		"\uCC44\uD305", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
+	    Font titleFont2 = new Font("한컴 말랑말랑 Regular", Font.BOLD, 12);
+        ((TitledBorder) lblChat.getBorder()).setTitleFont(titleFont2);
 	    ImageIcon chaticon = new ImageIcon("image/chatbutton.png");
 	    Image imgchat = chaticon.getImage();
 	    Image imgchat2 = imgchat.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -408,13 +422,19 @@ public class PostFormView extends JPanel implements ActionListener {
 	    lblChat.setHorizontalAlignment(SwingConstants.CENTER);
 	    lblChat.setBackground(new Color(201, 219, 178));
 	    panel1.add(lblChat);
-	    lblChat.addMouseListener(new MouseAdapter() {
+	    		lblChat.addMouseListener(new MouseAdapter() { 
 	        public void mouseClicked(MouseEvent e) {
+	        	resetFields();
 	            controller.showCard("chatlist"); // 라벨 클릭 시 채팅 화면 보여줌
 	        }
 	    });
 
 	    JLabel lblMypage = new JLabel();
+	    lblMypage.setBounds(310, 1, 80, 60);
+	    lblMypage.setBorder(new TitledBorder(new LineBorder(new Color(207, 197, 255), 3, true), 
+	    		"MY", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
+	    Font titleFont3 = new Font("한컴 말랑말랑 Regular", Font.BOLD, 12);
+        ((TitledBorder) lblMypage.getBorder()).setTitleFont(titleFont3);
 	    ImageIcon mypageicon = new ImageIcon("image/mypage.png");
 	    Image imgmypage = mypageicon.getImage();
 	    Image imgmypage2 = imgmypage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -424,11 +444,11 @@ public class PostFormView extends JPanel implements ActionListener {
 	    lblMypage.setBackground(new Color(201, 219, 178));
 	    panel1.add(lblMypage);
 	    lblMypage.addMouseListener(new MouseAdapter() {
-	        public void mouseClicked(MouseEvent e) {
-	        	controller.showCard("mypage");       
-	        }
+	    	public void mouseClicked(MouseEvent e) { 
+	    		resetFields();
+	    		controller.showCard("mypage");       
+	    	}
 	    });
-	
 	}
 	
 	@Override
@@ -490,9 +510,15 @@ public class PostFormView extends JPanel implements ActionListener {
 	public void setImageData(byte[] imageData) {
 		this.imageData = imageData;
 	}
-
 	
+	private void resetFields() { 
+        textField.setText(" 제목 : ");
+        selectedImagePath = null; // 이미지 경로 초기화
+        ImageLabel.setIcon(defaultImageIcon); // 초기 상태 이미지로 설정
+        ImageLabel.setText("이미지를 등록하세요"); // 텍스트 초기화
+        mainComboBox.setSelectedIndex(0);
+        KategorieComboBox.setSelectedIndex(0);
+        textArea.setText(" 내용을 입력하세요 : ");
+    }
+
 }
-
-
-

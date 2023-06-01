@@ -26,6 +26,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.border.TitledBorder;
+
 import java.awt.SystemColor;
 import javax.swing.JTextField;
 
@@ -76,17 +78,22 @@ public class MyPageView extends JPanel {
 	
 	private void addBtnPanel(Controller controller) { // 하단 4메뉴 생성 메소드 
 		JPanel panel1 = new JPanel();
-	    panel1.setBackground(new Color(201, 219, 178));
-	    panel1.setBounds(0, 500, 400, 70);
+		panel1.setBorder(new MatteBorder(2, 0, 0, 0, (Color) new Color(192, 192, 192)));
+	    panel1.setBackground(new Color(207, 197, 255));
+	    panel1.setBounds(0, 507, 400, 63);
 	    add(panel1);
-	    panel1.setLayout(new GridLayout(1, 4));
 
 	    JLabel lblHome = new JLabel();
-	    lblHome.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+	    lblHome.setBounds(10, 1, 80, 60);
+	    lblHome.setBorder(new TitledBorder(new LineBorder(new Color(207, 197, 255), 3, true), 
+	    		" home ", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
+	    Font titleFont = new Font("한컴 말랑말랑 Regular", Font.BOLD, 12);
+        ((TitledBorder) lblHome.getBorder()).setTitleFont(titleFont);
 	    ImageIcon homeicon = new ImageIcon("image/homebutton2.png");
 	    Image imghome = homeicon.getImage();
 	    Image imghome2 = imghome.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		ImageIcon imgicon2 = new ImageIcon(imghome2);
+	    panel1.setLayout(null);
 	    lblHome.setIcon(imgicon2);
 	    lblHome.setHorizontalAlignment(SwingConstants.CENTER);
 	    lblHome.setBackground(new Color(201, 219, 178));
@@ -98,7 +105,11 @@ public class MyPageView extends JPanel {
 	    });
 	    
 	    JLabel lblRecruitment = new JLabel();
-	    lblRecruitment.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+	    lblRecruitment.setBounds(110, 1, 80, 60);
+	    lblRecruitment.setBorder(new TitledBorder(new LineBorder(new Color(207, 197, 255), 3, true), 
+	    		"\uB4F1\uB85D", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
+	    Font titleFont1 = new Font("한컴 말랑말랑 Regular", Font.BOLD, 12);
+        ((TitledBorder) lblRecruitment.getBorder()).setTitleFont(titleFont1);
 	    ImageIcon posticon = new ImageIcon("image/postbutton3.png");
 	    Image imgpost = posticon.getImage();
 	    Image imgpost2 = imgpost.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -115,7 +126,11 @@ public class MyPageView extends JPanel {
 
 	    
 	    JLabel lblChat = new JLabel();
-	    lblChat.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+	    lblChat.setBounds(210, 1, 80, 60);
+	    lblChat.setBorder(new TitledBorder(new LineBorder(new Color(207, 197, 255), 3, true), 
+	    		"\uCC44\uD305", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
+	    Font titleFont2 = new Font("한컴 말랑말랑 Regular", Font.BOLD, 12);
+        ((TitledBorder) lblChat.getBorder()).setTitleFont(titleFont2);
 	    ImageIcon chaticon = new ImageIcon("image/chatbutton.png");
 	    Image imgchat = chaticon.getImage();
 	    Image imgchat2 = imgchat.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -124,14 +139,18 @@ public class MyPageView extends JPanel {
 	    lblChat.setHorizontalAlignment(SwingConstants.CENTER);
 	    lblChat.setBackground(new Color(201, 219, 178));
 	    panel1.add(lblChat);
-	    lblChat.addMouseListener(new MouseAdapter() {
+	    		lblChat.addMouseListener(new MouseAdapter() {
 	        public void mouseClicked(MouseEvent e) {
 	            controller.showCard("chatlist"); // 라벨 클릭 시 채팅 화면 보여줌
 	        }
 	    });
 
 	    JLabel lblMypage = new JLabel();
-	    lblMypage.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+	    lblMypage.setBounds(310, 1, 80, 60);
+	    lblMypage.setBorder(new TitledBorder(new LineBorder(new Color(207, 197, 255), 3, true), 
+	    		"MY", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
+	    Font titleFont3 = new Font("한컴 말랑말랑 Regular", Font.BOLD, 12);
+        ((TitledBorder) lblMypage.getBorder()).setTitleFont(titleFont3);
 	    ImageIcon mypageicon = new ImageIcon("image/mypage.png");
 	    Image imgmypage = mypageicon.getImage();
 	    Image imgmypage2 = imgmypage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -140,6 +159,11 @@ public class MyPageView extends JPanel {
 	    lblMypage.setHorizontalAlignment(SwingConstants.CENTER);
 	    lblMypage.setBackground(new Color(201, 219, 178));
 	    panel1.add(lblMypage);
+	    lblMypage.addMouseListener(new MouseAdapter() {
+	    	public void mouseClicked(MouseEvent e) {
+	    		controller.showCard("mypage");       
+	    	}
+	    });
 	    
 	    JPanel panel_2 = new JPanel();
 	    panel_2.setLayout(null);

@@ -149,7 +149,8 @@ public class HomeView extends JPanel {
 	      }
 	    });
 
-	 // 수직 스크롤바의 모양을 사용자 정의
+	 
+	   // 수직 스크롤바의 모양을 사용자 정의
 	    scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
 	      private final Dimension d = new Dimension();
 	      @Override
@@ -185,7 +186,7 @@ public class HomeView extends JPanel {
 	        if(!sb.isEnabled() || r.width > r.height) {
 	          return;
 	        } else if(isDragging) {
-	          color = new Color(200,200,100,200);
+	          color = new Color(200,200,100,200); // 누르고 드래그시 ( rgb값  + 투명도  )
 	        } else if(isThumbRollover()) {
 	          color = new Color(255,255,100,200);
 	        } else {
@@ -304,7 +305,7 @@ public class HomeView extends JPanel {
 	}
 
 	
-	private void btnPanel() {
+	private void btnPanel() {  
 		JPanel panel1 = new JPanel();
 		panel1.setBorder(new MatteBorder(2, 0, 0, 0, (Color) new Color(192, 192, 192)));
 	    panel1.setBackground(new Color(207, 197, 255));
@@ -384,28 +385,42 @@ public class HomeView extends JPanel {
 	    lblMypage.setHorizontalAlignment(SwingConstants.CENTER);
 	    lblMypage.setBackground(new Color(201, 219, 178));
 	    panel1.add(lblMypage);
+	    lblMypage.addMouseListener(new MouseAdapter() {
+	    	public void mouseClicked(MouseEvent e) {
+	    		controller.showCard("mypage");       
+	    	}
+	    });
+
+	    
 	    
 	    JPanel panel_1 = new JPanel();
 	    panel_1.setBackground(new Color(207, 197, 255));
 	    panel_1.setBorder(null);
-	    panel_1.setBounds(0, 0, 400, 50);
+	    panel_1.setBounds(0, 0, 400, 53);
 	    add(panel_1);
 	    panel_1.setLayout(null);
 	    
 	    JLabel lblNewLabel_6 = new JLabel(" 다 모 아");
 	    lblNewLabel_6.setFont(new Font("휴먼둥근헤드라인", Font.BOLD, 20));
-	    lblNewLabel_6.setBounds(0, 0, 105, 50);
+	    lblNewLabel_6.setBounds(80, 0, 105, 50);
 	    panel_1.add(lblNewLabel_6);
+	    
+	    JLabel damoaIcon = new JLabel();
+	    damoaIcon.setBounds(3, 3, 80, 50);
+	    ImageIcon imageIcon = new ImageIcon("image/newdamoaicon.png");
+	    Image imgdaomoa = imageIcon.getImage();
+	    Image imgdaomoa2 = imgdaomoa.getScaledInstance(80, 50, Image.SCALE_SMOOTH);
+		ImageIcon imageIcon2 = new ImageIcon(imgdaomoa2);
+	    // ImageIcon을 JLabel에 설정
+	    damoaIcon.setIcon(imageIcon2);
+	    panel_1.add(damoaIcon);
 	    
 	    JLabel lblNewLabel = new JLabel("최신글 목록");
 	    lblNewLabel.setFont(new Font("함초롬바탕", Font.BOLD, 15));
 	    lblNewLabel.setBounds(10, 70, 95, 20);
 	    add(lblNewLabel);
-	    lblMypage.addMouseListener(new MouseAdapter() {
-	        public void mouseClicked(MouseEvent e) {
-	        	controller.showCard("mypage");       
-	        }
-	    });
+	    
+	    
 	}
 }
 
