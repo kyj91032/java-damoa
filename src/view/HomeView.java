@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -43,6 +44,7 @@ import java.awt.GridLayout;
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.border.AbstractBorder;
 import javax.swing.border.BevelBorder;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -50,17 +52,22 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.border.LineBorder;
+import javax.swing.JTextField;
 
 public class HomeView extends JPanel {
 	
 	private Controller controller;
 	private Model model;
+	private JTextField textField;
 	
 	public HomeView(Model model, Controller controller) {
 		setBorder(null);
@@ -118,6 +125,7 @@ public class HomeView extends JPanel {
 	    scrollPane.setComponentZOrder(scrollPane.getViewport(), 1);
 	    scrollPane.getVerticalScrollBar().setOpaque(false);
 
+	  /*
 	    // JScrollPane의 레이아웃을 사용자 정의
 	    scrollPane.setLayout(new ScrollPaneLayout() {
 	      @Override
@@ -204,7 +212,7 @@ public class HomeView extends JPanel {
 	        scrollbar.repaint();
 	      }
 	    });
-	    
+	    */
 
 	    add(scrollPane);
 		
@@ -335,7 +343,8 @@ public class HomeView extends JPanel {
 	    
 	    JLabel lblRecruitment = new JLabel();
 	    lblRecruitment.setBounds(110, 1, 80, 60);
-	    lblRecruitment.setBorder(new TitledBorder(new LineBorder(new Color(207, 197, 255), 3, true), "\uB4F1\uB85D", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
+	    lblRecruitment.setBorder(new TitledBorder(new LineBorder(new Color(207, 197, 255), 3, true), 
+	    		"\uB4F1\uB85D", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
 	    Font titleFont1 = new Font("한컴 말랑말랑 Regular", Font.BOLD, 12);
         ((TitledBorder) lblRecruitment.getBorder()).setTitleFont(titleFont1);
 	    ImageIcon posticon = new ImageIcon("image/postbutton3.png");
@@ -355,7 +364,8 @@ public class HomeView extends JPanel {
 	    
 	    JLabel lblChat = new JLabel();
 	    lblChat.setBounds(210, 1, 80, 60);
-	    lblChat.setBorder(new TitledBorder(new LineBorder(new Color(207, 197, 255), 3, true), "\uCC44\uD305", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
+	    lblChat.setBorder(new TitledBorder(new LineBorder(new Color(207, 197, 255), 3, true), 
+	    		"\uCC44\uD305", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
 	    Font titleFont2 = new Font("한컴 말랑말랑 Regular", Font.BOLD, 12);
         ((TitledBorder) lblChat.getBorder()).setTitleFont(titleFont2);
 	    ImageIcon chaticon = new ImageIcon("image/chatbutton.png");
@@ -374,7 +384,8 @@ public class HomeView extends JPanel {
 
 	    JLabel lblMypage = new JLabel();
 	    lblMypage.setBounds(310, 1, 80, 60);
-	    lblMypage.setBorder(new TitledBorder(new LineBorder(new Color(207, 197, 255), 3, true), "MY", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
+	    lblMypage.setBorder(new TitledBorder(new LineBorder(new Color(207, 197, 255), 3, true), 
+	    		"MY", TitledBorder.CENTER, TitledBorder.BOTTOM, null, new Color(0, 0, 0)));
 	    Font titleFont3 = new Font("한컴 말랑말랑 Regular", Font.BOLD, 12);
         ((TitledBorder) lblMypage.getBorder()).setTitleFont(titleFont3);
 	    ImageIcon mypageicon = new ImageIcon("image/mypage.png");
@@ -393,27 +404,70 @@ public class HomeView extends JPanel {
 
 	    
 	    
-	    JPanel panel_1 = new JPanel();
-	    panel_1.setBackground(new Color(207, 197, 255));
-	    panel_1.setBorder(null);
-	    panel_1.setBounds(0, 0, 400, 53);
-	    add(panel_1);
-	    panel_1.setLayout(null);
+	    JPanel Toppanel = new JPanel();
+	    Toppanel.setBackground(new Color(207, 197, 255));
+	    Toppanel.setBorder(null);
+	    Toppanel.setBounds(0, 0, 400, 53);
+	    add(Toppanel);
+	    Toppanel.setLayout(null);
 	    
-	    JLabel lblNewLabel_6 = new JLabel(" 다 모 아");
-	    lblNewLabel_6.setFont(new Font("휴먼둥근헤드라인", Font.BOLD, 20));
-	    lblNewLabel_6.setBounds(80, 0, 105, 50);
-	    panel_1.add(lblNewLabel_6);
 	    
-	    JLabel damoaIcon = new JLabel();
-	    damoaIcon.setBounds(3, 3, 80, 50);
+	    //textField = new JTextField();
+	    
+	    JTextField textField02 = new JTextField(20) {
+	    	class RoundedCornerBorder extends AbstractBorder {
+		    	  private static final Color ALPHA_ZERO = new Color(0x0, true);
+		    	  @Override public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+		    	    Graphics2D g2 = (Graphics2D) g.create();
+		    	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		    	    Shape border = getBorderShape(x, y, width - 1, height - 1);
+		    	    g2.setPaint(ALPHA_ZERO);
+		    	    Area corner = new Area(new Rectangle2D.Double(x, y, width, height));
+		    	    corner.subtract(new Area(border));
+		    	    g2.fill(corner);
+		    	    g2.setPaint(Color.GRAY);
+		    	    g2.draw(border);
+		    	    g2.dispose();
+		    	  }
+		    	  public Shape getBorderShape(int x, int y, int w, int h) {
+		    	    int r = h; //h / 2;
+		    	    return new RoundRectangle2D.Double(x, y, w, h, r, r);
+		    	  }
+		    	  @Override public Insets getBorderInsets(Component c) {
+		    	    return new Insets(4, 8, 4, 8);
+		    	  }
+		    	  @Override public Insets getBorderInsets(Component c, Insets insets) {
+		    	    insets.set(4, 8, 4, 8);
+		    	    return insets;
+		    	  }
+		    	}
+	    	@Override protected void paintComponent(Graphics g) {
+	    	    if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+	    	      Graphics2D g2 = (Graphics2D) g.create();
+	    	      g2.setPaint(getBackground());
+	    	      g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+	    	          0, 0, getWidth() - 1, getHeight() - 1));
+	    	      g2.dispose();
+	    	    }
+	    	    super.paintComponent(g);
+	    	  }
+	    	  @Override public void updateUI() {
+	    	    super.updateUI();
+	    	    setOpaque(false);
+	    	    setBorder(new RoundedCornerBorder());
+	    	  }
+	    	};
+	    textField02.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 12));
+
+	    textField02.setBounds(15, 10, 300, 30);
+	    Toppanel.add(textField02);
+	    
+	    
+	    
 	    ImageIcon imageIcon = new ImageIcon("image/newdamoaicon.png");
 	    Image imgdaomoa = imageIcon.getImage();
 	    Image imgdaomoa2 = imgdaomoa.getScaledInstance(80, 50, Image.SCALE_SMOOTH);
 		ImageIcon imageIcon2 = new ImageIcon(imgdaomoa2);
-	    // ImageIcon을 JLabel에 설정
-	    damoaIcon.setIcon(imageIcon2);
-	    panel_1.add(damoaIcon);
 	    
 	    JLabel lblNewLabel = new JLabel("최신글 목록");
 	    lblNewLabel.setFont(new Font("함초롬바탕", Font.BOLD, 15));

@@ -90,6 +90,8 @@ public class ChatView extends JPanel {
 		
 		tf = new JTextField();
 		tf.setBounds(12, 6, 309, 32);
+		
+		
 		panel_1.add(tf);
 		tf.setColumns(10);
 		tf.addKeyListener(new KeyAdapter() {
@@ -105,6 +107,8 @@ public class ChatView extends JPanel {
 			}
 			
 		});
+		
+		
 		JButton btnNewButton_1 = new JButton("전송");
 		btnNewButton_1.setFont(new Font("굴림", Font.PLAIN, 10));
 		btnNewButton_1.addActionListener(new ActionListener() {
