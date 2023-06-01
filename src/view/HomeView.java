@@ -104,36 +104,14 @@ public class HomeView extends JPanel {
 		JButton categorytbtn = new JButton();
 		categorytbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.showCard("category");
+				
 			}
 		});
 		categorytbtn.setForeground(new Color(255, 255, 255));
-		categorytbtn.setBounds(317, 10, 30, 30);
+		categorytbtn.setBounds(348, 6, 30, 30);
 		categorytbtn.setBorder(BorderFactory.createEmptyBorder());
 		panel_1.add(categorytbtn);
 		categorytbtn.setIcon(liicon2);
-		
-		JButton alrimbtn = new JButton();
-		alrimbtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controller.showCard("notice");
-			}
-		});
-		alrimbtn.setBounds(358, 10, 30, 30);
-		alrimbtn.setBorder(BorderFactory.createEmptyBorder());
-		panel_1.add(alrimbtn);
-		alrimbtn.setIcon(alicon2);
-		
-		JButton searchbtn = new JButton();
-		searchbtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controller.showCard("search");
-			}
-		});
-		searchbtn.setBounds(276, 10, 30, 30);
-		searchbtn.setBorder(BorderFactory.createEmptyBorder());
-		panel_1.add(searchbtn);
-		searchbtn.setIcon(scicon2);
 		
 		
 	}
