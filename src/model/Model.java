@@ -624,7 +624,7 @@ public class Model {
 		List<PostEntity> searchResults = new ArrayList<>();
 
 	    try {
-	        String query = "SELECT * FROM posttable WHERE title LIKE ?";
+	        String query = "SELECT * FROM posttable WHERE title LIKE ? ORDER BY postid DESC";
 	        PreparedStatement statement = conn.prepareStatement(query);
 	        statement.setString(1, "%" + searchText + "%");
 	        ResultSet resultSet = statement.executeQuery();
