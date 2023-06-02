@@ -32,6 +32,7 @@ public class Model {
 	private ArrayList posts; // 현재 모든 글 리스트 
 	private ChatRoomEntity currentChatRoom; // 최근 채팅방 정보
 	private ArrayList currentChatMessages;
+	private ArrayList categoryPosts;
 
     public void initDbConn() {
         try {
@@ -378,6 +379,35 @@ public class Model {
 
         return posts;
     }
+    
+    public List<PostEntity> getCategoryPosts(String category) {
+		categoryPosts = new ArrayList<>();
+		
+		try {
+	        String query = "SELECT * FROM posttable WHERE kategorie = ? ORDER BY postid DESC";
+	        PreparedStatement statement = conn.prepareStatement(query);
+	        statement.setString(1, category);
+	        ResultSet resultSet = statement.executeQuery();
+
+	        while (resultSet.next()) {
+	            int postId = resultSet.getInt("postid");
+	            String kategorie = resultSet.getString("kategorie");
+	            String region = resultSet.getString("region");
+	            String specificRegion = resultSet.getString("specificregion");
+	            String textarea = resultSet.getString("textarea");
+	            byte[] image = resultSet.getBytes("image");
+	            int userId = resultSet.getInt("userid");
+	            String title = resultSet.getString("title");
+	            int roomId = resultSet.getInt("roomid");
+
+	            PostEntity post = new PostEntity(postId, kategorie, region, specificRegion, textarea, image, userId, title, roomId);
+	            categoryPosts.add(post);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+		return categoryPosts;
+	}
 
     public void setCurrentPost(PostEntity post) {
         currentPost = post;
@@ -507,6 +537,118 @@ public class Model {
 	    }
 		
 	}
+	
+	public void deletePost(int postId) {
+	    try {
+	        // posttable에서 postId와 관련된 roomId 가져오기
+	        String selectRoomIdQuery = "SELECT roomid FROM posttable WHERE postid = ?";
+	        PreparedStatement selectRoomIdStatement = conn.prepareStatement(selectRoomIdQuery);
+	        selectRoomIdStatement.setInt(1, postId);
+	        ResultSet roomIdResult = selectRoomIdStatement.executeQuery();
+
+	        int roomId = 0;
+	        if (roomIdResult.next()) {
+	            roomId = roomIdResult.getInt("roomid");
+	        }
+
+	        // 외래 키 제약 조건 비활성화
+	        String disableForeignKeyQuery = "SET FOREIGN_KEY_CHECKS = 0";
+	        Statement disableForeignKeyStatement = conn.createStatement();
+	        disableForeignKeyStatement.executeUpdate(disableForeignKeyQuery);
+
+	        // user_chatroom에서 roomId와 관련된 행 삭제
+	        String deleteFromUserChatroomQuery = "DELETE FROM user_chatroom WHERE roomid = ?";
+	        PreparedStatement deleteFromUserChatroomStatement = conn.prepareStatement(deleteFromUserChatroomQuery);
+	        deleteFromUserChatroomStatement.setInt(1, roomId);
+	        deleteFromUserChatroomStatement.executeUpdate();
+
+	        // chatroomtable에서 roomId와 관련된 행 삭제
+	        String deleteFromChatroomtableQuery = "DELETE FROM chatroomtable WHERE roomid = ?";
+	        PreparedStatement deleteFromChatroomtableStatement = conn.prepareStatement(deleteFromChatroomtableQuery);
+	        deleteFromChatroomtableStatement.setInt(1, roomId);
+	        deleteFromChatroomtableStatement.executeUpdate();
+
+	        // posttable에서 postId와 관련된 행 삭제
+	        String deleteFromPosttableQuery = "DELETE FROM posttable WHERE postid = ?";
+	        PreparedStatement deleteFromPosttableStatement = conn.prepareStatement(deleteFromPosttableQuery);
+	        deleteFromPosttableStatement.setInt(1, postId);
+	        deleteFromPosttableStatement.executeUpdate();
+
+	        // chatmessagetable에서 roomId와 관련된 행 삭제
+	        String deleteFromChatmessagetableQuery = "DELETE FROM chatmessagetable WHERE roomid = ?";
+	        PreparedStatement deleteFromChatmessagetableStatement = conn.prepareStatement(deleteFromChatmessagetableQuery);
+	        deleteFromChatmessagetableStatement.setInt(1, roomId);
+	        deleteFromChatmessagetableStatement.executeUpdate();
+
+	        // 외래 키 제약 조건 활성화
+	        String enableForeignKeyQuery = "SET FOREIGN_KEY_CHECKS = 1";
+	        Statement enableForeignKeyStatement = conn.createStatement();
+	        enableForeignKeyStatement.executeUpdate(enableForeignKeyQuery);
+
+	        System.out.println("포스트 삭제 완료");
+
+	    } catch (SQLException ex) {
+	        JOptionPane.showMessageDialog(null, "포스트 삭제 중 오류가 발생했습니다.", "포스트 삭제 실패", JOptionPane.ERROR_MESSAGE);
+	        ex.printStackTrace();
+	    }
+	}
+
+	public void userJoinChat(int postId) {
+		try {
+	        // posttable에서 postId와 관련된 roomId 가져오기
+	        String selectRoomIdQuery = "SELECT roomid FROM posttable WHERE postid = ?";
+	        PreparedStatement selectRoomIdStatement = conn.prepareStatement(selectRoomIdQuery);
+	        selectRoomIdStatement.setInt(1, postId);
+	        ResultSet roomIdResult = selectRoomIdStatement.executeQuery();
+
+	        int roomId = 0;
+	        if (roomIdResult.next()) {
+	            roomId = roomIdResult.getInt("roomid");
+	        }
+
+	        // user_chatroom에 데이터 추가
+	        String userChatroomQuery = "INSERT INTO user_chatroom (roomid, userid) VALUES (?, ?)";
+	        PreparedStatement userChatroomStatement = conn.prepareStatement(userChatroomQuery);
+	        userChatroomStatement.setInt(1, roomId);
+	        userChatroomStatement.setInt(2, currentUser.getUserid());
+	        userChatroomStatement.executeUpdate();
+
+	        System.out.println("유저 채팅 참여 완료");
+
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+	}
+
+	public List<PostEntity> searchPost(String searchText) {
+		List<PostEntity> searchResults = new ArrayList<>();
+
+	    try {
+	        String query = "SELECT * FROM posttable WHERE title LIKE ? ORDER BY postid DESC";
+	        PreparedStatement statement = conn.prepareStatement(query);
+	        statement.setString(1, "%" + searchText + "%");
+	        ResultSet resultSet = statement.executeQuery();
+
+	        while (resultSet.next()) {
+	            int postId = resultSet.getInt("postid");
+	            String kategorie = resultSet.getString("kategorie");
+	            String region = resultSet.getString("region");
+	            String specificRegion = resultSet.getString("specificregion");
+	            String textarea = resultSet.getString("textarea");
+	            byte[] image = resultSet.getBytes("image");
+	            int userId = resultSet.getInt("userid");
+	            String title = resultSet.getString("title");
+	            int roomId = resultSet.getInt("roomid");
+
+	            PostEntity post = new PostEntity(postId, kategorie, region, specificRegion, textarea, image, userId, title, roomId);
+	            searchResults.add(post);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return searchResults;
+	}
+
 	
 	
 
