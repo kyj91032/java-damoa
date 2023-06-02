@@ -105,7 +105,7 @@ public class ChatView extends JPanel {
 		        StyleConstants.setBold(rightAlign, true);
 		        doc.setParagraphAttributes(doc.getLength(), message.length(), rightAlign, false);
 		        try {
-		            doc.insertString(doc.getLength(), message, rightAlign); 
+		            doc.insertString(doc.getLength(), message, rightAlign);  
 		        } catch (BadLocationException e) {
 		            e.printStackTrace();
 		        }
