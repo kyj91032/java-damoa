@@ -6,6 +6,7 @@ import java.awt.Image;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
 import controller.Controller;
@@ -282,74 +283,113 @@ public class HomeView extends JPanel {
 	
 	private void btnPanel() {
 		JPanel panel1 = new JPanel();
-	    panel1.setBackground(new Color(201, 219, 178));
-	    panel1.setBounds(0, 502, 400, 68);
-	    add(panel1);
-	    panel1.setLayout(new GridLayout(1, 4));
-
-	    JLabel lblHome = new JLabel();
-	    lblHome.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
-	    ImageIcon homeicon = new ImageIcon("image/homebutton2.png");
-	    Image imghome = homeicon.getImage();
-	    Image imghome2 = imghome.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		ImageIcon imgicon2 = new ImageIcon(imghome2);
-	    lblHome.setIcon(imgicon2);
-	    lblHome.setHorizontalAlignment(SwingConstants.CENTER);
-	    lblHome.setBackground(new Color(201, 219, 178));
-	    panel1.add(lblHome);
-	    lblHome.addMouseListener(new MouseAdapter() {
-	        public void mouseClicked(MouseEvent e) {
-	            controller.showCard("home"); // 라벨 클릭 시 홈 화면 보여줌
-	        }
-	    });
-	    
-	    JLabel lblRecruitment = new JLabel();
-	    lblRecruitment.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
-	    ImageIcon posticon = new ImageIcon("image/postbutton3.png");
-	    Image imgpost = posticon.getImage();
-	    Image imgpost2 = imgpost.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		ImageIcon posticon2 = new ImageIcon(imgpost2);
-		lblRecruitment.setIcon(posticon2);
-	    lblRecruitment.setHorizontalAlignment(SwingConstants.CENTER);
-	    lblRecruitment.setBackground(new Color(201, 219, 178));
-	    panel1.add(lblRecruitment);
-	    lblRecruitment.addMouseListener(new MouseAdapter() {
-	    	public void mouseClicked(MouseEvent e) {
-	            controller.showCard("postform"); // 라벨 클릭 시 채팅 화면 보여줌
-	        }
-	    });
-
-	    
-	    JLabel lblChat = new JLabel();
-	    lblChat.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
-	    ImageIcon chaticon = new ImageIcon("image/chatbutton.png");
-	    Image imgchat = chaticon.getImage();
-	    Image imgchat2 = imgchat.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		ImageIcon iconchat2 = new ImageIcon(imgchat2);
-		lblChat.setIcon(iconchat2);
-	    lblChat.setHorizontalAlignment(SwingConstants.CENTER);
-	    lblChat.setBackground(new Color(201, 219, 178));
-	    panel1.add(lblChat);
-	    lblChat.addMouseListener(new MouseAdapter() {
-	        public void mouseClicked(MouseEvent e) {
-	            controller.showCard("chatlist"); // 라벨 클릭 시 채팅 화면 보여줌
-	        }
-	    });
-
-	    JLabel lblMypage = new JLabel();
-	    ImageIcon mypageicon = new ImageIcon("image/mypage.png");
-	    Image imgmypage = mypageicon.getImage();
-	    Image imgmypage2 = imgmypage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		ImageIcon iconmypage2 = new ImageIcon(imgmypage2);
-		lblMypage.setIcon(iconmypage2);
-	    lblMypage.setHorizontalAlignment(SwingConstants.CENTER);
-	    lblMypage.setBackground(new Color(201, 219, 178));
-	    panel1.add(lblMypage);
-	    lblMypage.addMouseListener(new MouseAdapter() {
-	        public void mouseClicked(MouseEvent e) {
-	        	controller.showCard("mypage");       
-	        }
-	    });
+		   panel1.setBorder(new LineBorder(new Color(192, 192, 192), 1, true));
+		   panel1.setBackground(new Color(255, 255, 255));
+		   panel1.setBounds(0, 500, 400, 70);
+		   add(panel1);
+		
+		   JLabel lblHome = new JLabel();
+		   lblHome.setBounds(0, 0, 100, 70);
+		   lblHome.setBorder(new LineBorder(new Color(192, 192, 192), 1, true));
+		   ImageIcon homeicon = new ImageIcon("image/home.png");
+		   Image imghome = homeicon.getImage();
+		   Image imghome2 = imghome.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		   ImageIcon imgicon2 = new ImageIcon(imghome2);
+		   panel1.setLayout(null);
+		   lblHome.setIcon(imgicon2);
+		   lblHome.setHorizontalAlignment(SwingConstants.CENTER);
+		   lblHome.setBackground(new Color(201, 219, 178));
+		   panel1.add(lblHome);
+		   lblHome.addMouseListener(new MouseAdapter() {
+		       public void mouseClicked(MouseEvent e) {
+		           controller.showCard("home"); // 라벨 클릭 시 홈 화면 보여줌
+		       }
+		   });
+		   
+		   JLabel lblRecruitment = new JLabel();
+		   lblRecruitment.setBounds(100, 0, 100, 70);
+		   lblRecruitment.setBorder(null);
+		   ImageIcon posticon = new ImageIcon("image/post.png");
+		   Image imgpost = posticon.getImage();
+		   Image imgpost2 = imgpost.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		  ImageIcon posticon2 = new ImageIcon(imgpost2);
+		  lblRecruitment.setIcon(posticon2);
+		   lblRecruitment.setHorizontalAlignment(SwingConstants.CENTER);
+		   lblRecruitment.setBackground(new Color(201, 219, 178));
+		   panel1.add(lblRecruitment);
+		   lblRecruitment.addMouseListener(new MouseAdapter() {
+		      public void mouseClicked(MouseEvent e) {
+		           controller.showCard("postform"); // 라벨 클릭 시 채팅 화면 보여줌
+		       }
+		   });
+		
+		   
+		   JLabel lblChat = new JLabel();
+		   lblChat.setBounds(200, 0, 100, 70);
+		   lblChat.setBorder(new LineBorder(new Color(192, 192, 192)));
+		   ImageIcon chaticon = new ImageIcon("image/chat.png");
+		   Image imgchat = chaticon.getImage();
+		   Image imgchat2 = imgchat.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		  ImageIcon iconchat2 = new ImageIcon(imgchat2);
+		  lblChat.setIcon(iconchat2);
+		   lblChat.setHorizontalAlignment(SwingConstants.CENTER);
+		   lblChat.setBackground(new Color(201, 219, 178));
+		   panel1.add(lblChat);
+		   lblChat.addMouseListener(new MouseAdapter() {
+		       public void mouseClicked(MouseEvent e) {
+		           controller.showCard("chatlist"); // 라벨 클릭 시 채팅 화면 보여줌
+		       }
+		   });
+		
+		   JLabel lblMypage = new JLabel();
+		   lblMypage.setBounds(300, 0, 100, 70);
+		   ImageIcon mypageicon = new ImageIcon("image/mypage.png");
+		   Image imgmypage = mypageicon.getImage();
+		   Image imgmypage2 = imgmypage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		  ImageIcon iconmypage2 = new ImageIcon(imgmypage2);
+		  lblMypage.setIcon(iconmypage2);
+		   lblMypage.setHorizontalAlignment(SwingConstants.CENTER);
+		   lblMypage.setBackground(new Color(192, 192, 192));
+		   panel1.add(lblMypage);
+		   lblMypage.addMouseListener(new MouseAdapter() {
+		      public void mouseClicked(MouseEvent e) {
+		         controller.showCard("testsingup");  
+		       }
+		   });
+		   JLabel lblNewLabel_2 = new JLabel("");
+		   lblNewLabel_2.setBounds(360, 25, 20, 20);
+		   ImageIcon categoryicon = new ImageIcon("image/카테고리.png");
+		   Image imgcategory = categoryicon.getImage();
+		   Image imgcategory2 = imgcategory.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+		   ImageIcon iconcategory2 = new ImageIcon(imgcategory2);
+		   lblNewLabel_2.setIcon(iconcategory2);
+		   add(lblNewLabel_2);
+		   
+		   JLabel lblNewLabel_1 = new JLabel("");
+		   lblNewLabel_1.setBounds(330, 25, 20, 20);
+		   ImageIcon searchicon = new ImageIcon("image/돋보기.png");
+		   Image imgsearch = searchicon.getImage();
+		   Image imgsearch2 = imgsearch.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+		   ImageIcon iconsearch2 = new ImageIcon(imgsearch2);
+		   lblNewLabel_1.setIcon(iconsearch2);
+		   add(lblNewLabel_1);
+		   
+		   JLabel lblNewLabel = new JLabel("");
+		   lblNewLabel.setBackground(new Color(228, 204, 255));
+		   lblNewLabel.setBounds(0, 0, 400, 70);
+		   ImageIcon damoaicon = new ImageIcon("image/상단바.jpg");
+		   Image imgdamoa = damoaicon.getImage();
+		   Image imgdamoa2 = imgdamoa.getScaledInstance(400, 70, Image.SCALE_SMOOTH);
+		  ImageIcon icondamoa2 = new ImageIcon(imgdamoa2);
+		  lblNewLabel.setIcon(icondamoa2);
+		   add(lblNewLabel);
+		   
+		   textField = new JTextField();
+		   textField.setFont(new Font("맑은 고딕", Font.BOLD, 13));
+		   textField.setBorder(null);
+		   textField.setBounds(100, 25, 200, 20);
+		   add(textField);
+		   textField.setColumns(10);
 	}
 }
 
