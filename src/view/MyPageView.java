@@ -1,6 +1,7 @@
 package view;
 
-import java.awt.Color;
+import java.awt.Color; 
+import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
@@ -13,13 +14,21 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Insets;
+import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -28,6 +37,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.SystemColor;
 import javax.swing.JTextField;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.AbstractBorder;
+import javax.swing.border.BevelBorder;
 
 public class MyPageView extends JPanel {
 	
@@ -57,16 +69,17 @@ public class MyPageView extends JPanel {
 
 	private void addCenterPanel() {
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(170, 200, 167));
+		panel.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(128, 128, 128)));
+		panel.setBackground(new Color(228, 204, 255));
 		panel.setBounds(0, 0, 400, 50);
 		add(panel);
 		panel.setLayout(null);
 		
 		String nickname = model.getNicknameById(model.getCurrentUserId()); // 닉네임 db에서 불러와서 보여줌
-		JLabel lblNewLabel = new JLabel(nickname);
+		JLabel lblNewLabel = new JLabel("<dynamic>");
 		System.out.println(nickname);
-		lblNewLabel.setFont(new Font("HY그래픽M", Font.PLAIN, 13));
-		lblNewLabel.setBounds(56, 6, 126, 38);
+		lblNewLabel.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 20));
+		lblNewLabel.setBounds(20, 5, 216, 40);
 		panel.add(lblNewLabel);
 		
 		
@@ -152,16 +165,57 @@ public class MyPageView extends JPanel {
 	    
 	    JPanel panel_2 = new JPanel();
 	    panel_2.setLayout(null);
-	    panel_2.setBackground(new Color(246, 255, 222));
+	    panel_2.setBackground(new Color(228, 204, 255));
 	    panel_2.setBounds(0, 49, 400, 454);
 	    add(panel_2);
 	    
 	    
 	    
-	    JLabel lblNewLabel_2_2_1_1_1 = new JLabel("로그아웃");
+	    JLabel lblNewLabel_2_2_1_1_1 = new JLabel("로그아웃") {
+	    	class RoundedCornerBorder extends AbstractBorder {
+		    	  private static final Color ALPHA_ZERO = new Color(0x0, true);
+		    	  public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+		    	    Graphics2D g2 = (Graphics2D) g.create();
+		    	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		    	    Shape border = getBorderShape(x, y, width - 1, height - 1);
+		    	    g2.setPaint(ALPHA_ZERO);
+		    	    Area corner = new Area(new Rectangle2D.Double(x, y, width, height));
+		    	    corner.subtract(new Area());
+		    	    g2.fill(corner);
+		    	    g2.setPaint(Color.GRAY);
+		    	    g2.draw(border);
+		    	    g2.dispose();
+		    	  }
+		    	  public Shape getBorderShape(int x, int y, int w, int h) {
+		    	    int r = h; //h / 2;
+		    	    return new RoundRectangle2D.Double(x, y, w, h, r, r);
+		    	  }
+		    	  public Insets getBorderInsets(Component c) {
+		    	    return new Insets(4, 8, 4, 8);
+		    	  }
+		    	  public Insets getBorderInsets(Component c, Insets insets) {
+		    	    insets.set(4, 8, 4, 8);
+		    	    return insets;
+		    	  }
+		    	}
+				 protected void paintComponent(Graphics g) {
+				    if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+				      Graphics2D g2 = (Graphics2D) g.create();
+				      g2.setPaint(getBackground());
+				      g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+				          0, 0, getWidth() - 1, getHeight() - 1));
+				      g2.dispose();
+				    }
+				    super.paintComponent(g);
+				  }
+				  public void updateUI() {
+				    super.updateUI();
+				    setOpaque(false);
+				    setBorder(new RoundedCornerBorder());
+				  }
+				};	
 	    lblNewLabel_2_2_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-	    lblNewLabel_2_2_1_1_1.setFont(new Font("HY그래픽M", Font.PLAIN, 13));
-	    lblNewLabel_2_2_1_1_1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+	    lblNewLabel_2_2_1_1_1.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 17));
 	    lblNewLabel_2_2_1_1_1.setBackground(Color.WHITE);
 	    lblNewLabel_2_2_1_1_1.setBounds(219, 380, 140, 46);
 	    panel_2.add(lblNewLabel_2_2_1_1_1);
@@ -169,73 +223,336 @@ public class MyPageView extends JPanel {
 	    	public void mouseClicked(MouseEvent e) {
 	    		model.logout();
 	    		controller.showCard("login");
-	    		JOptionPane.showMessageDialog(null, "로그아웃되었습니다.", "로그아웃", JOptionPane.INFORMATION_MESSAGE);
+	    		JOptionPane.showMessageDialog(null, "로그아웃되었습니다.", "로그아웃", 
+	    				JOptionPane.INFORMATION_MESSAGE);
 	    	}
 		});
 	    
-	    JLabel lblNewLabel_2_2_1_1_1_1 = new JLabel("정보 수정하기");
+	    JLabel lblNewLabel_2_2_1_1_1_1 = new JLabel("정보 수정하기") {
+	    	class RoundedCornerBorder extends AbstractBorder {
+		    	  private static final Color ALPHA_ZERO = new Color(0x0, true);
+		    	  public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+		    	    Graphics2D g2 = (Graphics2D) g.create();
+		    	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		    	    Shape border = getBorderShape(x, y, width - 1, height - 1);
+		    	    g2.setPaint(ALPHA_ZERO);
+		    	    Area corner = new Area(new Rectangle2D.Double(x, y, width, height));
+		    	    corner.subtract(new Area());
+		    	    g2.fill(corner);
+		    	    g2.setPaint(Color.GRAY);
+		    	    g2.draw(border);
+		    	    g2.dispose();
+		    	  }
+		    	  public Shape getBorderShape(int x, int y, int w, int h) {
+		    	    int r = h; //h / 2;
+		    	    return new RoundRectangle2D.Double(x, y, w, h, r, r);
+		    	  }
+		    	  public Insets getBorderInsets(Component c) {
+		    	    return new Insets(4, 8, 4, 8);
+		    	  }
+		    	  public Insets getBorderInsets(Component c, Insets insets) {
+		    	    insets.set(4, 8, 4, 8);
+		    	    return insets;
+		    	  }
+		    	}
+				 protected void paintComponent(Graphics g) {
+				    if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+				      Graphics2D g2 = (Graphics2D) g.create();
+				      g2.setPaint(getBackground());
+				      g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+				          0, 0, getWidth() - 1, getHeight() - 1));
+				      g2.dispose();
+				    }
+				    super.paintComponent(g);
+				  }
+				  public void updateUI() {
+				    super.updateUI();
+				    setOpaque(false);
+				    setBorder(new RoundedCornerBorder());
+				  }
+				};
 	    lblNewLabel_2_2_1_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-	    lblNewLabel_2_2_1_1_1_1.setFont(new Font("HY그래픽M", Font.PLAIN, 13));
-	    lblNewLabel_2_2_1_1_1_1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+	    lblNewLabel_2_2_1_1_1_1.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 17));
 	    lblNewLabel_2_2_1_1_1_1.setBackground(Color.WHITE);
 	    lblNewLabel_2_2_1_1_1_1.setBounds(37, 380, 140, 46);
 	    panel_2.add(lblNewLabel_2_2_1_1_1_1);
 	    lblNewLabel_2_2_1_1_1_1.addMouseListener(new MouseAdapter() {
 	    	public void mouseClicked(MouseEvent e) {
-	    		UserEntity updateUserEntity = new UserEntity(model.getCurrentUserId(), textField.getText(), textField_1.getText(), textField_2.getText(), 
+	    		UserEntity updateUserEntity = new UserEntity(model.getCurrentUserId(), 
+	    				textField.getText(), textField_1.getText(), textField_2.getText(), 
 	    				textField_3.getText(), textField_4.getText());
 	    		model.updateUserData(updateUserEntity);
-	    		JOptionPane.showMessageDialog(null, "회원정보가 수정되었습니다.", "회원정보수정", JOptionPane.INFORMATION_MESSAGE);
+	    		JOptionPane.showMessageDialog(null, "회원정보가 수정되었습니다.", "회원정보수정", 
+	    				JOptionPane.INFORMATION_MESSAGE);
 	    	}
 		});
 	    
 	    
 	    JLabel lblNewLabel_1 = new JLabel("아이디");
-	    lblNewLabel_1.setBounds(37, 44, 57, 15);
+	    lblNewLabel_1.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 15));
+	    lblNewLabel_1.setBounds(37, 44, 60, 20);
 	    panel_2.add(lblNewLabel_1);
 	    
 	    JLabel lblNewLabel_1_1 = new JLabel("비밀번호");
-	    lblNewLabel_1_1.setBounds(37, 87, 57, 15);
+	    lblNewLabel_1_1.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 15));
+	    lblNewLabel_1_1.setBounds(37, 87, 60, 20);
 	    panel_2.add(lblNewLabel_1_1);
 	    
 	    JLabel lblNewLabel_1_2 = new JLabel("닉네임");
-	    lblNewLabel_1_2.setBounds(37, 131, 57, 15);
+	    lblNewLabel_1_2.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 15));
+	    lblNewLabel_1_2.setBounds(37, 131, 60, 20);
 	    panel_2.add(lblNewLabel_1_2);
 	    
 	    JLabel lblNewLabel_1_3 = new JLabel("전화번호");
-	    lblNewLabel_1_3.setBounds(37, 176, 57, 15);
+	    lblNewLabel_1_3.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 15));
+	    lblNewLabel_1_3.setBounds(37, 176, 60, 20);
 	    panel_2.add(lblNewLabel_1_3);
 	    
 	    JLabel lblNewLabel_1_4 = new JLabel("생년월일");
-	    lblNewLabel_1_4.setBounds(37, 224, 57, 15);
+	    lblNewLabel_1_4.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 15));
+	    lblNewLabel_1_4.setBounds(37, 224, 60, 20);
 	    panel_2.add(lblNewLabel_1_4);
 	    
 	    
 	    UserEntity currentUser = model.getCurrentUser();
-	    
-	    textField = new JTextField(currentUser.getUsername());
-	    textField.setBounds(172, 41, 116, 21);
+	    textField = new JTextField(currentUser.getUsername()) {
+    	class RoundedCornerBorder extends AbstractBorder {
+	    	  private static final Color ALPHA_ZERO = new Color(0x0, true);
+	    	  public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+	    	    Graphics2D g2 = (Graphics2D) g.create();
+	    	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+	    	    Shape border = getBorderShape(x, y, width - 1, height - 1);
+	    	    g2.setPaint(ALPHA_ZERO);
+	    	    Area corner = new Area(new Rectangle2D.Double(x, y, width, height));
+	    	    corner.subtract(new Area(border));
+	    	    g2.fill(corner);
+	    	    g2.setPaint(Color.GRAY);
+	    	    g2.draw(border);
+	    	    g2.dispose();
+	    	  }
+	    	  public Shape getBorderShape(int x, int y, int w, int h) {
+	    	    int r = h; //h / 2;
+	    	    return new RoundRectangle2D.Double(x, y, w, h, r, r);
+	    	  }
+	    	  public Insets getBorderInsets(Component c) {
+	    	    return new Insets(4, 8, 4, 8);
+	    	  }
+	    	  public Insets getBorderInsets(Component c, Insets insets) {
+	    	    insets.set(4, 8, 4, 8);
+	    	    return insets;
+	    	  }
+	    	}
+			 protected void paintComponent(Graphics g) {
+			    if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+			      Graphics2D g2 = (Graphics2D) g.create();
+			      g2.setPaint(getBackground());
+			      g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+			          0, 0, getWidth() - 1, getHeight() - 1));
+			      g2.dispose();
+			    }
+			    super.paintComponent(g);
+			  }
+			  public void updateUI() {
+			    super.updateUI();
+			    setOpaque(false);
+			    setBorder(new RoundedCornerBorder());
+			  }
+			};
+	  	textField.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 15));
+	  	textField.setBounds(172, 41, 120, 25);
 	    panel_2.add(textField);
-	    textField.setColumns(10);
-	    
-	    textField_1 = new JTextField(currentUser.getUserpw());
+
+
+	    textField_1 = new JTextField(currentUser.getUserpw()) {
+	    	class RoundedCornerBorder extends AbstractBorder {
+		    	  private static final Color ALPHA_ZERO = new Color(0x0, true);
+		    	  public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+		    	    Graphics2D g2 = (Graphics2D) g.create();
+		    	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		    	    Shape border = getBorderShape(x, y, width - 1, height - 1);
+		    	    g2.setPaint(ALPHA_ZERO);
+		    	    Area corner = new Area(new Rectangle2D.Double(x, y, width, height));
+		    	    corner.subtract(new Area(border));
+		    	    g2.fill(corner);
+		    	    g2.setPaint(Color.GRAY);
+		    	    g2.draw(border);
+		    	    g2.dispose();
+		    	  }
+		    	  public Shape getBorderShape(int x, int y, int w, int h) {
+		    	    int r = h; //h / 2;
+		    	    return new RoundRectangle2D.Double(x, y, w, h, r, r);
+		    	  }
+		    	  public Insets getBorderInsets(Component c) {
+		    	    return new Insets(4, 8, 4, 8);
+		    	  }
+		    	  public Insets getBorderInsets(Component c, Insets insets) {
+		    	    insets.set(4, 8, 4, 8);
+		    	    return insets;
+		    	  }
+		    	}
+				 protected void paintComponent(Graphics g) {
+				    if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+				      Graphics2D g2 = (Graphics2D) g.create();
+				      g2.setPaint(getBackground());
+				      g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+				          0, 0, getWidth() - 1, getHeight() - 1));
+				      g2.dispose();
+				    }
+				    super.paintComponent(g);
+				  }
+				  public void updateUI() {
+				    super.updateUI();
+				    setOpaque(false);
+				    setBorder(new RoundedCornerBorder());
+				  }
+				};
+	    textField_1.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 15));
 	    textField_1.setColumns(10);
-	    textField_1.setBounds(172, 84, 116, 21);
+	    textField_1.setBounds(172, 84, 120, 25);
 	    panel_2.add(textField_1);
 	    
-	    textField_2 = new JTextField(currentUser.getNickname());
+	    textField_2 = new JTextField(currentUser.getNickname()) {
+	    	class RoundedCornerBorder extends AbstractBorder {
+		    	  private static final Color ALPHA_ZERO = new Color(0x0, true);
+		    	  public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+		    	    Graphics2D g2 = (Graphics2D) g.create();
+		    	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		    	    Shape border = getBorderShape(x, y, width - 1, height - 1);
+		    	    g2.setPaint(ALPHA_ZERO);
+		    	    Area corner = new Area(new Rectangle2D.Double(x, y, width, height));
+		    	    corner.subtract(new Area(border));
+		    	    g2.fill(corner);
+		    	    g2.setPaint(Color.GRAY);
+		    	    g2.draw(border);
+		    	    g2.dispose();
+		    	  }
+		    	  public Shape getBorderShape(int x, int y, int w, int h) {
+		    	    int r = h; //h / 2;
+		    	    return new RoundRectangle2D.Double(x, y, w, h, r, r);
+		    	  }
+		    	  public Insets getBorderInsets(Component c) {
+		    	    return new Insets(4, 8, 4, 8);
+		    	  }
+		    	  public Insets getBorderInsets(Component c, Insets insets) {
+		    	    insets.set(4, 8, 4, 8);
+		    	    return insets;
+		    	  }
+		    	}
+				 protected void paintComponent(Graphics g) {
+				    if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+				      Graphics2D g2 = (Graphics2D) g.create();
+				      g2.setPaint(getBackground());
+				      g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+				          0, 0, getWidth() - 1, getHeight() - 1));
+				      g2.dispose();
+				    }
+				    super.paintComponent(g);
+				  }
+				  public void updateUI() {
+				    super.updateUI();
+				    setOpaque(false);
+				    setBorder(new RoundedCornerBorder());
+				  }
+				};	
+	    textField_2.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 15));
 	    textField_2.setColumns(10);
-	    textField_2.setBounds(172, 128, 116, 21);
+	    textField_2.setBounds(172, 128, 120, 25);
 	    panel_2.add(textField_2);
 	    
-	    textField_3 = new JTextField(currentUser.getPhone());
+	    textField_3 = new JTextField(currentUser.getPhone()) {
+	    	class RoundedCornerBorder extends AbstractBorder {
+		    	  private static final Color ALPHA_ZERO = new Color(0x0, true);
+		    	  public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+		    	    Graphics2D g2 = (Graphics2D) g.create();
+		    	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		    	    Shape border = getBorderShape(x, y, width - 1, height - 1);
+		    	    g2.setPaint(ALPHA_ZERO);
+		    	    Area corner = new Area(new Rectangle2D.Double(x, y, width, height));
+		    	    corner.subtract(new Area(border));
+		    	    g2.fill(corner);
+		    	    g2.setPaint(Color.GRAY);
+		    	    g2.draw(border);
+		    	    g2.dispose();
+		    	  }
+		    	  public Shape getBorderShape(int x, int y, int w, int h) {
+		    	    int r = h; //h / 2;
+		    	    return new RoundRectangle2D.Double(x, y, w, h, r, r);
+		    	  }
+		    	  public Insets getBorderInsets(Component c) {
+		    	    return new Insets(4, 8, 4, 8);
+		    	  }
+		    	  public Insets getBorderInsets(Component c, Insets insets) {
+		    	    insets.set(4, 8, 4, 8);
+		    	    return insets;
+		    	  }
+		    	}
+				 protected void paintComponent(Graphics g) {
+				    if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+				      Graphics2D g2 = (Graphics2D) g.create();
+				      g2.setPaint(getBackground());
+				      g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+				          0, 0, getWidth() - 1, getHeight() - 1));
+				      g2.dispose();
+				    }
+				    super.paintComponent(g);
+				  }
+				  public void updateUI() {
+				    super.updateUI();
+				    setOpaque(false);
+				    setBorder(new RoundedCornerBorder());
+				  }
+				};	
+	    textField_3.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 15));
 	    textField_3.setColumns(10);
-	    textField_3.setBounds(172, 173, 116, 21);
+	    textField_3.setBounds(172, 173, 120, 25);
 	    panel_2.add(textField_3);
 	    
-	    textField_4 = new JTextField(currentUser.getBirth());
+	    textField_4 = new JTextField(currentUser.getBirth()) {
+	    	class RoundedCornerBorder extends AbstractBorder {
+		    	  private static final Color ALPHA_ZERO = new Color(0x0, true);
+		    	  public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+		    	    Graphics2D g2 = (Graphics2D) g.create();
+		    	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		    	    Shape border = getBorderShape(x, y, width - 1, height - 1);
+		    	    g2.setPaint(ALPHA_ZERO);
+		    	    Area corner = new Area(new Rectangle2D.Double(x, y, width, height));
+		    	    corner.subtract(new Area(border));
+		    	    g2.fill(corner);
+		    	    g2.setPaint(Color.GRAY);
+		    	    g2.draw(border);
+		    	    g2.dispose();
+		    	  }
+		    	  public Shape getBorderShape(int x, int y, int w, int h) {
+		    	    int r = h; //h / 2;
+		    	    return new RoundRectangle2D.Double(x, y, w, h, r, r);
+		    	  }
+		    	  public Insets getBorderInsets(Component c) {
+		    	    return new Insets(4, 8, 4, 8);
+		    	  }
+		    	  public Insets getBorderInsets(Component c, Insets insets) {
+		    	    insets.set(4, 8, 4, 8);
+		    	    return insets;
+		    	  }
+		    	}
+				 protected void paintComponent(Graphics g) {
+				    if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+				      Graphics2D g2 = (Graphics2D) g.create();
+				      g2.setPaint(getBackground());
+				      g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+				          0, 0, getWidth() - 1, getHeight() - 1));
+				      g2.dispose();
+				    }
+				    super.paintComponent(g);
+				  }
+				  public void updateUI() {
+				    super.updateUI();
+				    setOpaque(false);
+				    setBorder(new RoundedCornerBorder());
+				  }
+				};
+	    textField_4.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 15));
 	    textField_4.setColumns(10);
-	    textField_4.setBounds(172, 221, 116, 21);
+	    textField_4.setBounds(172, 221, 120, 25);
 	    panel_2.add(textField_4);
 	    lblMypage.addMouseListener(new MouseAdapter() {
 	        public void mouseClicked(MouseEvent e) {

@@ -1,20 +1,30 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Insets;
+import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.AbstractBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
@@ -57,7 +67,7 @@ public class PostView extends JPanel {
 
 	private void CenterPanel() {
 		JPanel panel = new JPanel();
-	      panel.setBackground(new Color(207, 197, 255));
+	      panel.setBackground(new Color(228, 204, 255));
 	      panel.setBounds(0, 0, 400, 570);
 	      add(panel);
 	      panel.setLayout(null);
@@ -137,18 +147,100 @@ public class PostView extends JPanel {
 	      panel_3.add(kategorieLabel);
 	      kategorieLabel.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 13));
 	      
-	      JLabel lblNewLabel = new JLabel("삭제하기");
-	      lblNewLabel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-	      lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+	      JLabel lblNewLabel = new JLabel("삭제하기") {
+	    	  class RoundedCornerBorder extends AbstractBorder {
+		    	  private static final Color ALPHA_ZERO = new Color(0x0, true);
+		    	  public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+		    	    Graphics2D g2 = (Graphics2D) g.create();
+		    	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		    	    Shape border = getBorderShape(x, y, width - 1, height - 1);
+		    	    g2.setPaint(ALPHA_ZERO);
+		    	    Area corner = new Area(new Rectangle2D.Double(x, y, width, height));
+		    	    corner.subtract(new Area());
+		    	    g2.fill(corner);
+		    	    g2.setPaint(Color.GRAY);
+		    	    g2.draw(border);
+		    	    g2.dispose();
+		    	  }
+		    	  public Shape getBorderShape(int x, int y, int w, int h) {
+		    	    int r = h; //h / 2;
+		    	    return new RoundRectangle2D.Double(x, y, w, h, r, r);
+		    	  }
+		    	  public Insets getBorderInsets(Component c) {
+		    	    return new Insets(4, 8, 4, 8);
+		    	  }
+		    	  public Insets getBorderInsets(Component c, Insets insets) {
+		    	    insets.set(4, 8, 4, 8);
+		    	    return insets;
+		    	  }
+		    	}
+				 protected void paintComponent(Graphics g) {
+				    if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+				      Graphics2D g2 = (Graphics2D) g.create();
+				      g2.setPaint(getBackground());
+				      g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+				          0, 0, getWidth() - 1, getHeight() - 1));
+				      g2.dispose();
+				    }
+				    super.paintComponent(g);
+				  }
+				  public void updateUI() {
+				    super.updateUI();
+				    setOpaque(false);
+				    setBorder(new RoundedCornerBorder());
+				  }
+				};	  
+	      lblNewLabel.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 17));
 	      lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	      lblNewLabel.setBounds(16, 526, 165, 38);
+	      lblNewLabel.setBounds(16, 526, 165, 40);
 	      panel.add(lblNewLabel);
 	      
-	      JLabel lblNewLabel_1 = new JLabel("채팅방 참여하기");
-	      lblNewLabel_1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-	      lblNewLabel_1.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+	      JLabel lblNewLabel_1 = new JLabel("채팅방 참여하기") {
+	    	  class RoundedCornerBorder extends AbstractBorder {
+		    	  private static final Color ALPHA_ZERO = new Color(0x0, true);
+		    	  public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+		    	    Graphics2D g2 = (Graphics2D) g.create();
+		    	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		    	    Shape border = getBorderShape(x, y, width - 1, height - 1);
+		    	    g2.setPaint(ALPHA_ZERO);
+		    	    Area corner = new Area(new Rectangle2D.Double(x, y, width, height));
+		    	    corner.subtract(new Area());
+		    	    g2.fill(corner);
+		    	    g2.setPaint(Color.GRAY);
+		    	    g2.draw(border);
+		    	    g2.dispose();
+		    	  }
+		    	  public Shape getBorderShape(int x, int y, int w, int h) {
+		    	    int r = h; //h / 2;
+		    	    return new RoundRectangle2D.Double(x, y, w, h, r, r);
+		    	  }
+		    	  public Insets getBorderInsets(Component c) {
+		    	    return new Insets(4, 8, 4, 8);
+		    	  }
+		    	  public Insets getBorderInsets(Component c, Insets insets) {
+		    	    insets.set(4, 8, 4, 8);
+		    	    return insets;
+		    	  }
+		    	}
+				 protected void paintComponent(Graphics g) {
+				    if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+				      Graphics2D g2 = (Graphics2D) g.create();
+				      g2.setPaint(getBackground());
+				      g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+				          0, 0, getWidth() - 1, getHeight() - 1));
+				      g2.dispose();
+				    }
+				    super.paintComponent(g);
+				  }
+				  public void updateUI() {
+				    super.updateUI();
+				    setOpaque(false);
+				    setBorder(new RoundedCornerBorder());
+				  }
+				};		  
+	      lblNewLabel_1.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 17));
 	      lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-	      lblNewLabel_1.setBounds(215, 526, 165, 38);
+	      lblNewLabel_1.setBounds(215, 526, 165, 40);
 	      panel.add(lblNewLabel_1);
 		
 		
@@ -159,14 +251,17 @@ public class PostView extends JPanel {
 	    Image imghome = homeicon.getImage();
 	    Image imghome2 = imghome.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		ImageIcon imgicon2 = new ImageIcon(imghome2);
+		
 	    ImageIcon posticon = new ImageIcon("image/postbutton3.png");
 	    Image imgpost = posticon.getImage();
 	    Image imgpost2 = imgpost.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		ImageIcon posticon2 = new ImageIcon(imgpost2);
+		
 	    ImageIcon chaticon = new ImageIcon("image/chatbutton.png");
 	    Image imgchat = chaticon.getImage();
 	    Image imgchat2 = imgchat.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		ImageIcon iconchat2 = new ImageIcon(imgchat2);
+		
 	    ImageIcon mypageicon = new ImageIcon("image/mypage.png");
 	    Image imgmypage = mypageicon.getImage();
 	    Image imgmypage2 = imgmypage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
