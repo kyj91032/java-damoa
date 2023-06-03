@@ -68,6 +68,7 @@ public class HomeView extends JPanel {
 		
 		setPreferredSize(new Dimension(400, 570));
 		setBackground(Color.white);
+		setLayout(null);
 		
 		posts = model.getAllPosts();
 		
@@ -81,28 +82,19 @@ public class HomeView extends JPanel {
 
 	
 	private void TopPanel() {
-		setLayout(null);
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(255, 255, 255));
-		panel_1.setBounds(0, 0, 400, 50);
-		add(panel_1);
-		panel_1.setLayout(null);
 		
-		ImageIcon liicon = new ImageIcon("image/목록.jpeg");
-		Image liimage = liicon.getImage();
-		Image liimage2 = liimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-		ImageIcon liicon2 = new ImageIcon(liimage2);
-				
-		JLabel dmlbl = new JLabel();
-		dmlbl.setBackground(new Color(240, 240, 240));
-		dmlbl.setBounds(12, 0, 50, 50);
-		panel_1.add(dmlbl);
-		
-		JButton categorytbtn = new JButton();
-	    categorytbtn.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	        	
-	        	JFrame newFrame = new JFrame("카테고리");
+
+		JLabel lblNewLabel_2 = new JLabel("");
+        lblNewLabel_2.setBounds(360, 25, 20, 20);
+        ImageIcon categoryicon = new ImageIcon("image/카테고리.png");
+        Image imgcategory = categoryicon.getImage();
+        Image imgcategory2 = imgcategory.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        ImageIcon iconcategory2 = new ImageIcon(imgcategory2);
+        lblNewLabel_2.setIcon(iconcategory2);
+        add(lblNewLabel_2);
+        lblNewLabel_2.addMouseListener(new MouseAdapter() {
+        	public void mouseClicked(MouseEvent e) {
+        		JFrame newFrame = new JFrame("카테고리");
 	            newFrame.setSize(300, 200);
 	            newFrame.setLocationRelativeTo(null);
 	            newFrame.getContentPane().setLayout(null);
@@ -148,27 +140,28 @@ public class HomeView extends JPanel {
 		        newFrame.getContentPane().add(confirmButton);
 		
 		        newFrame.setVisible(true);
-		    }
-		});
+        	}
+        });
 		
-	    
-	    
-	    
-		categorytbtn.setForeground(new Color(255, 255, 255));
-		categorytbtn.setBounds(348, 6, 30, 30);
-		categorytbtn.setBorder(BorderFactory.createEmptyBorder());
-		panel_1.add(categorytbtn);
-		categorytbtn.setIcon(liicon2);
 		
-		textField = new JTextField();
-		textField.setBounds(12, 10, 253, 26);
-		panel_1.add(textField);
-		textField.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("검색");
-		lblNewLabel.setBounds(273, 15, 35, 16);
-		panel_1.add(lblNewLabel);
-		lblNewLabel.addMouseListener(new MouseAdapter() {
+        textField = new JTextField();
+        textField.setFont(new Font("맑은 고딕", Font.BOLD, 13));
+        textField.setBorder(null);
+        textField.setBounds(100, 25, 200, 20);
+        add(textField);
+        textField.setColumns(10);
+        
+        
+        JLabel lblNewLabel_1 = new JLabel("");
+        lblNewLabel_1.setBounds(330, 25, 20, 20);
+        ImageIcon searchicon = new ImageIcon("image/돋보기.png");
+        Image imgsearch = searchicon.getImage();
+        Image imgsearch2 = imgsearch.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        ImageIcon iconsearch2 = new ImageIcon(imgsearch2);
+        lblNewLabel_1.setIcon(iconsearch2);
+        add(lblNewLabel_1);		
+        lblNewLabel_1.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				String searchText = textField.getText();
 				posts = model.searchPost(searchText);
@@ -181,6 +174,16 @@ public class HomeView extends JPanel {
                 repaint();
 			}
 		});
+        
+        JLabel lblNewLabel = new JLabel("");
+        lblNewLabel.setBackground(new Color(228, 204, 255));
+        lblNewLabel.setBounds(0, 0, 400, 70);
+        ImageIcon damoaicon = new ImageIcon("image/상단바.jpg");
+        Image imgdamoa = damoaicon.getImage();
+        Image imgdamoa2 = imgdamoa.getScaledInstance(400, 70, Image.SCALE_SMOOTH);
+        ImageIcon icondamoa2 = new ImageIcon(imgdamoa2);
+        lblNewLabel.setIcon(icondamoa2);
+        add(lblNewLabel);
 	}
 	
 	
@@ -188,7 +191,7 @@ public class HomeView extends JPanel {
 	private void Centerbtn() {
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 50, 400, 453);
+		scrollPane.setBounds(0, 70, 400, 429);
 		add(scrollPane);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		
@@ -198,7 +201,7 @@ public class HomeView extends JPanel {
 		for (PostEntity post : posts) {
 	        ImageIcon imageIcon = new ImageIcon(post.getImage());
 
-	        Image scaledImage = imageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+	        Image scaledImage = imageIcon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
 	        ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
 
 	        // ImageLabelItem 객체를 생성하여 ImageIcon과 추가 정보를 저장합니다.
@@ -210,7 +213,6 @@ public class HomeView extends JPanel {
 	    
 	    // JList를 생성하고 리스트 모델을 설정합니다.
 	    list = new JList<>(listModel);
-	    list.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 12));
 	    list.setCellRenderer(new ImageLabelListCellRenderer());
 	    
 	    
@@ -233,52 +235,7 @@ public class HomeView extends JPanel {
 		
 	}
 	
-	class ImageLabelItem {
-	    private ImageIcon image;
-	    private String label;
-
-	    public ImageLabelItem(ImageIcon image, String label) {
-	        this.image = image;
-	        this.label = label;	   
-	    }
-
-	    public String getLabel() {
-	        return label;
-	    }
-	}
-
-	class ImageLabelListCellRenderer extends JPanel implements ListCellRenderer<ImageLabelItem> {
-	    private JLabel imageLabel;
-	    private JLabel textLabel;
 	
-	    public ImageLabelListCellRenderer() {
-	        setLayout(new BorderLayout());
-	        setOpaque(true);
-	
-	        imageLabel = new JLabel();
-	        textLabel = new JLabel();
-	
-	        add(imageLabel, BorderLayout.WEST);
-	        add(textLabel, BorderLayout.CENTER);
-	    }
-
-	    @Override
-	    public Component getListCellRendererComponent(JList<? extends ImageLabelItem> list, ImageLabelItem value, int index,
-	                                                  boolean isSelected, boolean cellHasFocus) {
-	        imageLabel.setIcon(value.image);
-	        textLabel.setText(value.getLabel());
-
-	        if (isSelected) {
-	            setBackground(list.getSelectionBackground());
-	            setForeground(list.getSelectionForeground());
-	        } else {
-	            setBackground(list.getBackground());
-	            setForeground(list.getForeground());
-	        }
-
-	        return this;
-	    }
-	}
 
 	
 	private void btnPanel() {
@@ -356,40 +313,60 @@ public class HomeView extends JPanel {
 		         controller.showCard("testsingup");  
 		       }
 		   });
-		   JLabel lblNewLabel_2 = new JLabel("");
-		   lblNewLabel_2.setBounds(360, 25, 20, 20);
-		   ImageIcon categoryicon = new ImageIcon("image/카테고리.png");
-		   Image imgcategory = categoryicon.getImage();
-		   Image imgcategory2 = imgcategory.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-		   ImageIcon iconcategory2 = new ImageIcon(imgcategory2);
-		   lblNewLabel_2.setIcon(iconcategory2);
-		   add(lblNewLabel_2);
 		   
-		   JLabel lblNewLabel_1 = new JLabel("");
-		   lblNewLabel_1.setBounds(330, 25, 20, 20);
-		   ImageIcon searchicon = new ImageIcon("image/돋보기.png");
-		   Image imgsearch = searchicon.getImage();
-		   Image imgsearch2 = imgsearch.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-		   ImageIcon iconsearch2 = new ImageIcon(imgsearch2);
-		   lblNewLabel_1.setIcon(iconsearch2);
-		   add(lblNewLabel_1);
-		   
-		   JLabel lblNewLabel = new JLabel("");
-		   lblNewLabel.setBackground(new Color(228, 204, 255));
-		   lblNewLabel.setBounds(0, 0, 400, 70);
-		   ImageIcon damoaicon = new ImageIcon("image/상단바.jpg");
-		   Image imgdamoa = damoaicon.getImage();
-		   Image imgdamoa2 = imgdamoa.getScaledInstance(400, 70, Image.SCALE_SMOOTH);
-		  ImageIcon icondamoa2 = new ImageIcon(imgdamoa2);
-		  lblNewLabel.setIcon(icondamoa2);
-		   add(lblNewLabel);
-		   
-		   textField = new JTextField();
-		   textField.setFont(new Font("맑은 고딕", Font.BOLD, 13));
-		   textField.setBorder(null);
-		   textField.setBounds(100, 25, 200, 20);
-		   add(textField);
-		   textField.setColumns(10);
 	}
+	
+	
+	class ImageLabelItem {
+	       private ImageIcon image;
+	       private String label;
+	       
+	       public ImageLabelItem(ImageIcon image, String label) {
+	          this.image = image;
+	          this.label = label;      
+	       }
+	       
+	       public String getLabel() {
+	          return label;
+	       }
+	    }
+	    
+	    class ImageLabelListCellRenderer extends JPanel implements ListCellRenderer<ImageLabelItem> {
+	       private JLabel imageLabel;
+	       private JLabel textLabel;
+	       
+	       public ImageLabelListCellRenderer() {
+	          setLayout(new BorderLayout());
+	          setOpaque(true);
+	          
+	          imageLabel = new JLabel();
+	          textLabel = new JLabel();
+	          
+	          add(imageLabel, BorderLayout.WEST);
+	          add(textLabel, BorderLayout.CENTER);
+	       }
+	       
+	       @Override
+	       public Component getListCellRendererComponent(JList<? extends ImageLabelItem> list, ImageLabelItem value, int index,
+	             boolean isSelected, boolean cellHasFocus) {
+	          imageLabel.setIcon(value.image);
+	          textLabel.setText(value.getLabel());
+	          
+	          if (isSelected) {
+	             setBackground(list.getSelectionBackground());
+	             setForeground(list.getSelectionForeground());
+	          } else {
+	             setBackground(list.getBackground());
+	             setForeground(list.getForeground());
+	          }
+	          if (index % 2 == 0) {
+	             setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+	          }
+	          else {
+	             setBorder(null);
+	          }
+	          return this;
+	       }
+	    }
 }
 
