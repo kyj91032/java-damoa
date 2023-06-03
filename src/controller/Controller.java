@@ -97,6 +97,8 @@ public class Controller extends JFrame {
         		ChatListView chatlistview = new ChatListView(model, this);
         		contentPane.add(chatlistview, "chatlist");
         		
+        		// chatrooms를 기반으로 chatview를 생성하는 메소드
+        		
             } else {
                 cardName = "login";
             }
@@ -122,6 +124,4 @@ public class Controller extends JFrame {
         previousCard = cardName;
         cardLayout.show(contentPane, cardName);
     }
-    
-    
 }

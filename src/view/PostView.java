@@ -63,21 +63,12 @@ public class PostView extends JPanel {
 	      panel.setLayout(null);
 	      
 	      JPanel panel_1 = new JPanel();
+	      panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
 	      panel_1.setBackground(new Color(255, 255, 255));
-	      panel_1.setBounds(6, 5, 388, 197);
+	      panel_1.setBounds(10, 10, 380, 245);
 	      panel.add(panel_1);
 	      panel_1.setLayout(null);
 	      
-	      JLabel lblNewLabel_2 = new JLabel("뒤로가기");
-	      lblNewLabel_2.setBounds(6, 6, 61, 16);
-	      panel_1.add(lblNewLabel_2);
-	      lblNewLabel_2.addMouseListener(new MouseAdapter() {
-	          public void mouseClicked(MouseEvent e) {
-	            controller.showCard("home"); // 라벨 클릭 시 홈 화면 보여줌
-	          }
-	      });
-	      
-	      	      
 	      
 	      if (currentPost != null) {
 	          JLabel ImageLabel = new JLabel("New label");
@@ -85,95 +76,85 @@ public class PostView extends JPanel {
 	          if (imgData != null) {
 	              ImageIcon imageIcon = new ImageIcon(imgData);
 	              Image image = imageIcon.getImage();
-	              int labelWidth = 388; // 라벨의 너비 값을 직접 설정
-	              int imageHeight = 197;
+	              int labelWidth = 380; // 라벨의 너비 값을 직접 설정
+	              int imageHeight = 245;
 	              Image scaledImage = image.getScaledInstance(labelWidth, imageHeight, Image.SCALE_SMOOTH);
 	              ImageIcon scaledIcon = new ImageIcon(scaledImage);
 	              ImageLabel.setIcon(scaledIcon);
 	          }
-	          ImageLabel.setBounds(0, 0, 388, 197);
+	          ImageLabel.setBounds(0, 0, 380, 245);
 	          panel_1.add(ImageLabel);
 	      }
 
 	      String postusername = model.getNicknameById(currentPost.getUserId());
 	      
 	      JPanel panel_2 = new JPanel();
+	      panel_2.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
 	      panel_2.setBackground(new Color(255, 255, 255));
-	      panel_2.setBounds(6, 203, 388, 38);
+	      panel_2.setBounds(10, 260, 380, 55);
 	      panel.add(panel_2);
 	      panel_2.setLayout(null);
 	      
-	      JLabel TitleLabel = new JLabel(currentPost.getTitle());
-	      TitleLabel.setFont(new Font("HY그래픽M", Font.BOLD, 16));
-	      TitleLabel.setBounds(6, 6, 230, 32);
-	      panel_2.add(TitleLabel);
+	      JLabel lblNewLabel_2 = new JLabel("New label");
+	      lblNewLabel_2.setBounds(10, 0, 70, 55);
+	      panel_2.add(lblNewLabel_2);
 	      
 	      JLabel NicknameLabel = new JLabel(postusername + "님의 모집");
-	      NicknameLabel.setFont(new Font("HY그래픽M", Font.PLAIN, 12));
-	      NicknameLabel.setBounds(255, 7, 127, 32);
+	      NicknameLabel.setBounds(85, 5, 125, 25);
 	      panel_2.add(NicknameLabel);
+	      NicknameLabel.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 13));
+	      
+	      JLabel RegoinLabel = new JLabel(currentPost.getRegion());
+	      RegoinLabel.setBounds(85, 28, 70, 25);
+	      panel_2.add(RegoinLabel);
+	      RegoinLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 12));
+	      
+	      JLabel SpecificRegionLabel = new JLabel (currentPost.getSpecificRegion());
+	      SpecificRegionLabel.setBounds(155, 28, 70, 25);
+	      panel_2.add(SpecificRegionLabel);
+	      SpecificRegionLabel.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 12));
 	      
 	      JPanel panel_3 = new JPanel();
+	      panel_3.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(192, 192, 192)));
 	      panel_3.setBackground(new Color(255, 255, 255));
-	      panel_3.setBounds(6, 243, 388, 271);
+	      panel_3.setBounds(10, 320, 380, 200);
 	      panel.add(panel_3);
 	      panel_3.setLayout(null);
 	      
 	      JLabel TextAreaLabel = new JLabel(currentPost.getTextarea());
-	      TextAreaLabel.setFont(new Font("HY그래픽M", Font.PLAIN, 12));
-	      TextAreaLabel.setVerticalAlignment(SwingConstants.TOP);
-	      TextAreaLabel.setBounds(12, 21, 364, 179);
+	      TextAreaLabel.setBounds(10, 75, 370, 125);
 	      panel_3.add(TextAreaLabel);
+	      TextAreaLabel.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 12));
+	      TextAreaLabel.setVerticalAlignment(SwingConstants.TOP);
+	      
+	      JLabel TitleLabel = new JLabel(currentPost.getTitle());
+	      TitleLabel.setBounds(15, 10, 353, 30);
+	      panel_3.add(TitleLabel);
+	      TitleLabel.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 16));
 	      
 	      JLabel kategorieLabel = new JLabel(currentPost.getKategorie());
-	      kategorieLabel.setFont(new Font("HY그래픽M", Font.PLAIN, 14));
-	      kategorieLabel.setBounds(12, 175, 70, 25);
+	      kategorieLabel.setBounds(15, 45, 100, 25);
 	      panel_3.add(kategorieLabel);
+	      kategorieLabel.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 13));
 	      
-	      JLabel RegoinLabel = new JLabel(currentPost.getRegion());
-	      RegoinLabel.setFont(new Font("HY그래픽M", Font.PLAIN, 12));
-	      RegoinLabel.setBounds(228, 175, 70, 22);
-	      panel_3.add(RegoinLabel);
+	      JLabel lblNewLabel = new JLabel("삭제하기");
+	      lblNewLabel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+	      lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+	      lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	      lblNewLabel.setBounds(16, 526, 165, 38);
+	      panel.add(lblNewLabel);
 	      
-	      JLabel SpecificRegionLabel = new JLabel (currentPost.getSpecificRegion()); 
-	      SpecificRegionLabel.setFont(new Font("HY그래픽M", Font.PLAIN, 12));
-	      SpecificRegionLabel.setBounds(302, 175, 70, 22);
-	      panel_3.add(SpecificRegionLabel);
-	      
-	      
-	      if(model.getCurrentPost().getUserId() == model.getCurrentUserId()) {
-	    	  JLabel lblNewLabel = new JLabel("삭제하기");
-		      lblNewLabel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		      lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		      lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		      lblNewLabel.setBounds(16, 526, 165, 38);
-		      panel.add(lblNewLabel);
-		      lblNewLabel.addMouseListener(new MouseAdapter() {
-		    	  public void mouseClicked(MouseEvent e) {
-		    		  model.deletePost(currentPost.getPostId());
-		    		  controller.showCard("home");
-		    	  }
-		      });
-		      
-		      
-	      } else {
-	    	  JLabel lblNewLabel_1 = new JLabel("채팅방 참여하기");
-		      lblNewLabel_1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		      lblNewLabel_1.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		      lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		      lblNewLabel_1.setBounds(215, 526, 165, 38);
-		      panel.add(lblNewLabel_1);
-		      lblNewLabel_1.addMouseListener(new MouseAdapter() {
-		    	  public void mouseClicked(MouseEvent e) {
-		    		  model.userJoinChat(currentPost.getPostId());
-		    		  controller.showCard("chatlist");
-		    	  }
-		      });
-	      }
+	      JLabel lblNewLabel_1 = new JLabel("채팅방 참여하기");
+	      lblNewLabel_1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+	      lblNewLabel_1.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+	      lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+	      lblNewLabel_1.setBounds(215, 526, 165, 38);
+	      panel.add(lblNewLabel_1);
+		
 		
 	}
 	
-	private void btnPanel() {
+	private void btnPanel() { 
 	    ImageIcon homeicon = new ImageIcon("image/homebutton2.png");
 	    Image imghome = homeicon.getImage();
 	    Image imghome2 = imghome.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
