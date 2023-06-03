@@ -62,40 +62,13 @@ public class TestHome extends JPanel {
 		
 		setPreferredSize(new Dimension(400, 570));
 		setBackground(Color.white);
+		setLayout(null);
 		
 		
-		TopPanel();
 		
 		Centerbtn();
 		
 		btnPanel();
-		
-	}
-
-	
-	private void TopPanel() {
-		setLayout(null);
-		
-		ImageIcon daicon = new ImageIcon("image/damoa.jpeg");
-		Image daimage = daicon.getImage();
-		Image daimage2 = daimage.getScaledInstance(50,50 , Image.SCALE_SMOOTH);
-		ImageIcon daicon2 = new ImageIcon(daimage2);
-		
-		ImageIcon scicon = new ImageIcon("image/돋보기.jpeg");
-		Image scimage = scicon.getImage();
-		Image scimage2 = scimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-		ImageIcon scicon2 = new ImageIcon(scimage2);
-		
-		ImageIcon liicon = new ImageIcon("image/목록.jpeg");
-		Image liimage = liicon.getImage();
-		Image liimage2 = liimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-		ImageIcon liicon2 = new ImageIcon(liimage2);
-		
-		ImageIcon alicon = new ImageIcon("image/종.jpeg");
-		Image alimage = alicon.getImage();
-		Image alimage2 = alimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-		ImageIcon alicon2 = new ImageIcon(alimage2);
-		
 		
 	}
 	
@@ -146,65 +119,44 @@ public class TestHome extends JPanel {
             }
         });
 
-		
-		
 		scrollPane.setViewportView(list);
 		
-		
+	    JLabel lblNewLabel_2 = new JLabel("");
+	    lblNewLabel_2.setBounds(360, 25, 20, 20);
+	    ImageIcon categoryicon = new ImageIcon("image/카테고리.png");
+	    Image imgcategory = categoryicon.getImage();
+	    Image imgcategory2 = imgcategory.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+	    ImageIcon iconcategory2 = new ImageIcon(imgcategory2);
+	    lblNewLabel_2.setIcon(iconcategory2);
+	    add(lblNewLabel_2);
+	    
+	    JLabel lblNewLabel_1 = new JLabel("");
+	    lblNewLabel_1.setBounds(330, 25, 20, 20);
+	    ImageIcon searchicon = new ImageIcon("image/돋보기.png");
+	    Image imgsearch = searchicon.getImage();
+	    Image imgsearch2 = imgsearch.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+	    ImageIcon iconsearch2 = new ImageIcon(imgsearch2);
+	    lblNewLabel_1.setIcon(iconsearch2);
+	    add(lblNewLabel_1);
+	    
+	    JLabel lblNewLabel = new JLabel("");
+	    lblNewLabel.setBackground(new Color(228, 204, 255));
+	    lblNewLabel.setBounds(0, 0, 400, 70);
+	    ImageIcon damoaicon = new ImageIcon("image/상단바.jpg");
+	    Image imgdamoa = damoaicon.getImage();
+	    Image imgdamoa2 = imgdamoa.getScaledInstance(400, 70, Image.SCALE_SMOOTH);
+	    ImageIcon icondamoa2 = new ImageIcon(imgdamoa2);
+	    lblNewLabel.setIcon(icondamoa2);
+	    add(lblNewLabel);
+	    
+	    textField = new JTextField();
+	    textField.setFont(new Font("맑은 고딕", Font.BOLD, 13));
+	    textField.setBorder(null);
+	    textField.setBounds(100, 25, 200, 20);
+	    add(textField);
+	    textField.setColumns(10);
+
 	}
-	
-	class ImageLabelItem {
-	    private ImageIcon image;
-	    private String label;
-
-	    public ImageLabelItem(ImageIcon image, String label) {
-	        this.image = image;
-	        this.label = label;	   
-	    }
-
-	    public String getLabel() {
-	        return label;
-	    }
-	}
-
-	class ImageLabelListCellRenderer extends JPanel implements ListCellRenderer<ImageLabelItem> {
-	    private JLabel imageLabel;
-	    private JLabel textLabel;
-	
-	    public ImageLabelListCellRenderer() {
-	        setLayout(new BorderLayout());
-	        setOpaque(true);
-	
-	        imageLabel = new JLabel();
-	        textLabel = new JLabel();
-	
-	        add(imageLabel, BorderLayout.WEST);
-	        add(textLabel, BorderLayout.CENTER);
-	    }
-
-	    @Override
-	    public Component getListCellRendererComponent(JList<? extends ImageLabelItem> list, ImageLabelItem value, int index,
-	                                                  boolean isSelected, boolean cellHasFocus) {
-	        imageLabel.setIcon(value.image);
-	        textLabel.setText(value.getLabel());
-
-	        if (isSelected) {
-	            setBackground(list.getSelectionBackground());
-	            setForeground(list.getSelectionForeground());
-	        } else {
-	            setBackground(list.getBackground());
-	            setForeground(list.getForeground());
-	        }
-	        if (index % 2 == 0) {
-	            setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-	        }
-	        else {
-	        	setBorder(null);
-	        }
-	        return this;
-	    }
-	}
-
 	
 	private void btnPanel() {
 		JPanel panel1 = new JPanel();
@@ -281,42 +233,58 @@ public class TestHome extends JPanel {
 	    		controller.showCard("testlogin");  
 	        }
 	    });
-	    JLabel lblNewLabel_2 = new JLabel("");
-	    lblNewLabel_2.setBounds(360, 25, 20, 20);
-	    ImageIcon categoryicon = new ImageIcon("image/카테고리.png");
-	    Image imgcategory = categoryicon.getImage();
-	    Image imgcategory2 = imgcategory.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-	    ImageIcon iconcategory2 = new ImageIcon(imgcategory2);
-	    lblNewLabel_2.setIcon(iconcategory2);
-	    add(lblNewLabel_2);
-	    
-	    JLabel lblNewLabel_1 = new JLabel("");
-	    lblNewLabel_1.setBounds(330, 25, 20, 20);
-	    ImageIcon searchicon = new ImageIcon("image/돋보기.png");
-	    Image imgsearch = searchicon.getImage();
-	    Image imgsearch2 = imgsearch.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-	    ImageIcon iconsearch2 = new ImageIcon(imgsearch2);
-	    lblNewLabel_1.setIcon(iconsearch2);
-	    add(lblNewLabel_1);
-	    
-	    JLabel lblNewLabel = new JLabel("");
-	    lblNewLabel.setBackground(new Color(228, 204, 255));
-	    lblNewLabel.setBounds(0, 0, 400, 70);
-	    ImageIcon damoaicon = new ImageIcon("image/상단바.jpg");
-	    Image imgdamoa = damoaicon.getImage();
-	    Image imgdamoa2 = imgdamoa.getScaledInstance(400, 70, Image.SCALE_SMOOTH);
-		ImageIcon icondamoa2 = new ImageIcon(imgdamoa2);
-		lblNewLabel.setIcon(icondamoa2);
-	    add(lblNewLabel);
-	    
-	    textField = new JTextField();
-	    textField.setFont(new Font("맑은 고딕", Font.BOLD, 13));
-	    textField.setBorder(null);
-	    textField.setBounds(100, 25, 200, 20);
-	    add(textField);
-	    textField.setColumns(10);
-	    
-	    
 	}
+	
+    class ImageLabelItem {
+    	private ImageIcon image;
+    	private String label;
+    	
+    	public ImageLabelItem(ImageIcon image, String label) {
+    		this.image = image;
+    		this.label = label;	   
+    	}
+    	
+    	public String getLabel() {
+    		return label;
+    	}
+    }
+    
+    class ImageLabelListCellRenderer extends JPanel implements ListCellRenderer<ImageLabelItem> {
+    	private JLabel imageLabel;
+    	private JLabel textLabel;
+    	
+    	public ImageLabelListCellRenderer() {
+    		setLayout(new BorderLayout());
+    		setOpaque(true);
+    		
+    		imageLabel = new JLabel();
+    		textLabel = new JLabel();
+    		
+    		add(imageLabel, BorderLayout.WEST);
+    		add(textLabel, BorderLayout.CENTER);
+    	}
+    	
+    	@Override
+    	public Component getListCellRendererComponent(JList<? extends ImageLabelItem> list, ImageLabelItem value, int index,
+    			boolean isSelected, boolean cellHasFocus) {
+    		imageLabel.setIcon(value.image);
+    		textLabel.setText(value.getLabel());
+    		
+    		if (isSelected) {
+    			setBackground(list.getSelectionBackground());
+    			setForeground(list.getSelectionForeground());
+    		} else {
+    			setBackground(list.getBackground());
+    			setForeground(list.getForeground());
+    		}
+    		if (index % 2 == 0) {
+    			setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+    		}
+    		else {
+    			setBorder(null);
+    		}
+    		return this;
+    	}
+    }
 }
 

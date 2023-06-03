@@ -51,36 +51,27 @@ public class TestLogin extends JPanel {
 		setBackground(new Color(228, 204, 255));
 		setLayout(null);
 		
-		showTopPanel();
-		
 		showLoginView();
 		
 		showBtnPanel();
 	
 	}
 
-	private void showTopPanel() {
-		setLayout(null);
-		
-		
-		
-	}
-
 	private void showLoginView() {
 		
-			Border roundedBorder = BorderFactory.createLineBorder(Color.GRAY, 2, true);
-		   Border emptyBorder = BorderFactory.createEmptyBorder(5, 10, 5, 10);
-		   Border compoundBorder = BorderFactory.createCompoundBorder(roundedBorder, emptyBorder);
+		  Border roundedBorder = BorderFactory.createLineBorder(Color.GRAY, 2, true);
+		  Border emptyBorder = BorderFactory.createEmptyBorder(5, 10, 5, 10);
+		  Border compoundBorder = BorderFactory.createCompoundBorder(roundedBorder, emptyBorder);
 		   
-		   Border roundedBorder2 = BorderFactory.createLineBorder(new Color(228, 204, 255), 3, true);
-		   Border emptyBorder2 = BorderFactory.createEmptyBorder(5, 10, 5, 10);
-		   Border compoundBorder2 = BorderFactory.createCompoundBorder(roundedBorder2, emptyBorder2);
+		  Border roundedBorder2 = BorderFactory.createLineBorder(new Color(228, 204, 255), 3, true);
+		  Border emptyBorder2 = BorderFactory.createEmptyBorder(5, 10, 5, 10);
+		  Border compoundBorder2 = BorderFactory.createCompoundBorder(roundedBorder2, emptyBorder2);
 		
 		   
 		   
-		   textField = new JTextField();
-		   textField.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-		   textField.setBorder(compoundBorder);
+		  textField = new JTextField();
+		  textField.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+		  textField.setBorder(compoundBorder);
 	      textField.setText("아이디");
 	      textField.setColumns(10);
 	      textField.setBounds(115, 190, 200, 30);
@@ -223,6 +214,24 @@ public class TestLogin extends JPanel {
 				controller.showCard("testsignup");
 			}
 		});
+		
+		JLabel lblNewLabel = new JLabel("");
+	    lblNewLabel.setBounds(75, 50, 250, 80);
+	    ImageIcon daicon = new ImageIcon("image/다모아2.jpg");
+	    Image daimg = daicon.getImage();
+	    Image daimg2 = daimg.getScaledInstance(250, 80, Image.SCALE_SMOOTH);
+	    ImageIcon daicon2 = new ImageIcon(daimg2);
+	    lblNewLabel.setIcon(daicon2);
+	    add(lblNewLabel);
+	    
+	    JLabel lblNewLabel_3 = new JLabel("");
+	    lblNewLabel_3.setBounds(30, 140, 340, 250);
+	    ImageIcon logbkicon = new ImageIcon("image/로그인.jpg");
+	    Image logbkimg = logbkicon.getImage();
+	    Image logbkimg2 = logbkimg.getScaledInstance(340, 250, Image.SCALE_SMOOTH);
+	    ImageIcon logbkicon2 = new ImageIcon(logbkimg2);
+	    lblNewLabel_3.setIcon(logbkicon2);
+	    add(lblNewLabel_3);
 	}
 	
 	private void showBtnPanel() {
@@ -301,25 +310,5 @@ public class TestLogin extends JPanel {
 	    		controller.showCard("mypage");       
 	    	}
 	    });
-	    JLabel lblNewLabel = new JLabel("");
-	    lblNewLabel.setBounds(75, 50, 250, 80);
-	    ImageIcon daicon = new ImageIcon("image/다모아2.jpg");
-	    Image daimg = daicon.getImage();
-	    Image daimg2 = daimg.getScaledInstance(250, 80, Image.SCALE_SMOOTH);
-	    ImageIcon daicon2 = new ImageIcon(daimg2);
-	    lblNewLabel.setIcon(daicon2);
-	    add(lblNewLabel);
-	    
-	    JLabel lblNewLabel_3 = new JLabel("");
-	    lblNewLabel_3.setBounds(30, 140, 340, 250);
-	    ImageIcon loginicon = new ImageIcon("image/로그인.jpg");
-	    Image loginimg = loginicon.getImage();
-	    Image loginimg2 = loginimg.getScaledInstance(340, 250, Image.SCALE_SMOOTH);
-	    ImageIcon loginicon2 = new ImageIcon(loginimg2);
-	    lblNewLabel_3.setIcon(loginicon2);
-	    add(lblNewLabel_3);
-	    
-	   
-	    
 	}
 }
