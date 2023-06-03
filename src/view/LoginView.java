@@ -7,6 +7,7 @@ import java.awt.Font;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 
 import controller.Controller;
@@ -21,6 +22,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
@@ -28,6 +31,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.border.LineBorder;
 
 public class LoginView extends JPanel {
 	
@@ -36,6 +40,7 @@ public class LoginView extends JPanel {
 	
 	private Model model;
 	private Controller controller;
+	private JTextField idField;
 
 	
 	public LoginView(Model model, Controller controller) {
@@ -43,10 +48,8 @@ public class LoginView extends JPanel {
 		this.controller = controller;
 		
 		setPreferredSize(new Dimension(400, 570));
-		setBackground(new Color(255, 255, 255));
+		setBackground(new Color(228, 204, 255));
 		setLayout(null);
-		
-		showTopPanel();
 		
 		showLoginView();
 		
@@ -54,66 +57,55 @@ public class LoginView extends JPanel {
 	
 	}
 
-	private void showTopPanel() {
-		setLayout(null);
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(255, 255, 255));
-		panel_1.setBounds(0, 0, 400, 50);
-		add(panel_1);
-		panel_1.setLayout(null);
-		
-		ImageIcon daicon = new ImageIcon("image/damoa.jpeg");
-		Image daimage = daicon.getImage();
-		Image daimage2 = daimage.getScaledInstance(50,50 , Image.SCALE_SMOOTH);
-		ImageIcon daicon2 = new ImageIcon(daimage2);
-		
-		ImageIcon scicon = new ImageIcon("image/돋보기.jpeg");
-		Image scimage = scicon.getImage();
-		Image scimage2 = scimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-		ImageIcon scicon2 = new ImageIcon(scimage2);
-		
-		ImageIcon liicon = new ImageIcon("image/목록.jpeg");
-		Image liimage = liicon.getImage();
-		Image liimage2 = liimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-		ImageIcon liicon2 = new ImageIcon(liimage2);
-		
-		ImageIcon alicon = new ImageIcon("image/종.jpeg");
-		Image alimage = alicon.getImage();
-		Image alimage2 = alimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-		ImageIcon alicon2 = new ImageIcon(alimage2);	
-		
-		JLabel dmlbl = new JLabel();
-		dmlbl.setBackground(new Color(240, 240, 240));
-		dmlbl.setBounds(12, 0, 50, 50);
-		panel_1.add(dmlbl);
-		dmlbl.setIcon(daicon2);
-		
-		JLabel lblNewLabel = new JLabel("세상 사람");
-		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-		lblNewLabel.setBounds(74, 0, 58, 23);
-		panel_1.add(lblNewLabel);
-		
-		JLabel lblDamoa = new JLabel("damoa");
-		lblDamoa.setFont(new Font("Franklin Gothic Book", Font.BOLD | Font.ITALIC, 18));
-		lblDamoa.setBounds(124, 17, 78, 23);
-		panel_1.add(lblDamoa);
-		
-		
-	}
-
 	private void showLoginView() {
-		JLabel lblNewLabel = new JLabel("아이디");
-		lblNewLabel.setBounds(49, 160, 57, 15);
-		add(lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("비밀번호");
-		lblNewLabel_1.setBounds(49, 250, 57, 15);
-		add(lblNewLabel_1);
+		  Border roundedBorder = BorderFactory.createLineBorder(Color.GRAY, 2, true);
+		  Border emptyBorder = BorderFactory.createEmptyBorder(5, 10, 5, 10);
+		  Border compoundBorder = BorderFactory.createCompoundBorder(roundedBorder, emptyBorder);
+		   
+		  Border roundedBorder2 = BorderFactory.createLineBorder(new Color(228, 204, 255), 3, true);
+		  Border emptyBorder2 = BorderFactory.createEmptyBorder(5, 10, 5, 10);
+		  Border compoundBorder2 = BorderFactory.createCompoundBorder(roundedBorder2, emptyBorder2);
 		
-		textField = new JTextField();
-		textField.setBounds(49, 185, 290, 30);
-		add(textField);
-		textField.setColumns(10);
+		   
+		   
+		  textField = new JTextField();
+		  textField.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+		  textField.setBorder(compoundBorder);
+	      textField.setText("아이디");
+	      textField.setColumns(10);
+	      textField.setBounds(115, 190, 200, 30);
+	      String initialText = "아이디";
+	      if (!textField.hasFocus() && textField.getText().equals(initialText)) {
+	    	  textField.setForeground(Color.GRAY); // 회색으로 텍스트 색상 변경
+	      }
+	      textField.addFocusListener(new FocusAdapter() {
+	    	  public void focusGained(FocusEvent e) {
+	    		  if (textField.getText().equals(initialText)) {
+	    			  textField.setText("");
+	    			  textField.setBorder(compoundBorder2);
+	    			  textField.setForeground(Color.BLACK); // 원래 텍스트 색상으로 변경
+	    		  }
+	    	  }
+	    	  
+	    	  public void focusLost(FocusEvent e) {
+	    		  if (textField.getText().isEmpty()) {
+	    			  textField.setText(initialText);
+	    			  textField.setBorder(compoundBorder);
+	    			  textField.setForeground(Color.GRAY); // 회색으로 텍스트 색상 변경
+	    		  }
+	    	  }
+	      });
+	      add(textField);
+		
+	      JLabel lblNewLabel_1 = new JLabel("");
+	      ImageIcon passwordicon = new ImageIcon("image/자물쇠.png");
+		  Image passwordimage = passwordicon.getImage();
+		  Image passwordimage2 = passwordimage.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+		  ImageIcon passwordicon2 = new ImageIcon(passwordimage2);
+	      lblNewLabel_1.setIcon(passwordicon2);
+	      lblNewLabel_1.setBounds(80, 245, 35, 35);
+	      add(lblNewLabel_1);
 		
 		passwordField = new JPasswordField();
 		passwordField.addKeyListener(new KeyAdapter() {
@@ -135,13 +127,61 @@ public class LoginView extends JPanel {
 				}
 			}
 		});
-		passwordField.setBounds(49, 275, 290, 30);
-		add(passwordField);
 		
-		JButton btnNewButton = new JButton("로그인");
-		btnNewButton.setBounds(242, 334, 97, 23);
+		JLabel lblNewLabel_2 = new JLabel("");
+	      ImageIcon loginicon = new ImageIcon("image/사람.png");
+		  Image loginimage = loginicon.getImage();
+		  Image loginimage2 = loginimage.getScaledInstance(28, 28, Image.SCALE_SMOOTH);
+		  ImageIcon loginicon2 = new ImageIcon(loginimage2);
+		  lblNewLabel_2.setIcon(loginicon2);
+	      lblNewLabel_2.setBounds(80, 185, 35, 35);
+	      add(lblNewLabel_2);
+		
+		
+		
+	      passwordField = new JPasswordField();
+	      passwordField.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+	      passwordField.setBorder(compoundBorder);
+	      String initialText2 = "비밀번호";
+	      passwordField.setText(initialText2);
+	      passwordField.setBounds(115, 250, 200, 30);
+	      if (new String(passwordField.getPassword()).equals(initialText2)) {
+	          passwordField.setForeground(Color.GRAY); // 회색으로 텍스트 색상 변경
+	          passwordField.setEchoChar((char) 0); // 점으로 표시하지 않음
+	      }
+	      passwordField.addFocusListener(new FocusAdapter() {
+	          public void focusGained(FocusEvent e) {
+	              if (new String(passwordField.getPassword()).equals(initialText2)) {
+	            	  passwordField.setEchoChar('\u2022'); // 비밀번호 입력 시 점으로 표시
+	            	  passwordField.setText(""); 
+	            	  passwordField.setBorder(compoundBorder2);
+	            	  passwordField.setForeground(Color.BLACK); // 원래 텍스트 색상으로 변경
+	              }
+	          }
+
+	          public void focusLost(FocusEvent e) {
+	              if (passwordField.getPassword().length == 0) {
+	            	  passwordField.setEchoChar((char) 0); // 점으로 표시하지 않음
+	            	  passwordField.setText(initialText2);
+	            	  passwordField.setBorder(compoundBorder);
+	            	  passwordField.setForeground(Color.GRAY); // 회색으로 텍스트 색상 변경
+	              }
+	          }
+	      });
+	      add(passwordField);
+		
+		
+		
+		JButton btnNewButton = new JButton("");
+		btnNewButton.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+		btnNewButton.setBounds(75, 315, 100, 30);
+		btnNewButton.setBorder(new LineBorder(new Color(255, 255, 255), 1, true));
+	    ImageIcon logbtnicon = new ImageIcon("image/로그인버튼.jpg");
+	    Image logbtnimg = logbtnicon.getImage();
+	    Image logbtnimg2 = logbtnimg.getScaledInstance(100, 30, Image.SCALE_SMOOTH);
+		ImageIcon logbtnicon2 = new ImageIcon(logbtnimg2);
+	    btnNewButton.setIcon(logbtnicon2);
 		add(btnNewButton);
-		
 		btnNewButton.addActionListener(new ActionListener() { // 로그인 버튼 누를 시 로그인 시도
 		    public void actionPerformed(ActionEvent e) {
 		        String username = textField.getText(); // 아이디 저장
@@ -159,29 +199,56 @@ public class LoginView extends JPanel {
 		    }
 		});
 		
-		JButton btnNewButton_1 = new JButton("회원가입");
-		btnNewButton_1.setBounds(242, 367, 97, 23);
+		JButton btnNewButton_1 = new JButton("");
+		btnNewButton_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+		btnNewButton_1.setBounds(219, 315, 100, 30);
+		btnNewButton_1.setBorder(new LineBorder(new Color(255, 255, 255), 1, true));
+	    ImageIcon pswbtnicon = new ImageIcon("image/회원가입버튼.jpg");
+	    Image pswbtnimg = pswbtnicon.getImage();
+	    Image pswbtnimg2 = pswbtnimg.getScaledInstance(100, 30, Image.SCALE_SMOOTH);
+		ImageIcon pswbtnicon2 = new ImageIcon(pswbtnimg2);
+		btnNewButton_1.setIcon(pswbtnicon2);
 		add(btnNewButton_1);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.showCard("signup");
 			}
 		});
+		
+		JLabel lblNewLabel = new JLabel("");
+	    lblNewLabel.setBounds(75, 50, 250, 80);
+	    ImageIcon daicon = new ImageIcon("image/다모아2.jpg");
+	    Image daimg = daicon.getImage();
+	    Image daimg2 = daimg.getScaledInstance(250, 80, Image.SCALE_SMOOTH);
+	    ImageIcon daicon2 = new ImageIcon(daimg2);
+	    lblNewLabel.setIcon(daicon2);
+	    add(lblNewLabel);
+	    
+	    JLabel lblNewLabel_3 = new JLabel("");
+	    lblNewLabel_3.setBounds(30, 140, 340, 250);
+	    ImageIcon logbkicon = new ImageIcon("image/로그인.jpg");
+	    Image logbkimg = logbkicon.getImage();
+	    Image logbkimg2 = logbkimg.getScaledInstance(340, 250, Image.SCALE_SMOOTH);
+	    ImageIcon logbkicon2 = new ImageIcon(logbkimg2);
+	    lblNewLabel_3.setIcon(logbkicon2);
+	    add(lblNewLabel_3);
 	}
 	
 	private void showBtnPanel() {
 		JPanel panel1 = new JPanel();
-	    panel1.setBackground(new Color(201, 219, 178));
+		panel1.setBorder(new LineBorder(new Color(192, 192, 192)));
+	    panel1.setBackground(new Color(255, 255, 255));
 	    panel1.setBounds(0, 500, 400, 70);
 	    add(panel1);
-	    panel1.setLayout(new GridLayout(1, 4));
 
 	    JLabel lblHome = new JLabel();
-	    lblHome.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
+	    lblHome.setBounds(2, 1, 99, 68);
+	    lblHome.setBorder(new LineBorder(new Color(192, 192, 192), 1, true));
 	    ImageIcon homeicon = new ImageIcon("image/homebutton2.png");
 	    Image imghome = homeicon.getImage();
 	    Image imghome2 = imghome.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		ImageIcon imgicon2 = new ImageIcon(imghome2);
+	    panel1.setLayout(null);
 	    lblHome.setIcon(imgicon2);
 	    lblHome.setHorizontalAlignment(SwingConstants.CENTER);
 	    lblHome.setBackground(new Color(201, 219, 178));
@@ -193,7 +260,8 @@ public class LoginView extends JPanel {
 	    });
 	    
 	    JLabel lblRecruitment = new JLabel();
-	    lblRecruitment.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
+	    lblRecruitment.setBounds(101, 1, 99, 68);
+	    lblRecruitment.setBorder(new LineBorder(new Color(192, 192, 192)));
 	    ImageIcon posticon = new ImageIcon("image/postbutton3.png");
 	    Image imgpost = posticon.getImage();
 	    Image imgpost2 = imgpost.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -210,7 +278,8 @@ public class LoginView extends JPanel {
 
 	    
 	    JLabel lblChat = new JLabel();
-	    lblChat.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
+	    lblChat.setBounds(200, 1, 99, 68);
+	    lblChat.setBorder(new LineBorder(new Color(192, 192, 192)));
 	    ImageIcon chaticon = new ImageIcon("image/chatbutton.png");
 	    Image imgchat = chaticon.getImage();
 	    Image imgchat2 = imgchat.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -226,6 +295,8 @@ public class LoginView extends JPanel {
 	    });
 
 	    JLabel lblMypage = new JLabel();
+	    lblMypage.setBounds(299, 1, 99, 68);
+	    lblMypage.setBorder(new LineBorder(new Color(192, 192, 192)));
 	    ImageIcon mypageicon = new ImageIcon("image/mypage.png");
 	    Image imgmypage = mypageicon.getImage();
 	    Image imgmypage2 = imgmypage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -235,9 +306,9 @@ public class LoginView extends JPanel {
 	    lblMypage.setBackground(new Color(201, 219, 178));
 	    panel1.add(lblMypage);
 	    lblMypage.addMouseListener(new MouseAdapter() {
-	        public void mouseClicked(MouseEvent e) {
-	        	controller.showCard("mypage");       
-	        }
+	    	public void mouseClicked(MouseEvent e) {
+	    		controller.showCard("mypage");       
+	    	}
 	    });
 	}
 }

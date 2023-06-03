@@ -41,7 +41,7 @@ public class SignUpView extends JPanel implements MouseListener {
    private JTextField idField, nicknameField, PhoneField, birthField;
    private JPasswordField passwordField;
    private JPasswordField passwordField_1;
-private JLabel lblNewLabel_3;
+   private JLabel lblNewLabel_3;
    
    public SignUpView(Model model, Controller controller) {
       
@@ -52,34 +52,8 @@ private JLabel lblNewLabel_3;
       setBackground(new Color(255, 255, 255));
       setLayout(null);
       
-      showTopPanel();
       
       showSignupPanel();
-      
-   }
-   
-   private void showTopPanel() {
-      setLayout(null);
-      
-      ImageIcon daicon = new ImageIcon("image/damoa.jpeg");
-      Image daimage = daicon.getImage();
-      Image daimage2 = daimage.getScaledInstance(50,50 , Image.SCALE_SMOOTH);
-      ImageIcon daicon2 = new ImageIcon(daimage2);
-      
-      ImageIcon scicon = new ImageIcon("image/돋보기.jpeg");
-      Image scimage = scicon.getImage();
-      Image scimage2 = scimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-      ImageIcon scicon2 = new ImageIcon(scimage2);
-      
-      ImageIcon liicon = new ImageIcon("image/목록.jpeg");
-      Image liimage = liicon.getImage();
-      Image liimage2 = liimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-      ImageIcon liicon2 = new ImageIcon(liimage2);
-      
-      ImageIcon alicon = new ImageIcon("image/종.jpeg");
-      Image alimage = alicon.getImage();
-      Image alimage2 = alimage.getScaledInstance(30,30 , Image.SCALE_SMOOTH);
-      ImageIcon alicon2 = new ImageIcon(alimage2);
       
    }
    
@@ -92,12 +66,7 @@ private JLabel lblNewLabel_3;
       Border roundedBorder2 = BorderFactory.createLineBorder(new Color(228, 204, 255), 3, true);
       Border emptyBorder2 = BorderFactory.createEmptyBorder(5, 10, 5, 10);
       Border compoundBorder2 = BorderFactory.createCompoundBorder(roundedBorder2, emptyBorder2);
-      
-     
-      
-      
-      
-      
+    
       JPanel panel = new JPanel();
       panel.setBackground(new Color(255, 255, 255));
       panel.setLayout(null);
@@ -347,8 +316,24 @@ private JLabel lblNewLabel_3;
      Image damoaimage2 = damoaimage.getScaledInstance(160, 80, Image.SCALE_SMOOTH);
      ImageIcon damoaicon2 = new ImageIcon(damoaimage2);
      lblNewLabel_4.setIcon(damoaicon2);
-      lblNewLabel_4.setBounds(25, 0, 200, 100);
+      lblNewLabel_4.setBounds(70, 5, 200, 100);
       panel.add(lblNewLabel_4);
+      
+      JLabel lblNewLabel_5 = new JLabel("");
+      ImageIcon backicon = new ImageIcon("image/뒤로가기.png");
+      Image backimage = backicon.getImage();
+      Image backimage2 = backimage.getScaledInstance(35, 35, Image.SCALE_SMOOTH);
+      ImageIcon backicon2 = new ImageIcon(backimage2);
+      lblNewLabel_5.setIcon(backicon2);
+      lblNewLabel_5.addMouseListener(new MouseAdapter() {
+      	@Override
+      	public void mouseClicked(MouseEvent e) {
+      		controller.showCard("login");
+      	}
+      });
+      lblNewLabel_5.setBounds(15, 15, 35, 35);
+      panel.add(lblNewLabel_5);
+      
       
    }
    
