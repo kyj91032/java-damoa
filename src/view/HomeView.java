@@ -310,7 +310,7 @@ public class HomeView extends JPanel {
 		   panel1.add(lblMypage);
 		   lblMypage.addMouseListener(new MouseAdapter() {
 		      public void mouseClicked(MouseEvent e) {
-		         controller.showCard("testsingup");  
+		         controller.showCard("mypage");  
 		       }
 		   });
 		   
