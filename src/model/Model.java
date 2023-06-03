@@ -31,7 +31,7 @@ public class Model {
 	private ArrayList chatRooms; // 최근 채팅방 목록 정보 
 	private ArrayList posts; // 현재 모든 글 리스트 
 	private ChatRoomEntity currentChatRoom; // 최근 채팅방 정보
-	private ArrayList currentChatMessages;
+	private ArrayList currentChatMessages; 
 	private ArrayList categoryPosts;
 
     public void initDbConn() {
