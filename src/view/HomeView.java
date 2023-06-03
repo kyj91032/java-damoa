@@ -2,12 +2,18 @@ package view;
 
 import java.awt.EventQueue;
 import java.awt.Image;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.Shape;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import controller.Controller;
 import model.ChatRoomEntity;
@@ -22,6 +28,7 @@ import java.awt.CardLayout;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 
 import javax.swing.JButton;
@@ -29,6 +36,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JInternalFrame;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.ScrollPaneLayout;
 import javax.swing.JToolBar;
 import javax.swing.LayoutFocusTraversalPolicy;
 import javax.swing.ListCellRenderer;
@@ -37,16 +45,23 @@ import java.awt.GridLayout;
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.border.AbstractBorder;
 import javax.swing.border.BevelBorder;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JTextField;
 
 public class HomeView extends JPanel {
@@ -81,8 +96,7 @@ public class HomeView extends JPanel {
 	}
 
 	
-	private void TopPanel() {
-		
+	private void TopPanel() { 
 
 		JLabel lblNewLabel_2 = new JLabel("");
         lblNewLabel_2.setBounds(360, 25, 20, 20);
@@ -97,12 +111,13 @@ public class HomeView extends JPanel {
         		JFrame newFrame = new JFrame("카테고리");
 	            newFrame.setSize(300, 200);
 	            newFrame.setLocationRelativeTo(null);
+	            
 	            newFrame.getContentPane().setLayout(null);
 
 	        	String[] items = {"운동하기", "공동구매", "택시"};
 	        	comboBox = new JComboBox<>(items);
 		        comboBox.setBounds(50, 50, 200, 30);
-		        
+		        comboBox.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 15));
 		        comboBox.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 		                // 콤보 박스 값 변경 시 실행되는 작업
@@ -111,8 +126,53 @@ public class HomeView extends JPanel {
 		        });
 		        newFrame.getContentPane().add(comboBox);
 		
-		        JButton confirmButton = new JButton("확인");
+		        JButton confirmButton = new JButton("확인") {
+		        	class RoundedCornerBorder extends AbstractBorder {
+				    	  private static final Color ALPHA_ZERO = new Color(0x0, true);
+				    	  public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+				    	    Graphics2D g2 = (Graphics2D) g.create();
+				    	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+				    	    		RenderingHints.VALUE_ANTIALIAS_ON);
+				    	    Shape border = getBorderShape(x, y, width - 1, height - 1);
+				    	    g2.setPaint(ALPHA_ZERO);
+				    	    Area corner = new Area(new Rectangle2D.Double(x, y, width, height));
+				    	    corner.subtract(new Area());
+				    	    g2.fill(corner);
+				    	    g2.setPaint(Color.GRAY);
+				    	    g2.draw(border);
+				    	    g2.dispose();
+				    	  }
+				    	  public Shape getBorderShape(int x, int y, int w, int h) {
+				    	    int r = h; //h / 2;
+				    	    return new RoundRectangle2D.Double(x, y, w, h, r, r);
+				    	  }
+				    	  public Insets getBorderInsets(Component c) {
+				    	    return new Insets(4, 8, 4, 8);
+				    	  }
+				    	  public Insets getBorderInsets(Component c, Insets insets) {
+				    	    insets.set(4, 8, 4, 8);
+				    	    return insets;
+				    	  }
+				    	}
+						 protected void paintComponent(Graphics g) {
+						    if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+						      Graphics2D g2 = (Graphics2D) g.create();
+						      g2.setPaint(getBackground());
+						      g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+						          0, 0, getWidth() - 1, getHeight() - 1));
+						      g2.dispose();
+						    }
+						    super.paintComponent(g);
+						  }
+						  public void updateUI() {
+						    super.updateUI();
+						    setOpaque(false);
+						    setBorder(new RoundedCornerBorder());
+						  }
+						};	
+				confirmButton.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 15));
 		        confirmButton.setBounds(100, 100, 100, 30);
+		        confirmButton.setBackground(new Color(228, 204, 255));
 		        confirmButton.addActionListener(new ActionListener() {
 		            public void actionPerformed(ActionEvent e) {
 		                // 확인 버튼 클릭 시 실행되는 작업
@@ -129,16 +189,14 @@ public class HomeView extends JPanel {
 		                
 		             	// 기존의 중앙 버튼을 제거
 	                    remove(scrollPane);
-		                
 		                Centerbtn();
-		                
 		                revalidate();
 	                    repaint();
 		                
 		            }
 		        });
 		        newFrame.getContentPane().add(confirmButton);
-		
+		        newFrame.getContentPane().setBackground(new Color(228, 204, 255));
 		        newFrame.setVisible(true);
         	}
         });
@@ -192,8 +250,66 @@ public class HomeView extends JPanel {
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 70, 400, 429);
+		
+		
+	   // 수직 스크롤바의 모양을 사용자 정의
+	    scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+	      private final Dimension d = new Dimension();
+	      @Override
+	      protected JButton createDecreaseButton(int orientation) {
+	        return new JButton() {
+	          @Override
+	          public Dimension getPreferredSize() {
+	            return d;
+	          }
+	        };
+	      }
+	      @Override
+	      protected JButton createIncreaseButton(int orientation) {
+	        return new JButton() {
+	          @Override
+	          public Dimension getPreferredSize() {
+	            return d;
+	          }
+	        };
+	      }
+	      @Override
+	      protected void paintTrack(Graphics g, JComponent c, Rectangle r) {
+	        // 트랙(track) 그리기 - 여기서는 그리지 않음
+	      }
+	      @Override
+	      protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
+	        // 슬라이더(thumb) 그리기
+	        Graphics2D g2 = (Graphics2D)g.create();
+	        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+	                            RenderingHints.VALUE_ANTIALIAS_ON);
+	        Color color = null;
+	        JScrollBar sb = (JScrollBar)c;
+	        if(!sb.isEnabled() || r.width > r.height) {
+	          return;
+	        } else if(isDragging) {
+	          color = new Color(200,200,100,200); // 누르고 드래그시 ( rgb값  + 투명도  )
+	        } else if(isThumbRollover()) {
+	          color = new Color(228,204,255,200);  // 마우스 올린경우
+	        } else {
+	          color = new Color(228,204,255);  // 기본값
+	        }
+	        g2.setPaint(color);
+	        g2.fillRoundRect(r.x, r.y, r.width, r.height, 10, 10);
+	        g2.setPaint(Color.WHITE);
+	        g2.drawRoundRect(r.x, r.y, r.width, r.height, 10, 10);
+	        g2.dispose();
+	      }
+	      @Override
+	      protected void setThumbBounds(int x, int y, int width, int height) {
+	        super.setThumbBounds(x,y,width,height);
+	        scrollbar.repaint();
+	      }
+	    });
+		
+	    scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		add(scrollPane);
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		
 		
 		listModel = new DefaultListModel<>();
 		
@@ -213,6 +329,7 @@ public class HomeView extends JPanel {
 	    
 	    // JList를 생성하고 리스트 모델을 설정합니다.
 	    list = new JList<>(listModel);
+	    list.setBorder(null);
 	    list.setCellRenderer(new ImageLabelListCellRenderer());
 	    
 	    
@@ -231,12 +348,7 @@ public class HomeView extends JPanel {
         });
 		
 		scrollPane.setViewportView(list);
-		
-		
 	}
-	
-	
-
 	
 	private void btnPanel() {
 		JPanel panel1 = new JPanel();
@@ -342,12 +454,14 @@ public class HomeView extends JPanel {
 	          imageLabel = new JLabel();
 	          textLabel = new JLabel();
 	          
+	          imageLabel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.GRAY));
 	          add(imageLabel, BorderLayout.WEST);
 	          add(textLabel, BorderLayout.CENTER);
 	       }
 	       
 	       @Override
-	       public Component getListCellRendererComponent(JList<? extends ImageLabelItem> list, ImageLabelItem value, int index,
+	       public Component getListCellRendererComponent(JList<? extends ImageLabelItem> list, 
+	    		   ImageLabelItem value, int index,
 	             boolean isSelected, boolean cellHasFocus) {
 	          imageLabel.setIcon(value.image);
 	          textLabel.setText(value.getLabel());
@@ -360,10 +474,10 @@ public class HomeView extends JPanel {
 	             setForeground(list.getForeground());
 	          }
 	          if (index % 2 == 0) {
-	             setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+	        	  setBorder(BorderFactory.createMatteBorder(1, 2, 1, 0, Color.GRAY));
 	          }
 	          else {
-	             setBorder(null);
+	        	  setBorder(BorderFactory.createMatteBorder(1, 2, 1, 0, Color.GRAY));
 	          }
 	          return this;
 	       }

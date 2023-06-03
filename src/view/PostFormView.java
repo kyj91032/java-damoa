@@ -1,6 +1,7 @@
 package view;
 
-import java.awt.Color;  
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
@@ -8,14 +9,23 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.border.AbstractBorder;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Insets;
+import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -71,7 +81,7 @@ public class PostFormView extends JPanel implements ActionListener {
 		border = BorderFactory.createLineBorder(Color.BLACK); // 테두리 설정
 		
 		setPreferredSize(new Dimension(400, 570));
-		setBackground(new Color(255, 255, 255));
+		setBackground(new Color(228, 204, 255));
 		setLayout(null);
 		
 		KategoriaComboBox(); // 카테고리 콤보박스
@@ -88,6 +98,7 @@ public class PostFormView extends JPanel implements ActionListener {
 		
 		btnPanel(); // 버튼 판넬	
 		
+		resetFields();// 내용초기화
 	}
 
 	private void SetImagePanel() {   
@@ -99,7 +110,8 @@ public class PostFormView extends JPanel implements ActionListener {
 		
 		defaultImageIcon = new ImageIcon("path/to/default/image.png"); // 초기 상태의 이미지 아이콘 경로 설정
 		ImageLabel = new JLabel("이미지를 등록하세요", defaultImageIcon, JLabel.CENTER);
-		ImageLabel.setBounds(0, 0, 232, 161);
+		ImageLabel.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 13));
+		ImageLabel.setBounds(10, 0, 232, 160);
 		Imagepanel.add(ImageLabel);
 		Imagepanel.addMouseListener(new MouseAdapter() {
 	        public void mouseClicked(MouseEvent e) {
@@ -112,7 +124,8 @@ public class PostFormView extends JPanel implements ActionListener {
 	                    // 이미지 로드
 	                    BufferedImage image = ImageIO.read(selectedFile);
 	                    
-	                    ByteArrayOutputStream baos = new ByteArrayOutputStream(); // 이미지 db에 저장하기 위해 byte[]로 변환
+	                    // 이미지 db에 저장하기 위해 byte[]로 변환
+	                    ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
 	                    ImageIO.write(image, "png", baos);
 	                    baos.flush();
 	                    imageData = baos.toByteArray();
@@ -143,8 +156,9 @@ public class PostFormView extends JPanel implements ActionListener {
 
 	private void SetTextArea() {     
 		textArea = new JTextArea();
+		textArea.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 15));
 		textArea.setBackground(new Color(255, 255, 255));
-		textArea.setBounds(10, 260, 380, 234);
+		textArea.setBounds(10, 260, 380, 235);
 		String initialText = " 내용을 입력하세요 : ";
 		textArea.setText(initialText);
 	    if (!textArea.hasFocus() && textArea.getText().equals(initialText)) {
@@ -167,16 +181,16 @@ public class PostFormView extends JPanel implements ActionListener {
 	            }
 	        }
 	    });
-		textArea.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		textArea.setBorder(new MatteBorder(2, 0, 2, 0, (Color) new Color(128, 128, 128)));
 		add(textArea);
 	}
 
 	private void TopPanel(Controller controller) {     
 		setLayout(null);
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-		panel_1.setBackground(new Color(255, 255, 255));
-		panel_1.setBounds(0, 0, 400, 50);
+		panel_1.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(128, 128, 128)));
+		panel_1.setBackground(new Color(228, 204, 255));
+		panel_1.setBounds(0, 0, 400, 41);
 		add(panel_1);
 		
 		ImageIcon daicon = new ImageIcon("image/damoa.jpeg");
@@ -185,22 +199,59 @@ public class PostFormView extends JPanel implements ActionListener {
 		ImageIcon daicon2 = new ImageIcon(daimage2);
 		panel_1.setLayout(null);
 		
-		JLabel dmlbl = new JLabel();
-		dmlbl.setBounds(0, 0, 50, 45);
-		dmlbl.setBackground(new Color(240, 240, 240));
-		panel_1.add(dmlbl);
-		dmlbl.setIcon(daicon2);
-		
-		JLabel lblDamoa = new JLabel("다모아 모집하기");
+		JLabel lblDamoa = new JLabel("모집하기");
 		lblDamoa.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblDamoa.setBounds(124, 13, 132, 23);
-		lblDamoa.setFont(new Font("한컴산뜻돋움", Font.BOLD, 18));
+		lblDamoa.setBounds(165, 10, 70, 25);
+		lblDamoa.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 19));
 		panel_1.add(lblDamoa);
 		
-		btnNewButton_4 = new JButton("완료");
-		btnNewButton_4.setFont(new Font("나눔고딕", Font.BOLD, 15));
+		btnNewButton_4 = new JButton("완료") {
+			class RoundedCornerBorder extends AbstractBorder {
+		    	  private static final Color ALPHA_ZERO = new Color(0x0, true);
+		    	  public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+		    	    Graphics2D g2 = (Graphics2D) g.create();
+		    	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		    	    Shape border = getBorderShape(x, y, width - 1, height - 1);
+		    	    g2.setPaint(ALPHA_ZERO);
+		    	    Area corner = new Area(new Rectangle2D.Double(x, y, width, height));
+		    	    corner.subtract(new Area());
+		    	    g2.fill(corner);
+		    	    g2.setPaint(Color.GRAY);
+		    	    g2.draw(border);
+		    	    g2.dispose();
+		    	  }
+		    	  public Shape getBorderShape(int x, int y, int w, int h) {
+		    	    int r = h; //h / 2;
+		    	    return new RoundRectangle2D.Double(x, y, w, h, r, r);
+		    	  }
+		    	  public Insets getBorderInsets(Component c) {
+		    	    return new Insets(4, 8, 4, 8);
+		    	  }
+		    	  public Insets getBorderInsets(Component c, Insets insets) {
+		    	    insets.set(4, 8, 4, 8);
+		    	    return insets;
+		    	  }
+		    	}
+				 protected void paintComponent(Graphics g) {
+				    if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+				      Graphics2D g2 = (Graphics2D) g.create();
+				      g2.setPaint(getBackground());
+				      g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
+				          0, 0, getWidth() - 1, getHeight() - 1));
+				      g2.dispose();
+				    }
+				    super.paintComponent(g);
+				  }
+				  public void updateUI() {
+				    super.updateUI();
+				    setOpaque(false);
+				    setBorder(new RoundedCornerBorder());
+				  }
+				};		
+		btnNewButton_4.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 12));
 		btnNewButton_4.setForeground(new Color(0, 0, 255));
-		btnNewButton_4.setBounds(327, 10, 61, 30);
+		btnNewButton_4.setBounds(330, 10, 50, 25);
+		btnNewButton_4.setBackground(new Color(228, 204, 255));
 		panel_1.add(btnNewButton_4);
 		btnNewButton_4.addActionListener(this);
 		
@@ -209,8 +260,8 @@ public class PostFormView extends JPanel implements ActionListener {
 	private void SetTitleTextField() {      
 		textField = new JTextField(20);
 		textField.setBackground(new Color(255, 255, 255));
-		textField.setFont(new Font("나눔고딕 ExtraBold", Font.BOLD, 15));
-		textField.setBounds(10, 56, 382, 26);
+		textField.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 17));
+		textField.setBounds(10, 50, 380, 30);
 		textField.setColumns(10);
 		String initialText = " 제목 : ";
 	    textField.setText(initialText);
@@ -235,7 +286,7 @@ public class PostFormView extends JPanel implements ActionListener {
 	        }
 	    });
 
-		textField.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		textField.setBorder(new MatteBorder(2, 0, 2, 0, (Color) new Color(128, 128, 128)));
 		add(textField);
 	}
 
@@ -338,10 +389,10 @@ public class PostFormView extends JPanel implements ActionListener {
         }); 
         mainComboBox.setBounds(257, 135, 133, 33);
         mainComboBox.setBackground(new Color(255, 255, 255));
-        mainComboBox.setFont(new Font("굴림", Font.BOLD, 15));
+        mainComboBox.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 15));
         subComboBox.setBounds(257, 178, 133, 33);
         subComboBox.setBackground(new Color(255, 255, 255));
-        subComboBox.setFont(new Font("굴림", Font.BOLD, 15));
+        subComboBox.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 15));
         add(mainComboBox);
         add(subComboBox);
  }
@@ -354,7 +405,7 @@ public class PostFormView extends JPanel implements ActionListener {
 		System.arraycopy(partialArray, 0, Kategorie, 1, partialArray.length);
 		KategorieComboBox = new JComboBox(Kategorie);
 		KategorieComboBox.setBackground(new Color(255, 255, 255));
-		KategorieComboBox.setFont(new Font("굴림체", Font.BOLD, 15));
+		KategorieComboBox.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 15));
 		KategorieComboBox.setBounds(257, 92, 133, 33);
 		add(KategorieComboBox);
 	}
@@ -380,6 +431,7 @@ public class PostFormView extends JPanel implements ActionListener {
 		   panel1.add(lblHome);
 		   lblHome.addMouseListener(new MouseAdapter() {
 		       public void mouseClicked(MouseEvent e) {
+		    	   resetFields();
 		           controller.showCard("home"); // 라벨 클릭 시 홈 화면 보여줌
 		       }
 		   });
@@ -397,6 +449,7 @@ public class PostFormView extends JPanel implements ActionListener {
 		   panel1.add(lblRecruitment);
 		   lblRecruitment.addMouseListener(new MouseAdapter() {
 		      public void mouseClicked(MouseEvent e) {
+		    	  resetFields();
 		           controller.showCard("postform"); // 라벨 클릭 시 채팅 화면 보여줌
 		       }
 		   });
@@ -415,6 +468,7 @@ public class PostFormView extends JPanel implements ActionListener {
 		   panel1.add(lblChat);
 		   lblChat.addMouseListener(new MouseAdapter() {
 		       public void mouseClicked(MouseEvent e) {
+		    	   resetFields();
 		           controller.showCard("chatlist"); // 라벨 클릭 시 채팅 화면 보여줌
 		       }
 		   });
@@ -431,6 +485,7 @@ public class PostFormView extends JPanel implements ActionListener {
 		   panel1.add(lblMypage);
 		   lblMypage.addMouseListener(new MouseAdapter() {
 		      public void mouseClicked(MouseEvent e) {
+		    	  resetFields();
 		         controller.showCard("mypage");  
 		       }
 		   });
@@ -442,6 +497,7 @@ public class PostFormView extends JPanel implements ActionListener {
 		Object obj = e.getSource();
 		
 		if(obj == btnNewButton_4) {
+			resetFields();
 			model.postForm(this);
 			controller.showCard("home");
 		}
@@ -497,7 +553,15 @@ public class PostFormView extends JPanel implements ActionListener {
 		this.imageData = imageData;
 	}
 
-	
+	private void resetFields() { 
+        textField.setText(" 제목 : ");
+        selectedImagePath = null; // 이미지 경로 초기화
+        ImageLabel.setIcon(defaultImageIcon); // 초기 상태 이미지로 설정
+        ImageLabel.setText("이미지를 등록하세요"); // 텍스트 초기화
+        mainComboBox.setSelectedIndex(0);
+        KategorieComboBox.setSelectedIndex(0);
+        textArea.setText(" 내용을 입력하세요 : ");
+    }
 }
 
 
