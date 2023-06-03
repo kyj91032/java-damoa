@@ -20,9 +20,6 @@ import view.MyPageView;
 import view.PostFormView;
 import view.SignUpView;
 import view.StartView;
-import view.TestHome;
-import view.TestLogin;
-import view.TestSignUp;
 import view.PostView;
 
 public class Controller extends JFrame {
@@ -41,6 +38,7 @@ public class Controller extends JFrame {
         contentPane = new JPanel();
         cardLayout = new CardLayout();
         model = new Model();
+        
         previousCard = "start";
         
         model.initDbConn();
@@ -58,27 +56,22 @@ public class Controller extends JFrame {
         LoginView loginView = new LoginView(model, this);
         SignUpView signUpView = new SignUpView(model, this);
         PostFormView postformview = new PostFormView(model, this);
-        TestSignUp testsignup = new TestSignUp(model, this);
-        TestHome testhome = new TestHome(model, this);
-        TestLogin testlogin = new TestLogin(model, this);
         
         contentPane.add(startView, "start");
         contentPane.add(homeview, "home");
         contentPane.add(loginView, "login");
         contentPane.add(signUpView, "signup");
         contentPane.add(postformview, "postform");
-        contentPane.add(testsignup, "testsignup");
-        contentPane.add(testhome, "testhome");
-        contentPane.add(testlogin, "testlogin");
+        
         cardLayout.show(contentPane, "start");
 
         timer = new Timer(1500, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                showCard("testhome");
-                timer.stop(); 
+                showCard("home");
+                timer.stop();
             }
         });
-        
+
         timer.setRepeats(false);
         timer.start();
 
@@ -104,8 +97,6 @@ public class Controller extends JFrame {
         		ChatListView chatlistview = new ChatListView(model, this);
         		contentPane.add(chatlistview, "chatlist");
         		
-        		// chatrooms를 기반으로 chatview를 생성하는 메소드
-        		
             } else {
                 cardName = "login";
             }
@@ -120,13 +111,17 @@ public class Controller extends JFrame {
         	contentPane.add(postview, "post");
         	
         } else if (cardName.equals("home")) {
-        	
             homeview = new HomeView(model, this);
             contentPane.add(homeview, "home");
             
-
+        } else if (cardName.equals("chat")) {
+        	ChatView chatview = new ChatView(model, this, model.getCurrentChatMessages());
+        	contentPane.add(chatview, "chat");
+        	
         }
         previousCard = cardName;
         cardLayout.show(contentPane, cardName);
     }
+    
+    
 }

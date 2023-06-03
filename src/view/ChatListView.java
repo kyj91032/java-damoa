@@ -33,8 +33,11 @@ import javax.swing.border.MatteBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import controller.Controller;
+import model.ChatMessageEntity;
 import model.ChatRoomEntity;
 import model.Model;
+import model.PostEntity;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -44,14 +47,13 @@ public class ChatListView extends JPanel {
 	private Controller controller;
 	
 	private DefaultListModel listModel;
-	private ChatView chatview;
 	private ArrayList<ChatView> chats;
+	private List<ChatMessageEntity> chatmessages;
 	
 
 	public ChatListView(Model model, Controller controller) {
 		this.model = model;
 		this.controller = controller;
-		this.chatview = chatview;
 
 		setPreferredSize(new Dimension(400, 570));
 		setBackground(new Color(255, 255, 255));
@@ -121,21 +123,22 @@ public class ChatListView extends JPanel {
 	        listModel.addElement(item);
 	    }
 	    
-	    
 	    // JList를 생성하고 리스트 모델을 설정합니다.
 	    JList<ImageLabelItem> list = new JList<>(listModel);
 	    list.setCellRenderer(new ImageLabelListCellRenderer());
 	    
-	    
 	    list.addMouseListener(new MouseAdapter() {
-	        @Override
+			@Override
 	        public void mouseClicked(MouseEvent e) {
-				 int index = list.getSelectedIndex();
-				 for (int i = 0; i < listModel.getSize(); i++) {
-					 if ((e.getClickCount() == 2) && (index == i)) {
-						 controller.showCard("chat"+(i+1));
-					 }
-				 }
+				int index = list.getSelectedIndex();
+				if (model.isLoggedin()) {
+					ChatRoomEntity selectedChat = chatRooms.get(index);
+					model.setCurrentChatRoom(selectedChat);
+					chatmessages = model.getCurrentChatMessageByRoomid(selectedChat.getRoomId());
+					controller.showCard("chat");
+                } else {
+                	controller.showCard("login");
+                }
 	        }
 	    });
 
@@ -148,7 +151,7 @@ public class ChatListView extends JPanel {
 
 	    public ImageLabelItem(ImageIcon image, String label) {
 	        this.image = image;
-	        this.label = label;	   
+	        this.label = label;
 	    }
 
 	    public String getLabel() {

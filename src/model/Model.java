@@ -12,6 +12,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.text.BadLocationException;
 
 import view.PostFormView;
 import view.SignUpView;
@@ -29,14 +30,15 @@ public class Model {
 	private PostEntity currentPost; // 최근 올린 게시글 정보 
 	private ArrayList chatRooms; // 최근 채팅방 목록 정보 
 	private ArrayList posts; // 현재 모든 글 리스트 
+	private ChatRoomEntity currentChatRoom; // 최근 채팅방 정보
+	private ArrayList currentChatMessages;
+	private ArrayList categoryPosts;
 
     public void initDbConn() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost/damoa", "root", "1234");
             stmt = conn.createStatement();
-            System.out.println("OK");
-
         } catch (ClassNotFoundException e) {
             System.out.println("The driver does not exist.");
             e.printStackTrace();
@@ -56,12 +58,12 @@ public class Model {
        
     public void registerUser(SignUpView signupview) { // 회원 등록 메소드
 	    
-    	JTextField textField = signupview.getTextField();
+    	JTextField textField = signupview.getIdField();
     	JPasswordField passwordField = signupview.getPasswordField();
     	JPasswordField passwordField_1 = signupview.getPasswordField_1();
-    	JTextField textField_1 = signupview.getTextField_1();
-    	JTextField textField_2 = signupview.getTextField_2();
-    	JTextField textField_3 = signupview.getTextField_3();
+    	JTextField textField_1 = signupview.getNicknameField();
+    	JTextField textField_2 = signupview.getPhoneField();
+    	JTextField textField_3 = signupview.getBirthField();
     	
     	String username = textField.getText();
 	    String password = new String(passwordField.getPassword());
@@ -133,14 +135,14 @@ public class Model {
                 ResultSet resultSet = stmt.executeQuery(query);
                 if (resultSet.next()) {
                     // 회원 정보 초기화
+                	int userid = resultSet.getInt("userid");
                     String _username = resultSet.getString("username");
                     String password = resultSet.getString("userpw");
                     String nickname = resultSet.getString("nickname");
                     String phoneNumber = resultSet.getString("phone");
                     String birthday = resultSet.getString("birth");
 
-                    currentUser = new UserEntity();
-                    currentUser.init(_username, password, nickname, phoneNumber, birthday);
+                    currentUser = new UserEntity(userid, _username, password, nickname, phoneNumber, birthday);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -169,8 +171,18 @@ public class Model {
     }
        
     public String getNicknameById(int userId) {
-    	String nickname = currentUser.getNickname();
-    	return nickname;
+        try {
+            String query = "SELECT nickname FROM usertable WHERE userid = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getString("nickname");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
     
     public UserEntity getCurrentUser() { // 현재 유저 엔티티 getter
@@ -344,7 +356,7 @@ public class Model {
         posts = new ArrayList<>();
 
         try {
-            String query = "SELECT * FROM posttable";
+            String query = "SELECT * FROM posttable ORDER BY postid DESC";
             ResultSet resultSet = stmt.executeQuery(query);
 
             while (resultSet.next()) {
@@ -367,12 +379,277 @@ public class Model {
 
         return posts;
     }
+    
+    public List<PostEntity> getCategoryPosts(String category) {
+		categoryPosts = new ArrayList<>();
+		
+		try {
+	        String query = "SELECT * FROM posttable WHERE kategorie = ? ORDER BY postid DESC";
+	        PreparedStatement statement = conn.prepareStatement(query);
+	        statement.setString(1, category);
+	        ResultSet resultSet = statement.executeQuery();
+
+	        while (resultSet.next()) {
+	            int postId = resultSet.getInt("postid");
+	            String kategorie = resultSet.getString("kategorie");
+	            String region = resultSet.getString("region");
+	            String specificRegion = resultSet.getString("specificregion");
+	            String textarea = resultSet.getString("textarea");
+	            byte[] image = resultSet.getBytes("image");
+	            int userId = resultSet.getInt("userid");
+	            String title = resultSet.getString("title");
+	            int roomId = resultSet.getInt("roomid");
+
+	            PostEntity post = new PostEntity(postId, kategorie, region, specificRegion, textarea, image, userId, title, roomId);
+	            categoryPosts.add(post);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+		return categoryPosts;
+	}
 
     public void setCurrentPost(PostEntity post) {
         currentPost = post;
     }
 
-    
+    public void updateUserData(UserEntity updateUserEntity) {
+        if (!isLoggedIn || currentUser == null) {
+            return;
+        }
 
+        try {
+            // usertable에서 사용자 정보 업데이트
+            String query = "UPDATE usertable SET username = ?, userpw = ?, nickname = ?, phone = ?, birth = ? WHERE userid = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, updateUserEntity.getUsername());
+            statement.setString(2, updateUserEntity.getUserpw());
+            statement.setString(3, updateUserEntity.getNickname());
+            statement.setString(4, updateUserEntity.getPhone());
+            statement.setString(5, updateUserEntity.getBirth());
+            statement.setInt(6, updateUserEntity.getUserid());
+            statement.executeUpdate();
+
+            // 업데이트 후 변경된 정보로 currentUser 업데이트
+            initUserInfo(updateUserEntity.getUsername());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     
+    public void setCurrentChatRoom(ChatRoomEntity chatroom) {
+    	currentChatRoom = chatroom;
+    }
+    
+    public ChatRoomEntity getCurrentChatRoom() {
+    	return currentChatRoom;
+    }
+       
+    
+	public List<ChatMessageEntity> getCurrentChatMessageByRoomid(int roomId) {
+		currentChatMessages = new ArrayList<>();
+		
+		try {
+	        
+			String query = "SELECT * FROM chatMessagetable WHERE roomid = ? ORDER BY messageid ASC";
+			PreparedStatement statement = conn.prepareStatement(query);
+			statement.setInt(1, roomId);
+	        
+	        ResultSet resultSet = statement.executeQuery();
+
+	        while (resultSet.next()) {
+	            int messageId = resultSet.getInt("messageid");
+	            int userId = resultSet.getInt("userid");
+	            String content = resultSet.getString("content");
+
+	            ChatMessageEntity chatMessage = new ChatMessageEntity(messageId, roomId, userId, content);
+	            currentChatMessages.add(chatMessage);
+	        }
+	        
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+		return currentChatMessages;
+	}
+	
+	public List<ChatMessageEntity> getCurrentChatMessages() {
+		return currentChatMessages;
+	}
+	
+
+	public ChatRoomEntity getCurrentChatRoomByRoomId(int roomId) {
+	    
+	    try {
+	        String query = "SELECT * FROM chatRoomTable WHERE roomid = ?";
+	        PreparedStatement statement = conn.prepareStatement(query);
+	        statement.setInt(1, roomId);
+	        ResultSet resultSet = statement.executeQuery();
+	        
+	        if (resultSet.next()) {
+	            String roomName = resultSet.getString("roomname");
+	            String description = resultSet.getString("description");
+	            Blob imageBlob = resultSet.getBlob("image");
+	            byte[] imageBytes = imageBlob.getBytes(1, (int) imageBlob.length());
+	            // 채팅방 정보를 가져와서 ChatRoomEntity 객체 생성
+	            currentChatRoom = new ChatRoomEntity(roomId, roomName, description, imageBytes);
+	        }
+	        
+	        resultSet.close();
+	        statement.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return currentChatRoom;
+	}
+
+	public void insertChatMessage(String message) {
+		int roomId = currentChatRoom.getRoomId();
+	    int userId = currentUser.getUserid();
+	    
+	    try {
+	        String query = "INSERT INTO chatMessagetable (roomid, userid, content) VALUES (?, ?, ?)";
+	        PreparedStatement statement = conn.prepareStatement(query);
+	        statement.setInt(1, roomId);
+	        statement.setInt(2, userId);
+	        statement.setString(3, message);
+	        statement.executeUpdate();
+	        
+	        // 생성된 메시지 정보를 리스트에 추가
+	        int messageId = -1; // 초기값으로 설정
+	        query = "SELECT LAST_INSERT_ID()"; // AUTO_INCREMENT로 생성된 마지막 값 조회
+	        statement = conn.prepareStatement(query);
+	        ResultSet resultSet = statement.executeQuery();
+	        if (resultSet.next()) {
+	            messageId = resultSet.getInt(1);
+	        }
+	        resultSet.close();
+	        statement.close();
+
+	        ChatMessageEntity chatMessage = new ChatMessageEntity(messageId, roomId, userId, message);
+	        currentChatMessages.add(chatMessage);
+	        
+	        
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+		
+	}
+	
+	public void deletePost(int postId) {
+	    try {
+	        // posttable에서 postId와 관련된 roomId 가져오기
+	        String selectRoomIdQuery = "SELECT roomid FROM posttable WHERE postid = ?";
+	        PreparedStatement selectRoomIdStatement = conn.prepareStatement(selectRoomIdQuery);
+	        selectRoomIdStatement.setInt(1, postId);
+	        ResultSet roomIdResult = selectRoomIdStatement.executeQuery();
+
+	        int roomId = 0;
+	        if (roomIdResult.next()) {
+	            roomId = roomIdResult.getInt("roomid");
+	        }
+
+	        // 외래 키 제약 조건 비활성화
+	        String disableForeignKeyQuery = "SET FOREIGN_KEY_CHECKS = 0";
+	        Statement disableForeignKeyStatement = conn.createStatement();
+	        disableForeignKeyStatement.executeUpdate(disableForeignKeyQuery);
+
+	        // user_chatroom에서 roomId와 관련된 행 삭제
+	        String deleteFromUserChatroomQuery = "DELETE FROM user_chatroom WHERE roomid = ?";
+	        PreparedStatement deleteFromUserChatroomStatement = conn.prepareStatement(deleteFromUserChatroomQuery);
+	        deleteFromUserChatroomStatement.setInt(1, roomId);
+	        deleteFromUserChatroomStatement.executeUpdate();
+
+	        // chatroomtable에서 roomId와 관련된 행 삭제
+	        String deleteFromChatroomtableQuery = "DELETE FROM chatroomtable WHERE roomid = ?";
+	        PreparedStatement deleteFromChatroomtableStatement = conn.prepareStatement(deleteFromChatroomtableQuery);
+	        deleteFromChatroomtableStatement.setInt(1, roomId);
+	        deleteFromChatroomtableStatement.executeUpdate();
+
+	        // posttable에서 postId와 관련된 행 삭제
+	        String deleteFromPosttableQuery = "DELETE FROM posttable WHERE postid = ?";
+	        PreparedStatement deleteFromPosttableStatement = conn.prepareStatement(deleteFromPosttableQuery);
+	        deleteFromPosttableStatement.setInt(1, postId);
+	        deleteFromPosttableStatement.executeUpdate();
+
+	        // chatmessagetable에서 roomId와 관련된 행 삭제
+	        String deleteFromChatmessagetableQuery = "DELETE FROM chatmessagetable WHERE roomid = ?";
+	        PreparedStatement deleteFromChatmessagetableStatement = conn.prepareStatement(deleteFromChatmessagetableQuery);
+	        deleteFromChatmessagetableStatement.setInt(1, roomId);
+	        deleteFromChatmessagetableStatement.executeUpdate();
+
+	        // 외래 키 제약 조건 활성화
+	        String enableForeignKeyQuery = "SET FOREIGN_KEY_CHECKS = 1";
+	        Statement enableForeignKeyStatement = conn.createStatement();
+	        enableForeignKeyStatement.executeUpdate(enableForeignKeyQuery);
+
+	        System.out.println("포스트 삭제 완료");
+
+	    } catch (SQLException ex) {
+	        JOptionPane.showMessageDialog(null, "포스트 삭제 중 오류가 발생했습니다.", "포스트 삭제 실패", JOptionPane.ERROR_MESSAGE);
+	        ex.printStackTrace();
+	    }
+	}
+
+	public void userJoinChat(int postId) {
+		try {
+	        // posttable에서 postId와 관련된 roomId 가져오기
+	        String selectRoomIdQuery = "SELECT roomid FROM posttable WHERE postid = ?";
+	        PreparedStatement selectRoomIdStatement = conn.prepareStatement(selectRoomIdQuery);
+	        selectRoomIdStatement.setInt(1, postId);
+	        ResultSet roomIdResult = selectRoomIdStatement.executeQuery();
+
+	        int roomId = 0;
+	        if (roomIdResult.next()) {
+	            roomId = roomIdResult.getInt("roomid");
+	        }
+
+	        // user_chatroom에 데이터 추가
+	        String userChatroomQuery = "INSERT INTO user_chatroom (roomid, userid) VALUES (?, ?)";
+	        PreparedStatement userChatroomStatement = conn.prepareStatement(userChatroomQuery);
+	        userChatroomStatement.setInt(1, roomId);
+	        userChatroomStatement.setInt(2, currentUser.getUserid());
+	        userChatroomStatement.executeUpdate();
+
+	        System.out.println("유저 채팅 참여 완료");
+
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+	}
+
+	public List<PostEntity> searchPost(String searchText) {
+		List<PostEntity> searchResults = new ArrayList<>();
+
+	    try {
+	        String query = "SELECT * FROM posttable WHERE title LIKE ? ORDER BY postid DESC";
+	        PreparedStatement statement = conn.prepareStatement(query);
+	        statement.setString(1, "%" + searchText + "%");
+	        ResultSet resultSet = statement.executeQuery();
+
+	        while (resultSet.next()) {
+	            int postId = resultSet.getInt("postid");
+	            String kategorie = resultSet.getString("kategorie");
+	            String region = resultSet.getString("region");
+	            String specificRegion = resultSet.getString("specificregion");
+	            String textarea = resultSet.getString("textarea");
+	            byte[] image = resultSet.getBytes("image");
+	            int userId = resultSet.getInt("userid");
+	            String title = resultSet.getString("title");
+	            int roomId = resultSet.getInt("roomid");
+
+	            PostEntity post = new PostEntity(postId, kategorie, region, specificRegion, textarea, image, userId, title, roomId);
+	            searchResults.add(post);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return searchResults;
+	}
+
+	
+	
+
 }
