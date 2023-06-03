@@ -326,10 +326,10 @@ public class SignUpView extends JPanel implements MouseListener {
       ImageIcon backicon2 = new ImageIcon(backimage2);
       lblNewLabel_5.setIcon(backicon2);
       lblNewLabel_5.addMouseListener(new MouseAdapter() {
-      	@Override
-      	public void mouseClicked(MouseEvent e) {
-      		controller.showCard("login");
-      	}
+         @Override
+         public void mouseClicked(MouseEvent e) {
+            controller.showCard("login");
+         }
       });
       lblNewLabel_5.setBounds(15, 15, 35, 35);
       panel.add(lblNewLabel_5);
@@ -339,87 +339,87 @@ public class SignUpView extends JPanel implements MouseListener {
    
    
 
-	public JTextField getIdField() {
-		return idField;
-	}
-	
-	public void setIdField(JTextField idField) {
-		this.idField = idField;
-	}
-	
-	public JTextField getNicknameField() {
-		return nicknameField;
-	}
-	
-	public void setNicknameField(JTextField nicknameField) {
-		this.nicknameField = nicknameField;
-	}
-	
-	public JTextField getPhoneField() {
-		return PhoneField;
-	}
-	
-	public void setPhoneField(JTextField phoneField) {
-		PhoneField = phoneField;
-	}
-	
-	public JTextField getBirthField() {
-		return birthField;
-	}
-	
-	public void setBirthField(JTextField birthField) {
-		this.birthField = birthField;
-	}
-	
-	public JPasswordField getPasswordField() {
-		return passwordField;
-	}
-	
-	public void setPasswordField(JPasswordField passwordField) {
-		this.passwordField = passwordField;
-	}
-	
-	public JPasswordField getPasswordField_1() {
-		return passwordField_1;
-	}
-	
-	public void setPasswordField_1(JPasswordField passwordField_1) {
-		this.passwordField_1 = passwordField_1;
-	}
-	
-	
+   public JTextField getIdField() {
+      return idField;
+   }
+   
+   public void setIdField(JTextField idField) {
+      this.idField = idField;
+   }
+   
+   public JTextField getNicknameField() {
+      return nicknameField;
+   }
+   
+   public void setNicknameField(JTextField nicknameField) {
+      this.nicknameField = nicknameField;
+   }
+   
+   public JTextField getPhoneField() {
+      return PhoneField;
+   }
+   
+   public void setPhoneField(JTextField phoneField) {
+      PhoneField = phoneField;
+   }
+   
+   public JTextField getBirthField() {
+      return birthField;
+   }
+   
+   public void setBirthField(JTextField birthField) {
+      this.birthField = birthField;
+   }
+   
+   public JPasswordField getPasswordField() {
+      return passwordField;
+   }
+   
+   public void setPasswordField(JPasswordField passwordField) {
+      this.passwordField = passwordField;
+   }
+   
+   public JPasswordField getPasswordField_1() {
+      return passwordField_1;
+   }
+   
+   public void setPasswordField_1(JPasswordField passwordField_1) {
+      this.passwordField_1 = passwordField_1;
+   }
+   
+   
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		Object obj = e.getSource();
-		
-		if(obj == lblNewLabel_3) {
-			model.registerUser(this);
-		}
-		
-	}
+   @Override
+   public void mouseClicked(MouseEvent e) {
+      Object obj = e.getSource();
+      
+      if(obj == lblNewLabel_3) {
+         model.registerUser(this);
+      }
+      
+   }
 
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+   @Override
+   public void mousePressed(MouseEvent e) {
+      // TODO Auto-generated method stub
+      
+   }
 
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+   @Override
+   public void mouseReleased(MouseEvent e) {
+      // TODO Auto-generated method stub
+      
+   }
 
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+   @Override
+   public void mouseEntered(MouseEvent e) {
+      // TODO Auto-generated method stub
+      
+   }
 
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+   @Override
+   public void mouseExited(MouseEvent e) {
+      // TODO Auto-generated method stub
+      
+   }
 }

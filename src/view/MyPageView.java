@@ -76,75 +76,87 @@ public class MyPageView extends JPanel {
 	
 	private void addBtnPanel(Controller controller) { // 하단 4메뉴 생성 메소드
 		JPanel panel1 = new JPanel();
-	    panel1.setBackground(new Color(201, 219, 178));
-	    panel1.setBounds(0, 500, 400, 70);
-	    add(panel1);
-	    panel1.setLayout(new GridLayout(1, 4));
-
-	    JLabel lblHome = new JLabel();
-	    lblHome.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
-	    ImageIcon homeicon = new ImageIcon("image/homebutton2.png");
-	    Image imghome = homeicon.getImage();
-	    Image imghome2 = imghome.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		ImageIcon imgicon2 = new ImageIcon(imghome2);
-	    lblHome.setIcon(imgicon2);
-	    lblHome.setHorizontalAlignment(SwingConstants.CENTER);
-	    lblHome.setBackground(new Color(201, 219, 178));
-	    panel1.add(lblHome);
-	    lblHome.addMouseListener(new MouseAdapter() {
-	        public void mouseClicked(MouseEvent e) {
-	            controller.showCard("home"); // 라벨 클릭 시 홈 화면 보여줌
-	        }
-	    });
-	    
-	    JLabel lblRecruitment = new JLabel();
-	    lblRecruitment.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
-	    ImageIcon posticon = new ImageIcon("image/postbutton3.png");
-	    Image imgpost = posticon.getImage();
-	    Image imgpost2 = imgpost.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		ImageIcon posticon2 = new ImageIcon(imgpost2);
-		lblRecruitment.setIcon(posticon2);
-	    lblRecruitment.setHorizontalAlignment(SwingConstants.CENTER);
-	    lblRecruitment.setBackground(new Color(201, 219, 178));
-	    panel1.add(lblRecruitment);
-	    lblRecruitment.addMouseListener(new MouseAdapter() {
-	    	public void mouseClicked(MouseEvent e) {
-	            controller.showCard("postform"); // 라벨 클릭 시 채팅 화면 보여줌
-	        }
-	    });
-
-	    
-	    JLabel lblChat = new JLabel();
-	    lblChat.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(0, 0, 0)));
-	    ImageIcon chaticon = new ImageIcon("image/chatbutton.png");
-	    Image imgchat = chaticon.getImage();
-	    Image imgchat2 = imgchat.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		ImageIcon iconchat2 = new ImageIcon(imgchat2);
-		lblChat.setIcon(iconchat2);
-	    lblChat.setHorizontalAlignment(SwingConstants.CENTER);
-	    lblChat.setBackground(new Color(201, 219, 178));
-	    panel1.add(lblChat);
-	    lblChat.addMouseListener(new MouseAdapter() {
-	        public void mouseClicked(MouseEvent e) {
-	            controller.showCard("chatlist"); // 라벨 클릭 시 채팅 화면 보여줌
-	        }
-	    });
-
-	    JLabel lblMypage = new JLabel();
-	    ImageIcon mypageicon = new ImageIcon("image/mypage.png");
-	    Image imgmypage = mypageicon.getImage();
-	    Image imgmypage2 = imgmypage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		ImageIcon iconmypage2 = new ImageIcon(imgmypage2);
-		lblMypage.setIcon(iconmypage2);
-	    lblMypage.setHorizontalAlignment(SwingConstants.CENTER);
-	    lblMypage.setBackground(new Color(201, 219, 178));
-	    panel1.add(lblMypage);
+		   panel1.setBorder(new LineBorder(new Color(192, 192, 192), 1, true));
+		   panel1.setBackground(new Color(255, 255, 255));
+		   panel1.setBounds(0, 500, 400, 70);
+		   add(panel1);
+		
+		   JLabel lblHome = new JLabel();
+		   lblHome.setBounds(0, 0, 100, 70);
+		   lblHome.setBorder(new LineBorder(new Color(192, 192, 192), 1, true));
+		   ImageIcon homeicon = new ImageIcon("image/home.png");
+		   Image imghome = homeicon.getImage();
+		   Image imghome2 = imghome.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		   ImageIcon imgicon2 = new ImageIcon(imghome2);
+		   panel1.setLayout(null);
+		   lblHome.setIcon(imgicon2);
+		   lblHome.setHorizontalAlignment(SwingConstants.CENTER);
+		   lblHome.setBackground(new Color(201, 219, 178));
+		   panel1.add(lblHome);
+		   lblHome.addMouseListener(new MouseAdapter() {
+		       public void mouseClicked(MouseEvent e) {
+		           controller.showCard("home"); // 라벨 클릭 시 홈 화면 보여줌
+		       }
+		   });
+		   
+		   JLabel lblRecruitment = new JLabel();
+		   lblRecruitment.setBounds(100, 0, 100, 70);
+		   lblRecruitment.setBorder(null);
+		   ImageIcon posticon = new ImageIcon("image/post.png");
+		   Image imgpost = posticon.getImage();
+		   Image imgpost2 = imgpost.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		  ImageIcon posticon2 = new ImageIcon(imgpost2);
+		  lblRecruitment.setIcon(posticon2);
+		   lblRecruitment.setHorizontalAlignment(SwingConstants.CENTER);
+		   lblRecruitment.setBackground(new Color(201, 219, 178));
+		   panel1.add(lblRecruitment);
+		   lblRecruitment.addMouseListener(new MouseAdapter() {
+		      public void mouseClicked(MouseEvent e) {
+		           controller.showCard("postform"); // 라벨 클릭 시 채팅 화면 보여줌
+		       }
+		   });
+		
+		   
+		   JLabel lblChat = new JLabel();
+		   lblChat.setBounds(200, 0, 100, 70);
+		   lblChat.setBorder(new LineBorder(new Color(192, 192, 192)));
+		   ImageIcon chaticon = new ImageIcon("image/chat.png");
+		   Image imgchat = chaticon.getImage();
+		   Image imgchat2 = imgchat.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		  ImageIcon iconchat2 = new ImageIcon(imgchat2);
+		  lblChat.setIcon(iconchat2);
+		   lblChat.setHorizontalAlignment(SwingConstants.CENTER);
+		   lblChat.setBackground(new Color(201, 219, 178));
+		   panel1.add(lblChat);
+		   lblChat.addMouseListener(new MouseAdapter() {
+		       public void mouseClicked(MouseEvent e) {
+		           controller.showCard("chatlist"); // 라벨 클릭 시 채팅 화면 보여줌
+		       }
+		   });
+		
+		   JLabel lblMypage = new JLabel();
+		   lblMypage.setBounds(300, 0, 100, 70);
+		   ImageIcon mypageicon = new ImageIcon("image/mypage.png");
+		   Image imgmypage = mypageicon.getImage();
+		   Image imgmypage2 = imgmypage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		  ImageIcon iconmypage2 = new ImageIcon(imgmypage2);
+		  lblMypage.setIcon(iconmypage2);
+		   lblMypage.setHorizontalAlignment(SwingConstants.CENTER);
+		   lblMypage.setBackground(new Color(192, 192, 192));
+		   panel1.add(lblMypage);
+		   lblMypage.addMouseListener(new MouseAdapter() {
+		      public void mouseClicked(MouseEvent e) {
+		         controller.showCard("mypage");  
+		       }
+		   });
 	    
 	    JPanel panel_2 = new JPanel();
 	    panel_2.setLayout(null);
 	    panel_2.setBackground(new Color(246, 255, 222));
 	    panel_2.setBounds(0, 49, 400, 454);
 	    add(panel_2);
+	    
+	    
 	    
 	    JLabel lblNewLabel_2_2_1_1_1 = new JLabel("로그아웃");
 	    lblNewLabel_2_2_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
