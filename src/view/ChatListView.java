@@ -5,6 +5,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -164,14 +165,14 @@ public class ChatListView extends JPanel {
 	    private JLabel textLabel;
 	
 	    public ImageLabelListCellRenderer() {
-	        setLayout(new BorderLayout());
+	        setLayout(new FlowLayout());
 	        setOpaque(true);
 	
 	        imageLabel = new JLabel();
 	        textLabel = new JLabel();
-	
-	        add(imageLabel, BorderLayout.WEST);
-	        add(textLabel, BorderLayout.CENTER);
+	        
+	        add(imageLabel);
+	        add(textLabel);
 	    }
 
 	    @Override
