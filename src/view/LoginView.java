@@ -70,7 +70,7 @@ public class LoginView extends JPanel {
          
          
         textField = new JTextField();
-        textField.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 15));
+        textField.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 13));
         textField.setBorder(compoundBorder);
          textField.setText("아이디");
          textField.setColumns(10);
@@ -140,7 +140,7 @@ public class LoginView extends JPanel {
       
       
          passwordField = new JPasswordField();
-         passwordField.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 15));
+         passwordField.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 13));
          passwordField.setBorder(compoundBorder);
          String initialText2 = "비밀번호";
          passwordField.setText(initialText2);

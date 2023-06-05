@@ -11,6 +11,7 @@ public class PostEntity {
     private String title;
     private int roomId;
 
+    
     public PostEntity(int postId, String kategorie, String region, String specificRegion, String textarea, byte[] image, int userId, String title, int roomId) {
         this.postId = postId;
         this.kategorie = kategorie;
@@ -21,6 +22,8 @@ public class PostEntity {
         this.userId = userId;
         this.title = title;
         this.roomId = roomId;
+
+
     }
 
     public int getPostId() {
@@ -58,4 +61,5 @@ public class PostEntity {
     public int getRoomId() {
         return roomId;
     }
+    
 }

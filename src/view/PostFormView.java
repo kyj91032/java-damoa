@@ -81,7 +81,7 @@ public class PostFormView extends JPanel implements ActionListener {
 		border = BorderFactory.createLineBorder(Color.BLACK); // 테두리 설정
 		
 		setPreferredSize(new Dimension(400, 570));
-		setBackground(new Color(228, 204, 255));
+		setBackground(new Color(255, 255, 255));
 		setLayout(null);
 		
 		KategoriaComboBox(); // 카테고리 콤보박스
@@ -103,15 +103,16 @@ public class PostFormView extends JPanel implements ActionListener {
 
 	private void SetImagePanel() {   
 		Imagepanel = new JPanel();
-		Imagepanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		Imagepanel.setBorder(new LineBorder(new Color(228, 204, 255), 2));
 		Imagepanel.setBackground(new Color(255, 255, 255));
-		Imagepanel.setBounds(12, 89, 232, 161);
+		Imagepanel.setBounds(10, 120, 234, 164);
 		Imagepanel.setLayout(null);
 		
 		defaultImageIcon = new ImageIcon("path/to/default/image.png"); // 초기 상태의 이미지 아이콘 경로 설정
 		ImageLabel = new JLabel("이미지를 등록하세요", defaultImageIcon, JLabel.CENTER);
-		ImageLabel.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 13));
-		ImageLabel.setBounds(10, 0, 232, 160);
+		ImageLabel.setForeground(new Color(128, 128, 128));
+		ImageLabel.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+		ImageLabel.setBounds(2, 2, 230, 160);
 		Imagepanel.add(ImageLabel);
 		Imagepanel.addMouseListener(new MouseAdapter() {
 	        public void mouseClicked(MouseEvent e) {
@@ -148,17 +149,15 @@ public class PostFormView extends JPanel implements ActionListener {
 	            }
 	        }
 	    });
-		
-	    ImageLabel.setBounds(0, 0, 232, 161);
 	    Imagepanel.add(ImageLabel);
 		add(Imagepanel);
 	}
 
 	private void SetTextArea() {     
 		textArea = new JTextArea();
-		textArea.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 15));
+		textArea.setFont(new Font("맑은 고딕", Font.BOLD, 12));
 		textArea.setBackground(new Color(255, 255, 255));
-		textArea.setBounds(10, 260, 380, 235);
+		textArea.setBounds(10, 292, 380, 203);
 		String initialText = " 내용을 입력하세요 : ";
 		textArea.setText(initialText);
 	    if (!textArea.hasFocus() && textArea.getText().equals(initialText)) {
@@ -181,78 +180,34 @@ public class PostFormView extends JPanel implements ActionListener {
 	            }
 	        }
 	    });
-		textArea.setBorder(new MatteBorder(2, 0, 2, 0, (Color) new Color(128, 128, 128)));
+		textArea.setBorder(new MatteBorder(1, 0, 2, 0, (Color) new Color(228, 204, 255)));
 		add(textArea);
 	}
 
 	private void TopPanel(Controller controller) {     
-		setLayout(null);
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(128, 128, 128)));
-		panel_1.setBackground(new Color(228, 204, 255));
-		panel_1.setBounds(0, 0, 400, 41);
-		add(panel_1);
+		JPanel panel = new JPanel();
+		panel.setBorder(null);
+		panel.setBackground(new Color(228, 204, 255));
+		panel.setBounds(0, 0, 400, 70);
+		add(panel);
+		panel.setLayout(null);
 		
-		ImageIcon daicon = new ImageIcon("image/damoa.jpeg");
-		Image daimage = daicon.getImage();
-		Image daimage2 = daimage.getScaledInstance(50,50 , Image.SCALE_SMOOTH);
-		ImageIcon daicon2 = new ImageIcon(daimage2);
-		panel_1.setLayout(null);
+		JLabel lblNewLabel = new JLabel("모집하기");
+		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setBounds(12, 20, 120, 40);
+		panel.add(lblNewLabel);
 		
-		JLabel lblDamoa = new JLabel("모집하기");
-		lblDamoa.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblDamoa.setBounds(165, 10, 70, 25);
-		lblDamoa.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 19));
-		panel_1.add(lblDamoa);
+		btnNewButton_4 = new JButton();	
+		btnNewButton_4.setBounds(308, 20, 80, 40);
+		ImageIcon recruiticon = new ImageIcon("image/모집하기.jpg");
+	    Image recruitimage = recruiticon.getImage();
+	    Image recruitimage2 = recruitimage.getScaledInstance(80, 40, Image.SCALE_SMOOTH);
+	    ImageIcon recruiticon2 = new ImageIcon(recruitimage2);
+	    btnNewButton_4.setIcon(recruiticon2);
+	    btnNewButton_4.setBorder(null);
+		panel.add(btnNewButton_4);
 		
-		btnNewButton_4 = new JButton("완료") {
-			class RoundedCornerBorder extends AbstractBorder {
-		    	  private static final Color ALPHA_ZERO = new Color(0x0, true);
-		    	  public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-		    	    Graphics2D g2 = (Graphics2D) g.create();
-		    	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		    	    Shape border = getBorderShape(x, y, width - 1, height - 1);
-		    	    g2.setPaint(ALPHA_ZERO);
-		    	    Area corner = new Area(new Rectangle2D.Double(x, y, width, height));
-		    	    corner.subtract(new Area());
-		    	    g2.fill(corner);
-		    	    g2.setPaint(Color.GRAY);
-		    	    g2.draw(border);
-		    	    g2.dispose();
-		    	  }
-		    	  public Shape getBorderShape(int x, int y, int w, int h) {
-		    	    int r = h; //h / 2;
-		    	    return new RoundRectangle2D.Double(x, y, w, h, r, r);
-		    	  }
-		    	  public Insets getBorderInsets(Component c) {
-		    	    return new Insets(4, 8, 4, 8);
-		    	  }
-		    	  public Insets getBorderInsets(Component c, Insets insets) {
-		    	    insets.set(4, 8, 4, 8);
-		    	    return insets;
-		    	  }
-		    	}
-				 protected void paintComponent(Graphics g) {
-				    if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
-				      Graphics2D g2 = (Graphics2D) g.create();
-				      g2.setPaint(getBackground());
-				      g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
-				          0, 0, getWidth() - 1, getHeight() - 1));
-				      g2.dispose();
-				    }
-				    super.paintComponent(g);
-				  }
-				  public void updateUI() {
-				    super.updateUI();
-				    setOpaque(false);
-				    setBorder(new RoundedCornerBorder());
-				  }
-				};		
-		btnNewButton_4.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 12));
-		btnNewButton_4.setForeground(new Color(0, 0, 255));
-		btnNewButton_4.setBounds(330, 10, 50, 25);
-		btnNewButton_4.setBackground(new Color(228, 204, 255));
-		panel_1.add(btnNewButton_4);
 		btnNewButton_4.addActionListener(this);
 		
 	}
@@ -260,8 +215,8 @@ public class PostFormView extends JPanel implements ActionListener {
 	private void SetTitleTextField() {      
 		textField = new JTextField(20);
 		textField.setBackground(new Color(255, 255, 255));
-		textField.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 17));
-		textField.setBounds(10, 50, 380, 30);
+		textField.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		textField.setBounds(10, 81, 380, 30);
 		textField.setColumns(10);
 		String initialText = " 제목 : ";
 	    textField.setText(initialText);
@@ -286,14 +241,15 @@ public class PostFormView extends JPanel implements ActionListener {
 	        }
 	    });
 
-		textField.setBorder(new MatteBorder(2, 0, 2, 0, (Color) new Color(128, 128, 128)));
+		textField.setBorder(new MatteBorder(2, 0, 2, 0, (Color) new Color(228, 204, 255)));
 		add(textField);
 	}
 
 	private void RegionComboBox() {      
-        String[] Region = {"지역","Seoul","Incheon", "Busan", "Daegu",
+        String[] Region = {"지역(시)","Seoul","Incheon", "Busan", "Daegu",
 						   "Gwangju","Daejeon","Ulsan","Sejong"};
         mainComboBox = new JComboBox(Region);
+        
         
         String[] NullItems = {""};
         
@@ -334,79 +290,94 @@ public class PostFormView extends JPanel implements ActionListener {
         Arrays.sort(SejongRegion, koreanComparator2);
         
         subComboBox = new JComboBox(NullItems);
-
+        
         mainComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedCategory = (String) mainComboBox.getSelectedItem();
+               
                 if (selectedCategory.equals("지역")) {
                     subComboBox.removeAllItems();
                     for (String 지역 : NullItems) {
                         subComboBox.addItem(지역);
+                        
                     }
                 } else if (selectedCategory.equals("Seoul")) {
                     subComboBox.removeAllItems();
                     for (String Seoul : SeoulRegion) {
                         subComboBox.addItem(Seoul);
+                        
                     }
                 } else if (selectedCategory.equals("Incheon")) {
                     subComboBox.removeAllItems();
                     for (String Incheon : IncheonRegion) {
                         subComboBox.addItem(Incheon);
+                       
                     }
                 } else if (selectedCategory.equals("Busan")) {
                     subComboBox.removeAllItems();
                     for (String Busan : BusanRegion) {
                         subComboBox.addItem(Busan);
+                        
                     }
                 } else if (selectedCategory.equals("Daegu")) {
                     subComboBox.removeAllItems();
                     for (String Daegu : DaeguRegion) {
                         subComboBox.addItem(Daegu);
+                        
                     }
                 } else if (selectedCategory.equals("Gwangju")) {
                     subComboBox.removeAllItems();
                     for (String Gwangju : GwangjuRegion) {
                         subComboBox.addItem(Gwangju);
+                        
                     }
                 } else if (selectedCategory.equals("Daejeon")) {
                     subComboBox.removeAllItems();
                     for (String Daejeon : DaejeonRegion) {
                         subComboBox.addItem(Daejeon);
+                        
                     }
                 } else if (selectedCategory.equals("Ulsan")) {
                     subComboBox.removeAllItems();
                     for (String Ulsan : UlsanRegion) {
                         subComboBox.addItem(Ulsan);
+                        
                     }
                 } else if (selectedCategory.equals("Sejong")) {
                     subComboBox.removeAllItems();
                     for (String Sejong : SejongRegion) {
                         subComboBox.addItem(Sejong);
+                        
                     }
                 } 
             }
         }); 
-        mainComboBox.setBounds(257, 135, 133, 33);
+        mainComboBox.setBounds(255, 170, 130, 30);
         mainComboBox.setBackground(new Color(255, 255, 255));
-        mainComboBox.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 15));
-        subComboBox.setBounds(257, 178, 133, 33);
+        mainComboBox.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+        subComboBox.setEditable(true);
+        subComboBox.addItem("지역(구)");
+        subComboBox.setSelectedItem("지역(구)");
+        subComboBox.setBounds(255, 220, 130, 30);
         subComboBox.setBackground(new Color(255, 255, 255));
-        subComboBox.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 15));
+        subComboBox.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+
         add(mainComboBox);
         add(subComboBox);
+        
  }
 
 	private void KategoriaComboBox() {       
-		String[] Kategorie={"카테고리","운동하기", "공동구매", "?", "??", "???","택시"};
+		String[] Kategorie={"카테고리","운동하기", "취미", "스터디", "물품 배달", "음식 배달","택시"};
 		String[] partialArray = Arrays.copyOfRange(Kategorie, 1, Kategorie.length);
 		Comparator<String> koreanComparator = (s1, s2) -> s1.compareTo(s2);
 		Arrays.sort(partialArray, koreanComparator);
 		System.arraycopy(partialArray, 0, Kategorie, 1, partialArray.length);
 		KategorieComboBox = new JComboBox(Kategorie);
 		KategorieComboBox.setBackground(new Color(255, 255, 255));
-		KategorieComboBox.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 15));
-		KategorieComboBox.setBounds(257, 92, 133, 33);
+		KategorieComboBox.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+		KategorieComboBox.setBounds(255, 120, 130, 30);
 		add(KategorieComboBox);
 	}
 
@@ -497,9 +468,9 @@ public class PostFormView extends JPanel implements ActionListener {
 		Object obj = e.getSource();
 		
 		if(obj == btnNewButton_4) {
-			resetFields();
 			model.postForm(this);
 			controller.showCard("home");
+			resetFields();
 		}
 		
 	}

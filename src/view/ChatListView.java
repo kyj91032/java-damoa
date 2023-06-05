@@ -88,7 +88,7 @@ public class ChatListView extends JPanel {
 		dmlbl.setIcon(daicon2);
 		
 		JLabel lblNewLabel = new JLabel("세상 사람");
-		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 		lblNewLabel.setBounds(74, 0, 58, 23);
 		panel_1.add(lblNewLabel);
 		

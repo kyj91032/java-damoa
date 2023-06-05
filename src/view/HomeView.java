@@ -306,6 +306,8 @@ public class HomeView extends JPanel {
 	    });
 		
 	    scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+	    scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+	    
 		add(scrollPane);
 		
 		
@@ -314,13 +316,17 @@ public class HomeView extends JPanel {
 		
 		for (PostEntity post : posts) {
 	        ImageIcon imageIcon = new ImageIcon(post.getImage());
+			Image imageIcon2 = imageIcon.getImage();
+			Image imageIcon3 = imageIcon2.getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+			ImageIcon imageIcon4 = new ImageIcon(imageIcon3);
 
-	        Image scaledImage = imageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-	        ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
 
 	        // ImageLabelItem 객체를 생성하여 ImageIcon과 추가 정보를 저장합니다.
-	        ImageLabelItem item = new ImageLabelItem(scaledImageIcon, post.getTitle());
+	        ImageLabelItem item = new ImageLabelItem(imageIcon4 , post.getTitle(), model.getNicknameById(post.getUserId()),post.getKategorie());
 
+	    
+	        
+	        
 	        // 리스트 모델에 ImageLabelItem을 추가합니다.
 	        listModel.addElement(item);
 	    }
@@ -344,7 +350,10 @@ public class HomeView extends JPanel {
                 }
             }
         });
-		
+	    
+	    list.setVisibleRowCount(5);
+	    list.setFixedCellHeight(100);
+	    
 		scrollPane.setViewportView(list);
 	}
 	
@@ -353,61 +362,124 @@ public class HomeView extends JPanel {
 	
 	class ImageLabelItem {
 	       private ImageIcon image;
-	       private String label;
+	       private String title;
+	       private String username;
+	       private String category;
 	       
-	       public ImageLabelItem(ImageIcon image, String label) {
+	       public ImageLabelItem(ImageIcon image, String title, String username, String category) {
 	          this.image = image;
-	          this.label = label;      
+	          this.title = title;      
+	          this.username = username;
+	          this.category = category;
 	       }
 	       
-	       public String getLabel() {
-	          return label;
+	       public String gettitleLabel() {
+	          return title;
+	       }
+	       
+	       public String getusernameLabel() {
+	    	   return username;
+	       }
+	       public String getcategoryLabel() {
+	    	   return category;
 	       }
 	    }
 	    
-	    class ImageLabelListCellRenderer extends JPanel implements ListCellRenderer<ImageLabelItem> {
-	       private JLabel imageLabel;
-	       private JLabel textLabel;
-	       
-	       
-	       public ImageLabelListCellRenderer() {
-	    	   setOpaque(true);
-	    	   
-	    	   imageLabel = new JLabel();
-	    	   imageLabel.setBounds(10, 10, 50, 50); // 위치와 크기 설정
-	    	   imageLabel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.GRAY));
-	    	   add(imageLabel);
-	    	    
-	    	   textLabel = new JLabel();
-	    	   textLabel.setBounds(70,10,30,30);
-	    	   add(textLabel);
-	    	    
+	class ImageLabelListCellRenderer extends JPanel implements ListCellRenderer<ImageLabelItem> {
+	    private JLabel imageLabel;
+	    private JLabel titleLabel;
+	    private JLabel usernameLabel;
+	    private JLabel categoryLabel;
+	    private JLabel LikeLabel;
 
-	       }
-	       
-	       @Override
-	       public Component getListCellRendererComponent(JList<? extends ImageLabelItem> list, 
-	    	 ImageLabelItem value, int index,
-	         boolean isSelected, boolean cellHasFocus) {
-	         imageLabel.setIcon(value.image);
-	         textLabel.setText(value.getLabel());
-	          
-	         if (isSelected) {
-	             setBackground(list.getSelectionBackground());
-	             setForeground(list.getSelectionForeground());
-	         } else {
-	             setBackground(list.getBackground());
-	             setForeground(list.getForeground());
-	         }
-	         if (index % 2 == 0) {
-	        	  setBorder(BorderFactory.createMatteBorder(1, 2, 1, 0, Color.GRAY));
-	         }
-	         else {
-	        	  setBorder(BorderFactory.createMatteBorder(1, 2, 1, 0, Color.GRAY));
-	         }
-	         return this;
-	       }
+	    public ImageLabelListCellRenderer() {
+	        setOpaque(true);
+	        
+	        ImageIcon LikeIcon = new ImageIcon("image/좋아요1.jpg");
+	        Image LikeIcon2 = LikeIcon.getImage();
+	        Image LikeIcon3 = LikeIcon2.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+	        ImageIcon LikeIcon4 = new ImageIcon(LikeIcon3);
+	        
+	        
+	        ImageIcon Like2Icon = new ImageIcon("image/좋아요2.jpg");
+	        Image Like2Icon2 = Like2Icon.getImage();
+	        Image Like2Icon3 = Like2Icon2.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+	        ImageIcon Like2Icon4 = new ImageIcon(Like2Icon3);
+
+	        imageLabel = new JLabel();
+	        imageLabel.setBorder(BorderFactory.createLineBorder((new Color(228,204,255)), 1));
+	        add(imageLabel);
+
+	        titleLabel = new JLabel();
+	        titleLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+	        titleLabel.setForeground(Color.black);
+	        add(titleLabel);
+	        
+	        usernameLabel = new JLabel();
+	        usernameLabel.setFont(new Font("맑은 고딕", Font.BOLD, 10));
+	        usernameLabel.setForeground(Color.gray);
+	        add(usernameLabel);
+	        
+	        categoryLabel = new JLabel();
+	        categoryLabel.setFont(new Font("맑은 고딕", Font.BOLD, 10));
+	        categoryLabel.setForeground(Color.gray);
+	        add(categoryLabel);
+	        
+	        LikeLabel = new JLabel();
+	        LikeLabel.setIcon(LikeIcon4);
+	        LikeLabel.addMouseListener(new MouseAdapter() {
+	            @Override
+	            public void mouseClicked(MouseEvent e) {
+	                super.mouseClicked(e);
+	                LikeLabel.setIcon(Like2Icon4);
+	            }
+	        });
+			add(LikeLabel);
 	    }
+
+	    @Override
+	    public Component getListCellRendererComponent(JList<? extends ImageLabelItem> list,
+	                                                  ImageLabelItem value, int index,
+	                                                  boolean isSelected, boolean cellHasFocus) {
+	    	
+	        ImageIcon scaledImageIcon = new ImageIcon(value.image.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
+	       
+	        
+	    	
+	        imageLabel.setIcon(value.image);
+	        titleLabel.setText(value.gettitleLabel());
+	        usernameLabel.setText("닉네임 : " + value.getusernameLabel());
+	        categoryLabel.setText("카테고리 : " + value.getcategoryLabel());
+
+	        if (isSelected) {
+	            setBackground(list.getSelectionBackground());
+	            setForeground(list.getSelectionForeground());
+	        } else {
+	            setBackground(list.getBackground());
+	            setForeground(list.getForeground());
+	        }
+	        if (index % 2 == 0) {
+	            setBorder(BorderFactory.createMatteBorder(1, 2, 1, 0, Color.GRAY));
+	        } else {
+	            setBorder(BorderFactory.createMatteBorder(1, 2, 1, 0, Color.GRAY));
+	        }
+
+	        return this;
+	    }
+
+
+	    @Override
+	    public void doLayout() {
+	        super.doLayout();
+	        
+	        imageLabel.setBounds(10,10,80,80);
+	        titleLabel.setBounds(100,10,300,15);
+	        usernameLabel.setBounds(100,30,100,15);
+	        categoryLabel.setBounds(100, 45, 100, 15);
+	        LikeLabel.setBounds(350, 70, 21, 21);
+	    }
+	}
+
 	    
 	    private void btnPanel() {
 			JPanel panel1 = new JPanel();
