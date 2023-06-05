@@ -48,6 +48,7 @@ import java.net.UnknownHostException;
 import javax.swing.ScrollPaneConstants;
 
 public class ChatView extends JPanel {
+	
 	private Model model;
 	private Controller controller;
 	private Border border;
@@ -66,7 +67,6 @@ public class ChatView extends JPanel {
 	private int roomid;
 	private int portNumber;
 	
-		
 
 	public ChatView(Model model, Controller controller, int roomid) {
 		this.model = model;
@@ -163,6 +163,10 @@ public class ChatView extends JPanel {
 				        
 					sendMessage(message);
 					
+					model.insertChatMessage(message);
+					
+					tf.setText("");              
+				    tf.requestFocus();
 				}
 			}
 		});
@@ -174,6 +178,11 @@ public class ChatView extends JPanel {
 				String message = tf.getText();
 				
 				sendMessage(message);
+				
+				model.insertChatMessage(message);
+				
+				tf.setText("");              
+			    tf.requestFocus();
 				
 			}
 		});
@@ -214,20 +223,17 @@ public class ChatView extends JPanel {
 
 		try {
 	        writer.write(message);   
-	        writer.newLine();         
+	        writer.newLine();
 	        writer.flush();
 	        
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
-
-	    tf.setText("");              
-	    tf.requestFocus();            
 	}
 
 	public void appendMessage(String message) {
         
-		String content = message;
+		String content = message + "\n";
 		
 		StyledDocument doc = ta.getStyledDocument();
         SimpleAttributeSet attributeSet = new SimpleAttributeSet();
@@ -240,18 +246,35 @@ public class ChatView extends JPanel {
         
         try {
             doc.insertString(doc.getLength(), content, attributeSet);
-            System.out.println("appendmessage의 실행" + message);
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
         
         ta.setCaretPosition(length + content.length());
         
-//        tf.setText("");
-//        tf.requestFocus();
-//        
-//        model.insertChatMessage(message);
-
+        
+        
+//        if(model.getCurrentUserId() == chatmessage.getUserId()) {
+//			String message = chatmessage.getContent() + "\n";
+//	        SimpleAttributeSet rightAlign = new SimpleAttributeSet();
+//	        StyleConstants.setAlignment(rightAlign, StyleConstants.ALIGN_RIGHT);
+//	        doc.setParagraphAttributes(doc.getLength(), message.length(), rightAlign, false);
+//	        try {
+//	            doc.insertString(doc.getLength(), message, rightAlign);   
+//	        } catch (BadLocationException e) {
+//	            e.printStackTrace();
+//	        }
+//		} else {
+//			String message = "[" + model.getNicknameById(chatmessage.getUserId()) + "]님 : " + chatmessage.getContent() + "\n";
+//	        SimpleAttributeSet leftAlign = new SimpleAttributeSet();
+//	        StyleConstants.setAlignment(leftAlign, StyleConstants.ALIGN_LEFT);
+//	        doc.setParagraphAttributes(doc.getLength(), message.length(), leftAlign, false);
+//	        try {
+//	            doc.insertString(doc.getLength(), message, leftAlign);
+//	        } catch (BadLocationException e) {
+//	            e.printStackTrace();
+//	        }
+//		}
     }
 
 	

@@ -106,23 +106,17 @@ public class Controller extends JFrame {
         		
         		List<ChatRoomEntity> chatRooms = model.getChatListByUserId(model.getCurrentUserId());
                 for (ChatRoomEntity chatRoom : chatRooms) {
-                    int roomId = chatRoom.getRoomId();
+                    
+                	int roomId = chatRoom.getRoomId();
                     int portNumber = model.getPortNumberByRoomId(roomId);
+                    
+                    openChatRoomServer(portNumber);
                     
                     ChatView chatview = new ChatView(model, this, roomId);
                     String chatViewName = "chat" + roomId;
                     contentPane.add(chatview, chatViewName);
-                    
-                    openChatRoomServer(portNumber, chatview);
-                    
-                    try {
-                        Thread.sleep(50); // 0.05초 지연
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    
-                    chatview.openclient();
 
+                    chatview.openclient();
                     
                 }
             } else {
@@ -149,7 +143,7 @@ public class Controller extends JFrame {
     
     
     
-    public void openChatRoomServer(int portNumber, ChatView chatview) {
+    public void openChatRoomServer(int portNumber) {
         // 서버 스레드 생성 및 시작
         Thread serverThread = new Thread(() -> {
             ServerSocket serverSocket = null;
@@ -169,7 +163,7 @@ public class Controller extends JFrame {
                     System.out.println(portNumber + "번 포트에 새로운 클라이언트가 연결되었습니다.");
 
                     // 클라이언트의 연결을 처리하는 스레드 생성 및 시작
-                    ChatServerThread chatServerThread = new ChatServerThread(clientSocket, chatview, threadlist);
+                    ChatServerThread chatServerThread = new ChatServerThread(clientSocket, threadlist);
                     threadlist.add(chatServerThread);
                     chatServerThread.start();
                 }
