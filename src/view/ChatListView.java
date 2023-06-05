@@ -65,13 +65,12 @@ public class ChatListView extends JPanel {
 	public ChatListView(Model model, Controller controller) {
 		this.model = model;
 		this.controller = controller;
-		
 
 		setPreferredSize(new Dimension(400, 570));
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
 		
-		TopPanel();		
+		TopPanel();
 
 		ListPanel();
 		
@@ -150,9 +149,10 @@ public class ChatListView extends JPanel {
 				if (model.isLoggedin()) {
 					ChatRoomEntity selectedChat = chatRooms.get(index);
 					model.setCurrentChatRoom(selectedChat);
-					chatmessages = model.getCurrentChatMessageByRoomid(selectedChat.getRoomId());
+					int roomid = selectedChat.getRoomId();
 					
-					controller.showCard("chat");
+					String chatViewName = "chat" + roomid;
+					controller.showCard(chatViewName);
 		            
                 } else {
                 	controller.showCard("login");

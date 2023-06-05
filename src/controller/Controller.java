@@ -15,9 +15,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import model.ChatMessageEntity;
 import model.ChatRoomEntity;
 import model.Model;
 import view.ChatListView;
+import view.ChatManager;
 import view.ChatServerThread;
 import view.ChatView;
 import view.HomeView;
@@ -37,15 +39,15 @@ public class Controller extends JFrame {
 
     private Model model;
 	private HomeView homeview;
-	private String previousCard; // 이전에 보여준 카드의 이름을 저장하는 변수
+	private ChatManager chatManager;
+
 
 	
     public Controller() {
         contentPane = new JPanel();
         cardLayout = new CardLayout();
         model = new Model();
-        
-        previousCard = "start";
+        chatManager = new ChatManager(); 
         
         model.initDbConn();
 
@@ -98,10 +100,28 @@ public class Controller extends JFrame {
                 // 로그인이 되어있지 않을 경우 로그인 화면으로 이동
                 cardName = "login";
             }
-        } else if (cardName.equals("chat")) {
-        	
-        	
-        	
+        } else if (cardName.equals("chatlist")) {
+        	if (model.isLoggedin()) {
+        		ChatListView chatlistview = new ChatListView(model, this);
+        		contentPane.add(chatlistview, "chatlist");
+        		
+        		List<ChatRoomEntity> chatRooms = model.getChatListByUserId(model.getCurrentUserId());
+                for (ChatRoomEntity chatRoom : chatRooms) {
+                    int roomId = chatRoom.getRoomId();
+                    int portNumber = model.getPortNumberByRoomId(roomId);
+                    
+                    ChatView chatview = new ChatView(model, this, roomId);
+                    String chatViewName = "chat" + roomId;
+                    contentPane.add(chatview, chatViewName);
+                    
+                    openChatRoomServer(portNumber, chatview);
+                    
+                    chatview.openclient(chatManager);
+                }
+            } else {
+                cardName = "login";
+            }
+        
         } else if (cardName.equals("postform")) {
         	if (model.isLoggedin()) {
         		cardName = "postform";
@@ -117,68 +137,46 @@ public class Controller extends JFrame {
             contentPane.add(homeview, "home");
         }
         
-        previousCard = cardName;
         cardLayout.show(contentPane, cardName);
     }
     
-    public void showCard(String cardName, Socket socket) {
-    	if (cardName.equals("chatlist")) {
-    		
-    		if (model.isLoggedin()) {
-        		ChatListView chatlistview = new ChatListView(model, this);
-        		contentPane.add(chatlistview, "chatlist");
-        		
-        		List<ChatRoomEntity> chatRooms = model.getChatListByUserId(model.getCurrentUserId());
-                for (ChatRoomEntity chatRoom : chatRooms) {
-                    int roomId = chatRoom.getRoomId();
-                    int portNumber = model.getPortNumberByRoomId(roomId);
-                    
-                    String chatViewName = "chat" + roomId;
-                    ChatView chatview = new ChatView(model, this, model.getCurrentChatMessages(), socket);
-                    contentPane.add(chatview, chatViewName);
-                    
-                    openChatRoomServer(portNumber, chatview);
-                }
-        		
-
-            } else {
-                cardName = "login";
-            }
-    		
-    	}
-    	cardLayout.show(contentPane, cardName);
-    }
+    
     
     public void openChatRoomServer(int portNumber, ChatView chatview) {
         // 서버 스레드 생성 및 시작
         Thread serverThread = new Thread(() -> {
+            ServerSocket serverSocket = null;
             try {
                 // 서버 소켓 생성
-                ServerSocket serverSocket = new ServerSocket(portNumber);
-                
+                serverSocket = new ServerSocket(portNumber);
+
                 // 채팅방 서버가 시작되었음을 출력
                 System.out.println("채팅방 서버가 포트 " + portNumber + "에서 시작되었습니다.");
-                
+
                 // 클라이언트 연결을 계속해서 처리
                 while (true) {
                     // 클라이언트의 연결을 대기
                     Socket clientSocket = serverSocket.accept();
-                    
+
                     // 새로운 클라이언트 연결이 들어왔음을 출력
                     System.out.println(portNumber + "번 포트에 새로운 클라이언트가 연결되었습니다.");
-                    
+
                     // 클라이언트의 연결을 처리하는 스레드 생성 및 시작
-                    ChatServerThread chatServerThread = new ChatServerThread(clientSocket, chatview);
+                    ChatServerThread chatServerThread = new ChatServerThread(clientSocket, chatview, chatManager);
                     chatServerThread.start();
                 }
             } catch (IOException e) {
+                // 이미 서버가 열려있는 경우, 예외가 발생합니다.
+                // 예외 처리를 통해 이미 열려있는 서버에 대한 메시지를 출력할 수 있습니다.
+                System.out.println("포트 " + portNumber + "는 이미 사용 중입니다.");
                 e.printStackTrace();
             }
         });
-         
+
         // 서버 스레드 시작
         serverThread.start();
     }
+
 
 
 

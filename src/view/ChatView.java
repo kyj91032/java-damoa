@@ -63,30 +63,24 @@ public class ChatView extends JPanel {
 	private Socket socket = null;
 	private BufferedReader reader = null;
     private BufferedWriter writer = null;
+	private int roomid;
+	private int portNumber;
+	
 		
 
-	public ChatView(Model model, Controller controller, List<ChatMessageEntity> chatmessages, Socket socket) {
+	public ChatView(Model model, Controller controller, int roomid) {
 		this.model = model;
 		this.controller = controller;
-		this.chatmessages = chatmessages;
-		this.socket = socket;
+		this.roomid = roomid;
 		
-		try {
-            writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		
+		portNumber = model.getPortNumberByRoomId(roomid);
+        chatmessages = model.getCurrentChatMessageByRoomid(roomid);
+		
+		
+		
 
-		// 클라이언트 소켓 생성 및 서버에 연결
-        int portNumber = getPortNumber();
-        Socket socket = null;
-        try {
-            socket = new Socket("localhost", portNumber);
-            
-            
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+		
 		
 		setPreferredSize(new Dimension(400, 570));
 		setBackground(new Color(255, 255, 255));
@@ -165,7 +159,7 @@ public class ChatView extends JPanel {
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 					
-//					String message = tf.getText();
+					String message = tf.getText();
 //			        String content = message + "\n";
 //			        			        
 //			        SimpleAttributeSet attributeSet = new SimpleAttributeSet();
@@ -186,9 +180,11 @@ public class ChatView extends JPanel {
 //			        tf.setText("");
 //			        tf.requestFocus();
 					
-					sendMessage();
+					
+					
+					sendMessage(message);
 
-			        
+				
 			        
 					
 					
@@ -200,7 +196,7 @@ public class ChatView extends JPanel {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-//				String message = tf.getText();
+				String message = tf.getText();
 //		        String content = message + "\n";
 //		        
 //		        SimpleAttributeSet attributeSet = new SimpleAttributeSet();
@@ -224,7 +220,9 @@ public class ChatView extends JPanel {
 //		        
 //		        model.insertChatMessage(message);
 				
-				sendMessage();
+				
+				sendMessage(message);
+				
 			}
 		});
 		btnNewButton_1.setBounds(333, 6, 55, 36);
@@ -234,12 +232,14 @@ public class ChatView extends JPanel {
 	}
 
 	
-	private void sendMessage() {
-	    String message = tf.getText();
-	    try {
+	private void sendMessage(String message) {
+
+		try {
 	        writer.write(message);    // 메시지를 버퍼에 작성
+	        System.out.println("chatview의 sendmessage 실행 " + message);
 	        writer.newLine();         // 줄 바꿈 문자 추가
 	        writer.flush();           // 버퍼의 내용을 서버로 전송
+	        
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
@@ -249,16 +249,26 @@ public class ChatView extends JPanel {
 	}
 
 	public void appendMessage(String message) {
-        StyledDocument doc = ta.getStyledDocument();
+        
+		String content = message + "\n";
+		
+		StyledDocument doc = ta.getStyledDocument();
         SimpleAttributeSet attributeSet = new SimpleAttributeSet();
         StyleConstants.setFontFamily(attributeSet, "Hannotate TC");
         StyleConstants.setFontSize(attributeSet, 15);
+        
+        doc.setParagraphAttributes(doc.getLength(), 0, attributeSet, false);
 
+        int length = doc.getLength();
+        
         try {
-            doc.insertString(doc.getLength(), message, attributeSet);
+            doc.insertString(doc.getLength(), content, attributeSet);
+            System.out.println("appendmessage의 실행" + message);
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
+        
+        ta.setCaretPosition(length + content.length());
     }
 
 	
@@ -276,7 +286,17 @@ public class ChatView extends JPanel {
 		backbtn.setBounds(12, 2, 45, 45);
 		backbtn.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) { 
+				try {
+		            if (socket != null) {
+		                socket.close();
+		            }
+		        } catch (IOException ex) {
+		            ex.printStackTrace();
+		        }
+
+				
 				controller.showCard("chatlist");
+				
 				} 
 			});
 		panel_1.add(backbtn);
@@ -289,7 +309,7 @@ public class ChatView extends JPanel {
 		add(panel);
 		panel.setLayout(null);
 		
-		chatroom = model.getCurrentChatRoom();
+		chatroom = model.getCurrentChatRoomByRoomId(roomid);
 		
 		JLabel ImageLabel = new JLabel();
         byte[] imgData = chatroom.getImage();
@@ -305,12 +325,53 @@ public class ChatView extends JPanel {
         ImageLabel.setBounds(12, 10, 106, 100);
         panel.add(ImageLabel);
 		
-        	
 		JLabel lblNewLabel_1 = new JLabel(chatroom.getRoomName());
 		lblNewLabel_1.setBounds(130, 10, 258, 100);
 		panel.add(lblNewLabel_1);
 		
 	}
+
+
+
+
+
+	public void openclient(ChatManager chatmanager)) {
+	    Thread openClientThread = new Thread(() -> {
+	        socket = null;
+	        try {
+	            socket = new Socket("localhost", portNumber);
+	            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+	            
+	            chatmanager.addChatThread(null);
+	        } catch (IOException ex) {
+	            ex.printStackTrace();
+	        }
+
+	        try {
+	            writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+	        } catch (IOException ex) {
+	            ex.printStackTrace();
+	        }
+	        
+	        // chatserverThread 생성
+	        Thread chatserverThread = new Thread(() -> {
+	            String message;
+	            try {
+	                while ((message = reader.readLine()) != null) {
+	                    appendMessage(message);  // 받은 메시지를 화면에 표시
+	                }
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	        });
+
+	        chatserverThread.start();
+	    });
+
+	    openClientThread.start();
+	}
+
+
 
 }
 
