@@ -1,7 +1,6 @@
 package main;
 
-import java.awt.EventQueue;
-
+import java.awt.EventQueue; 
 import controller.Controller;
 
 public class Main {

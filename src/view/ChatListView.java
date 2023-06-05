@@ -6,6 +6,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -102,7 +103,7 @@ public class ChatListView extends JPanel {
 		dmlbl.setIcon(daicon2);
 		
 		JLabel lblNewLabel = new JLabel("세상 사람");
-		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 		lblNewLabel.setBounds(74, 0, 58, 23);
 		panel_1.add(lblNewLabel);
 		
@@ -182,14 +183,14 @@ public class ChatListView extends JPanel {
 	    private JLabel textLabel;
 	
 	    public ImageLabelListCellRenderer() {
-	        setLayout(new BorderLayout());
+	        setLayout(new FlowLayout());
 	        setOpaque(true);
 	
 	        imageLabel = new JLabel();
 	        textLabel = new JLabel();
-	
-	        add(imageLabel, BorderLayout.WEST);
-	        add(textLabel, BorderLayout.CENTER);
+	        
+	        add(imageLabel);
+	        add(textLabel);
 	    }
 
 	    @Override

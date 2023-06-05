@@ -84,7 +84,7 @@ public class SignUpView extends JPanel implements MouseListener {
       panel.add(lblNewLabel_2_1);
       
       PhoneField = new JTextField();
-      PhoneField.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+      PhoneField.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 15));
       PhoneField.setBorder(compoundBorder);
       PhoneField.setText("전화번호");
       PhoneField.setColumns(10);
@@ -113,7 +113,7 @@ public class SignUpView extends JPanel implements MouseListener {
       panel.add(PhoneField);
       
       nicknameField = new JTextField();
-      nicknameField.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+      nicknameField.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 15));
       nicknameField.setBorder(compoundBorder);
       nicknameField.setText("닉네임");
       nicknameField.setColumns(10);
@@ -151,7 +151,7 @@ public class SignUpView extends JPanel implements MouseListener {
       panel.add(lblNewLabel_2);
       
       passwordField = new JPasswordField();
-      passwordField.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+      passwordField.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 15));
       passwordField.setBorder(compoundBorder);
       String initialText3 = "비밀번호 확인";
       passwordField.setText(initialText3);
@@ -191,7 +191,7 @@ public class SignUpView extends JPanel implements MouseListener {
       panel.add(lblNewLabel_1_1);
       
       passwordField_1 = new JPasswordField();
-      passwordField_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+      passwordField_1.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 15));
       passwordField_1.setBorder(compoundBorder);
       String initialText2 = "비밀번호";
       passwordField_1.setText(initialText2);
@@ -228,7 +228,7 @@ public class SignUpView extends JPanel implements MouseListener {
       panel.add(lblNewLabel_1);
       
       idField = new JTextField();
-      idField.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+      idField.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 15));
       idField.setBorder(compoundBorder);
       idField.setText("아이디");
       idField.setColumns(10);
@@ -262,7 +262,7 @@ public class SignUpView extends JPanel implements MouseListener {
       panel.add(lblNewLabel);
       
       birthField = new JTextField();
-      birthField.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+      birthField.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 15));
       birthField.setBorder(compoundBorder);
       birthField.setText("생년월일(6자리)");
       birthField.setColumns(10);
@@ -395,6 +395,7 @@ public class SignUpView extends JPanel implements MouseListener {
       
       if(obj == lblNewLabel_3) {
          model.registerUser(this);
+         controller.showCard("login");
       }
       
    }
