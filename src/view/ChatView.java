@@ -160,33 +160,8 @@ public class ChatView extends JPanel {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 					
 					String message = tf.getText();
-//			        String content = message + "\n";
-//			        			        
-//			        SimpleAttributeSet attributeSet = new SimpleAttributeSet();
-//			        StyleConstants.setFontFamily(attributeSet, "Hannotate TC");
-//			        StyleConstants.setFontSize(attributeSet, 15);
-//			        StyleConstants.setAlignment(attributeSet, StyleConstants.ALIGN_RIGHT);
-//			        
-//			        doc.setParagraphAttributes(doc.getLength(), 0, attributeSet, false);
-//			        
-//			        int length = doc.getLength();
-//			        try {
-//			        	doc.insertString(length, content, attributeSet);
-//					} catch (BadLocationException e1) {
-//						e1.printStackTrace();
-//					}
-//			        ta.setCaretPosition(length + content.length());
-//			        
-//			        tf.setText("");
-//			        tf.requestFocus();
-					
-					
-					
+				        
 					sendMessage(message);
-
-				
-			        
-					
 					
 				}
 			}
@@ -197,29 +172,6 @@ public class ChatView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				
 				String message = tf.getText();
-//		        String content = message + "\n";
-//		        
-//		        SimpleAttributeSet attributeSet = new SimpleAttributeSet();
-//		        StyleConstants.setFontFamily(attributeSet, "Hannotate TC");
-//		        StyleConstants.setFontSize(attributeSet, 15);
-//		        StyleConstants.setAlignment(attributeSet, StyleConstants.ALIGN_RIGHT);
-//		        
-//		        doc.setParagraphAttributes(doc.getLength(), 0, attributeSet, false);
-//		        
-//		        int length = doc.getLength();
-//		        try {
-//		        	doc.insertString(length, content, attributeSet);
-//				} catch (BadLocationException e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
-//		        ta.setCaretPosition(length + content.length());
-//		        
-//		        tf.setText("");
-//		        tf.requestFocus();
-//		        
-//		        model.insertChatMessage(message);
-				
 				
 				sendMessage(message);
 				
@@ -232,25 +184,50 @@ public class ChatView extends JPanel {
 	}
 
 	
+	public void openclient() {
+	    Thread openClientThread = new Thread(() -> {
+	        socket = null;
+	        try {
+	            socket = new Socket("localhost", portNumber);
+
+	            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+	            writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+	            
+	            while(true) {				
+					String inMsg = reader.readLine();  
+					appendMessage(inMsg);
+				}
+	            
+	        } catch (IOException ex) {
+	            ex.printStackTrace();
+	        }
+	        
+
+	    });
+
+	    openClientThread.start();
+	}
+
+	
+	
 	private void sendMessage(String message) {
 
 		try {
-	        writer.write(message);    // 메시지를 버퍼에 작성
-	        System.out.println("chatview의 sendmessage 실행 " + message);
-	        writer.newLine();         // 줄 바꿈 문자 추가
-	        writer.flush();           // 버퍼의 내용을 서버로 전송
+	        writer.write(message);   
+	        writer.newLine();         
+	        writer.flush();
 	        
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
 
-	    tf.setText("");              // 입력 필드 초기화
-	    tf.requestFocus();            // 입력 필드에 포커스 설정
+	    tf.setText("");              
+	    tf.requestFocus();            
 	}
 
 	public void appendMessage(String message) {
         
-		String content = message + "\n";
+		String content = message;
 		
 		StyledDocument doc = ta.getStyledDocument();
         SimpleAttributeSet attributeSet = new SimpleAttributeSet();
@@ -269,6 +246,12 @@ public class ChatView extends JPanel {
         }
         
         ta.setCaretPosition(length + content.length());
+        
+//        tf.setText("");
+//        tf.requestFocus();
+//        
+//        model.insertChatMessage(message);
+
     }
 
 	
@@ -293,7 +276,6 @@ public class ChatView extends JPanel {
 		        } catch (IOException ex) {
 		            ex.printStackTrace();
 		        }
-
 				
 				controller.showCard("chatlist");
 				
@@ -333,43 +315,7 @@ public class ChatView extends JPanel {
 
 
 
-
-
-	public void openclient(ChatManager chatmanager)) {
-	    Thread openClientThread = new Thread(() -> {
-	        socket = null;
-	        try {
-	            socket = new Socket("localhost", portNumber);
-	            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-	            
-	            chatmanager.addChatThread(null);
-	        } catch (IOException ex) {
-	            ex.printStackTrace();
-	        }
-
-	        try {
-	            writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-	        } catch (IOException ex) {
-	            ex.printStackTrace();
-	        }
-	        
-	        // chatserverThread 생성
-	        Thread chatserverThread = new Thread(() -> {
-	            String message;
-	            try {
-	                while ((message = reader.readLine()) != null) {
-	                    appendMessage(message);  // 받은 메시지를 화면에 표시
-	                }
-	            } catch (IOException e) {
-	                e.printStackTrace();
-	            }
-	        });
-
-	        chatserverThread.start();
-	    });
-
-	    openClientThread.start();
-	}
+	
 
 
 

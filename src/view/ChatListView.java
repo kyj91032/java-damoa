@@ -158,8 +158,6 @@ public class ChatListView extends JPanel {
                 	controller.showCard("login");
                 }
 	        }
-
-			
 	    });
 
 	    scrollPane.setViewportView(list);

@@ -6,19 +6,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+
 
 
 public class ChatServerThread extends Thread {
     private Socket clientSocket;
     private BufferedWriter writer;
     private BufferedReader reader;
-    private ChatManager chatManager;
 	private ChatView chatview;
+	private ArrayList<ChatServerThread> threadlist;
 
-    public ChatServerThread(Socket socket, ChatView chatview, ChatManager chatManager) {
+    public ChatServerThread(Socket socket, ChatView chatview, ArrayList<ChatServerThread> threadlist) {
         this.clientSocket = socket;
-        this.chatManager = chatManager;
         this.chatview = chatview;
+        this.threadlist = threadlist;
     }
 
     @Override
@@ -30,9 +32,7 @@ public class ChatServerThread extends Thread {
             String clientMessage;
             while ((clientMessage = reader.readLine()) != null) {
                 // 클라이언트로부터 수신한 채팅 메시지를 채팅방에 전달
-            	System.out.println("serverThread의 실행 " + clientMessage + "\n");
-                chatManager.broadcastMessage(clientMessage, chatview);
-                
+            	sendToAllClients(clientMessage);
             }
 
             reader.close();
@@ -43,15 +43,17 @@ public class ChatServerThread extends Thread {
         }
     }
 
-    public void sendMessage(String message) {
-        try {
-            chatview.appendMessage(message);
-            System.out.println("serverthread의 sendmessage실행");
-            writer.write(message);
-            writer.newLine();
-            writer.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    private void sendToAllClients(String clientMessage) {
+    	for(ChatServerThread chatserverthread : threadlist) {
+			try {
+				chatserverthread.writer.write(clientMessage + "\n");
+				chatview.appendMessage(clientMessage);
+				chatserverthread.writer.flush();
+			} catch (IOException e) {				
+				e.printStackTrace();
+			}
+		}
+	}
+
+	
 }
