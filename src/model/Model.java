@@ -1,5 +1,7 @@
 package model;
 
+import java.io.IOException;
+import java.net.ServerSocket;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -200,7 +202,7 @@ public class Model {
 
         try {
             // user_chatroom 테이블과 chatroomtable을 조인하여 사용자가 속한 채팅방 목록을 가져오는 쿼리
-            String query = "SELECT c.roomid, c.roomname, c.description, c.image " +
+            String query = "SELECT c.roomid, c.roomname, c.description, c.image, c.portNumber " +
                            "FROM user_chatroom uc " +
                            "JOIN chatroomtable c ON uc.roomid = c.roomid " +
                            "WHERE uc.userid = ?";
@@ -215,12 +217,13 @@ public class Model {
                 String description = resultSet.getString("description");
                 Blob blob = resultSet.getBlob("image");
                 byte[] imageData = null;
+                int portNumber = resultSet.getInt("portNumber");
 
                 if (blob != null) {
                     imageData = blob.getBytes(1, (int) blob.length());
                 }
 
-                ChatRoomEntity chatRoom = new ChatRoomEntity(roomId, roomName, description, imageData);
+                ChatRoomEntity chatRoom = new ChatRoomEntity(roomId, roomName, description, imageData, portNumber);
                 chatRooms.add(chatRoom);
             }
         } catch (SQLException e) {
@@ -249,11 +252,12 @@ public class Model {
         try {
         	
         	// roomtable에 데이터 추가
-            String roomQuery = "INSERT INTO chatroomtable (roomname, description, image) VALUES (?, ?, ?)";
+            String roomQuery = "INSERT INTO chatroomtable (roomname, description, image, portNumber) VALUES (?, ?, ?, ?)";
             PreparedStatement roomStatement = conn.prepareStatement(roomQuery, Statement.RETURN_GENERATED_KEYS);
             roomStatement.setString(1, title);
             roomStatement.setString(2, textarea); // 적절한 값을 설정해주세요.
             roomStatement.setBytes(3, image);
+            roomStatement.setInt(4, getUniquePortNumber());
             roomStatement.executeUpdate();
             
             // 생성된 roomid 가져오기
@@ -491,8 +495,10 @@ public class Model {
 	            String description = resultSet.getString("description");
 	            Blob imageBlob = resultSet.getBlob("image");
 	            byte[] imageBytes = imageBlob.getBytes(1, (int) imageBlob.length());
+	            int portNumber = resultSet.getInt("portNumber");
+	            
 	            // 채팅방 정보를 가져와서 ChatRoomEntity 객체 생성
-	            currentChatRoom = new ChatRoomEntity(roomId, roomName, description, imageBytes);
+	            currentChatRoom = new ChatRoomEntity(roomId, roomName, description, imageBytes, portNumber);
 	        }
 	        
 	        resultSet.close();
@@ -649,7 +655,71 @@ public class Model {
 	    return searchResults;
 	}
 
+	public int getPostidbyRoomid(int roomId) {
+	    String query = "SELECT postid FROM posttable WHERE roomid = ?";
+
+	    try (PreparedStatement statement = conn.prepareStatement(query)) {
+	        statement.setInt(1, roomId);
+
+	        try (ResultSet resultSet = statement.executeQuery()) {
+	            if (resultSet.next()) {
+	                return resultSet.getInt("postid");
+	            }
+	        }
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+
+	    return -1; // 해당 roomid에 대한 데이터를 찾지 못한 경우 -1 반환
+	}
 	
+	
+	private int getUniquePortNumber() {
+	    int startPort = 8500;
+	    int endPort = 9000;
+
+	    for (int port = startPort; port <= endPort; port++) {
+	        if (isPortAvailable(port)) {
+	            return port;
+	        }
+	    }
+
+	    // 사용 가능한 포트 번호를 찾지 못한 경우 예외 처리
+	    throw new IllegalStateException("모든 포트 번호가 사용 중입니다.");
+	}
+
+	private boolean isPortAvailable(int port) {
+	    try {
+	        ServerSocket serverSocket = new ServerSocket(port);
+	        serverSocket.close();
+	        return true;
+	    } catch (IOException e) {
+	        // 포트가 이미 사용 중인 경우 IOException 발생
+	        return false;
+	    }
+	}
+
+	public int getPortNumberByRoomId(int roomId) {
+	    try {
+	        String query = "SELECT portNumber FROM chatRoomTable WHERE roomid = ?";
+	        PreparedStatement statement = conn.prepareStatement(query);
+	        statement.setInt(1, roomId);
+	        ResultSet resultSet = statement.executeQuery();
+	        
+	        if (resultSet.next()) {
+	            return resultSet.getInt("portNumber");
+	        }
+	        
+	        resultSet.close();
+	        statement.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return -1; // 해당 roomId에 대한 포트 번호를 찾지 못한 경우 -1 반환
+	}
+
+
 	
 
 }

@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -16,7 +17,9 @@ import java.awt.event.MouseEvent;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JPanel;
 import javax.swing.DefaultListModel;
@@ -38,8 +41,14 @@ import model.ChatMessageEntity;
 import model.ChatRoomEntity;
 import model.Model;
 import model.PostEntity;
+import view.ChatServerThread;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -51,6 +60,8 @@ public class ChatListView extends JPanel {
 	private ArrayList<ChatView> chats;
 	private List<ChatMessageEntity> chatmessages;
 	
+	private ServerSocket listener = null;
+	private Socket socket = null;
 
 	public ChatListView(Model model, Controller controller) {
 		this.model = model;
@@ -60,13 +71,17 @@ public class ChatListView extends JPanel {
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
 		
-		TopPanel();		
+		TopPanel();
 
 		ListPanel();
 		
-		btnPanel();		
+		btnPanel();
+		
+		
 	}
 	
+	
+    	
 	private void TopPanel() {
 		setLayout(null);
 		JPanel panel_1 = new JPanel();
@@ -135,8 +150,11 @@ public class ChatListView extends JPanel {
 				if (model.isLoggedin()) {
 					ChatRoomEntity selectedChat = chatRooms.get(index);
 					model.setCurrentChatRoom(selectedChat);
-					chatmessages = model.getCurrentChatMessageByRoomid(selectedChat.getRoomId());
-					controller.showCard("chat");
+					int roomid = selectedChat.getRoomId();
+					
+					String chatViewName = "chat" + roomid;
+					controller.showCard(chatViewName);
+		            
                 } else {
                 	controller.showCard("login");
                 }
