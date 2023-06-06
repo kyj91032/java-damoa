@@ -262,7 +262,21 @@ public class Model {
             roomStatement.setString(1, title);
             roomStatement.setString(2, textarea); // 적절한 값을 설정해주세요.
             roomStatement.setBytes(3, image);
-            roomStatement.setInt(4, getUniquePortNumber());
+            
+            // 8000부터 순서대로 portNumber 값을 설정
+            int portNumber = 8000;
+            String checkPortQuery = "SELECT portNumber FROM chatroomtable ORDER BY portNumber DESC LIMIT 1";
+            try (Statement checkPortStatement = conn.createStatement();
+                 ResultSet resultSet = checkPortStatement.executeQuery(checkPortQuery)) {
+                if (resultSet.next()) {
+                    int lastPortNumber = resultSet.getInt("portNumber");
+                    portNumber = lastPortNumber + 1;
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+
+            roomStatement.setInt(4, portNumber);
             roomStatement.executeUpdate();
             
             // 생성된 roomid 가져오기
@@ -630,6 +644,39 @@ public class Model {
 	        ex.printStackTrace();
 	    }
 	}
+	
+	public boolean isjoinuser(int userId, int postId) {
+	    try {
+	        // posttable에서 postId와 관련된 roomId 가져오기
+	        String selectRoomIdQuery = "SELECT roomid FROM posttable WHERE postid = ?";
+	        PreparedStatement selectRoomIdStatement = conn.prepareStatement(selectRoomIdQuery);
+	        selectRoomIdStatement.setInt(1, postId);
+	        ResultSet roomIdResult = selectRoomIdStatement.executeQuery();
+
+	        int roomId = 0;
+	        if (roomIdResult.next()) {
+	            roomId = roomIdResult.getInt("roomid");
+	        }
+
+	        // user_chatroom 테이블에서 roomId와 userId로 검색하여 데이터 확인
+	        String checkUserJoinQuery = "SELECT COUNT(*) AS count FROM user_chatroom WHERE roomid = ? AND userid = ?";
+	        PreparedStatement checkUserJoinStatement = conn.prepareStatement(checkUserJoinQuery);
+	        checkUserJoinStatement.setInt(1, roomId);
+	        checkUserJoinStatement.setInt(2, userId);
+	        ResultSet joinResult = checkUserJoinStatement.executeQuery();
+
+	        if (joinResult.next()) {
+	            int count = joinResult.getInt("count");
+	            return count > 0; // count가 0보다 크면 참여 중인 것으로 판단
+	        }
+
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+
+	    return false; // 에러가 발생하거나 데이터를 찾지 못한 경우에는 참여 중이지 않음으로 반환
+	}
+
 
 	public List<PostEntity> searchPost(String searchText) {
 		List<PostEntity> searchResults = new ArrayList<>();

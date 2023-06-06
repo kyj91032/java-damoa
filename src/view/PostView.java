@@ -23,6 +23,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.LineBorder;
@@ -127,6 +128,20 @@ public class PostView extends JPanel {
 		  lblNewLabel.setIcon(delicon2);
 	      lblNewLabel.setBounds(35, 500, 150, 40);
 	      panel.add(lblNewLabel);
+	      lblNewLabel.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if(model.getCurrentUserId() == currentPost.getUserId()) {
+						model.deletePost(currentPost.getPostId());
+						controller.showCard("home");
+					} else {
+						JOptionPane.showMessageDialog(null, "글 작성자가 아닙니다.", "글 삭제 실패", JOptionPane.ERROR_MESSAGE);
+					}
+					
+					
+				}
+	      });
+	      
 	      
 	      JLabel lblNewLabel_1 = new JLabel("");
 	      ImageIcon joinicon = new ImageIcon("image/채팅참여.jpg");
@@ -136,6 +151,19 @@ public class PostView extends JPanel {
 		  lblNewLabel_1.setIcon(joinicon2);
 	      lblNewLabel_1.setBounds(215, 500, 150, 40);
 	      panel.add(lblNewLabel_1);
+	      lblNewLabel_1.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if(model.isjoinuser(model.getCurrentUserId(), currentPost.getPostId())) {
+						JOptionPane.showMessageDialog(null, "이미 참여중인 채팅방입니다.", "채팅방 참여 실패", JOptionPane.ERROR_MESSAGE);
+					} else {
+						model.userJoinChat(currentPost.getPostId());
+						controller.showCard("chatlist");
+					}
+					
+					
+				}
+	      });
 	      
 	      JLabel lblNewLabel_3 = new JLabel("");
 	      ImageIcon icon = new ImageIcon(currentPost.getImage());
