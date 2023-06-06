@@ -182,7 +182,6 @@ public class ChatView extends JPanel {
 		btnNewButton_1.setBounds(333, 6, 55, 36);
 		panel_1.add(btnNewButton_1);
 		
-		
 	}
 
 	
