@@ -48,6 +48,7 @@ import java.net.UnknownHostException;
 import javax.swing.ScrollPaneConstants;
 
 public class ChatView extends JPanel {
+	
 	private Model model;
 	private Controller controller;
 	private Border border;
@@ -65,14 +66,15 @@ public class ChatView extends JPanel {
     private BufferedWriter writer = null;
 	private int roomid;
 	private int portNumber;
+	private int senduserid;
 	
-		
 
 	public ChatView(Model model, Controller controller, int roomid) {
 		this.model = model;
 		this.controller = controller;
 		this.roomid = roomid;
 		
+		senduserid = model.getCurrentUserId();
 		
 		portNumber = model.getPortNumberByRoomId(roomid);
         chatmessages = model.getCurrentChatMessageByRoomid(roomid);
@@ -160,9 +162,13 @@ public class ChatView extends JPanel {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 					
 					String message = tf.getText();
-				        
-					sendMessage(message);
+				        					
+					sendMessage(message, senduserid);
+										
+					model.insertChatMessage(message);
 					
+					tf.setText("");              
+				    tf.requestFocus();
 				}
 			}
 		});
@@ -172,8 +178,13 @@ public class ChatView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				
 				String message = tf.getText();
+								
+				sendMessage(message, senduserid);
 				
-				sendMessage(message);
+				model.insertChatMessage(message);
+				
+				tf.setText("");
+			    tf.requestFocus();
 				
 			}
 		});
@@ -199,7 +210,6 @@ public class ChatView extends JPanel {
 				}
 	            
 	        } catch (IOException ex) {
-	            ex.printStackTrace();
 	        }
 	        
 
@@ -210,48 +220,91 @@ public class ChatView extends JPanel {
 
 	
 	
-	private void sendMessage(String message) {
+	private void sendMessage(String message, int senduserid) {
 
 		try {
-	        writer.write(message);   
-	        writer.newLine();         
+	        writer.write(senduserid + ":" + message);
+	        writer.newLine();
 	        writer.flush();
 	        
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
-
-	    tf.setText("");              
-	    tf.requestFocus();            
 	}
 
 	public void appendMessage(String message) {
         
-		String content = message;
+		String[] parts = message.split(":");
+		int senduserid = Integer.parseInt(parts[0]);
+		String content = parts[1] + "\n";
+	
+		if(model.getCurrentUserId() == senduserid) {
+			System.out.println();
+			
+			StyledDocument doc = ta.getStyledDocument();
+			SimpleAttributeSet rightAlign = new SimpleAttributeSet();
+			StyleConstants.setAlignment(rightAlign, StyleConstants.ALIGN_RIGHT);
+			
+			doc.setParagraphAttributes(doc.getLength(), content.length(), rightAlign, false);
+			
+			int length = doc.getLength();
+			
+			try {
+	            doc.insertString(length, content, rightAlign);
+	        } catch (BadLocationException e) {
+	            e.printStackTrace();
+	        }
+			
+			ta.setCaretPosition(length + content.length());
+			
+		} else {
+			
+			String contents = "[" + model.getNicknameById(senduserid) + "]님 : " + content;
+			
+			StyledDocument doc = ta.getStyledDocument();
+			SimpleAttributeSet leftAlign = new SimpleAttributeSet();
+			StyleConstants.setAlignment(leftAlign, StyleConstants.ALIGN_LEFT);
+			
+			doc.setParagraphAttributes(doc.getLength(), contents.length(), leftAlign, false);
+			
+			int length = doc.getLength();
+			
+			try {
+	            doc.insertString(length, contents, leftAlign);
+	        } catch (BadLocationException e) {
+	            e.printStackTrace();
+	        }
+			
+			ta.setCaretPosition(length + contents.length());
+		}
 		
-		StyledDocument doc = ta.getStyledDocument();
-        SimpleAttributeSet attributeSet = new SimpleAttributeSet();
-        StyleConstants.setFontFamily(attributeSet, "Hannotate TC");
-        StyleConstants.setFontSize(attributeSet, 15);
+		
+		
+		
         
-        doc.setParagraphAttributes(doc.getLength(), 0, attributeSet, false);
-
-        int length = doc.getLength();
         
-        try {
-            doc.insertString(doc.getLength(), content, attributeSet);
-            System.out.println("appendmessage의 실행" + message);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-        }
         
-        ta.setCaretPosition(length + content.length());
-        
-//        tf.setText("");
-//        tf.requestFocus();
-//        
-//        model.insertChatMessage(message);
-
+//        if(model.getCurrentUserId() == chatmessage.getUserId()) {
+//			String message = chatmessage.getContent() + "\n";
+//	        SimpleAttributeSet rightAlign = new SimpleAttributeSet();
+//	        StyleConstants.setAlignment(rightAlign, StyleConstants.ALIGN_RIGHT);
+//	        doc.setParagraphAttributes(doc.getLength(), message.length(), rightAlign, false);
+//	        try {
+//	            doc.insertString(doc.getLength(), message, rightAlign);   
+//	        } catch (BadLocationException e) {
+//	            e.printStackTrace();
+//	        }
+//		} else {
+//			String message = "[" + model.getNicknameById(chatmessage.getUserId()) + "]님 : " + chatmessage.getContent() + "\n";
+//	        SimpleAttributeSet leftAlign = new SimpleAttributeSet();
+//	        StyleConstants.setAlignment(leftAlign, StyleConstants.ALIGN_LEFT);
+//	        doc.setParagraphAttributes(doc.getLength(), message.length(), leftAlign, false);
+//	        try {
+//	            doc.insertString(doc.getLength(), message, leftAlign);
+//	        } catch (BadLocationException e) {
+//	            e.printStackTrace();
+//	        }
+//		}
     }
 
 	

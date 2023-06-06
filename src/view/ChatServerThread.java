@@ -17,9 +17,8 @@ public class ChatServerThread extends Thread {
 	private ChatView chatview;
 	private ArrayList<ChatServerThread> threadlist;
 
-    public ChatServerThread(Socket socket, ChatView chatview, ArrayList<ChatServerThread> threadlist) {
+    public ChatServerThread(Socket socket, ArrayList<ChatServerThread> threadlist) {
         this.clientSocket = socket;
-        this.chatview = chatview;
         this.threadlist = threadlist;
     }
 
@@ -47,9 +46,8 @@ public class ChatServerThread extends Thread {
     	for(ChatServerThread chatserverthread : threadlist) {
 			try {
 				chatserverthread.writer.write(clientMessage + "\n");
-				chatview.appendMessage(clientMessage);
 				chatserverthread.writer.flush();
-			} catch (IOException e) {				
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
