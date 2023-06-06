@@ -152,20 +152,25 @@ public class Model {
         }
     }
     public int getCurrentUserId() { // id의 초기화
-        if (!isLoggedIn) {
-            return -1; // 로그인되지 않은 경우 -1을 반환
-        }
-        int userId = -1;
-        try {
-            String query = "SELECT userid FROM usertable WHERE username = '" + currentUser.getUsername() + "'";
-            ResultSet resultSet = stmt.executeQuery(query);
-            if (resultSet.next()) {
-                userId = resultSet.getInt("userid");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return userId;
+    	
+    	return currentUser.getUserid();
+    	
+    	
+    	
+    	//        if (!isLoggedIn) {
+//            return -1; // 로그인되지 않은 경우 -1을 반환
+//        }
+//        int userId = -1;
+//        try {
+//            String query = "SELECT userid FROM usertable WHERE username = '" + currentUser.getUsername() + "'";
+//            ResultSet resultSet = stmt.executeQuery(query);
+//            if (resultSet.next()) {
+//                userId = resultSet.getInt("userid");
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return userId;
     }
     
     public boolean isLoggedin() { // 현재 로그인 상태인지 판단하는 메소드

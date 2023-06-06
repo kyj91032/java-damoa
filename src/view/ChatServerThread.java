@@ -45,10 +45,9 @@ public class ChatServerThread extends Thread {
     private void sendToAllClients(String clientMessage) {
     	for(ChatServerThread chatserverthread : threadlist) {
 			try {
-				System.out.println(threadlist.size());
 				chatserverthread.writer.write(clientMessage + "\n");
 				chatserverthread.writer.flush();
-			} catch (IOException e) {				
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
