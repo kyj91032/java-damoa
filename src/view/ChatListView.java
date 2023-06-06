@@ -8,8 +8,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -22,9 +26,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -36,12 +43,15 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.basic.BasicScrollBarUI;
+
 import controller.Controller;
 import model.ChatMessageEntity;
 import model.ChatRoomEntity;
 import model.Model;
 import model.PostEntity;
 import view.ChatServerThread;
+import view.HomeView.ImageLabelItem;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -62,6 +72,7 @@ public class ChatListView extends JPanel {
 	
 	private ServerSocket listener = null;
 	private Socket socket = null;
+	private JScrollPane scrollPane;
 
 	public ChatListView(Model model, Controller controller) {
 		this.model = model;
@@ -77,48 +88,94 @@ public class ChatListView extends JPanel {
 		
 		btnPanel();
 		
+		setLayout(null);
 		
 	}
 	
 	
     	
 	private void TopPanel() {
-		setLayout(null);
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_1.setBackground(new Color(255, 255, 255));
-		panel_1.setBounds(0, 0, 400, 50);
-		add(panel_1);
-		panel_1.setLayout(null);
+		JPanel panel = new JPanel();
+		panel.setBorder(null);
+		panel.setBackground(new Color(228, 204, 255));
+		panel.setBounds(0, 0, 400, 70);
+		add(panel);
+		panel.setLayout(null);
 		
-		ImageIcon daicon = new ImageIcon("image/damoa.jpeg");
-		Image daimage = daicon.getImage();
-		Image daimage2 = daimage.getScaledInstance(50,50 , Image.SCALE_SMOOTH);
-		ImageIcon daicon2 = new ImageIcon(daimage2);
-		
-		JLabel dmlbl = new JLabel();
-		dmlbl.setBackground(new Color(240, 240, 240));
-		dmlbl.setBounds(12, 2, 45, 45);
-		panel_1.add(dmlbl);
-		dmlbl.setIcon(daicon2);
-		
-		JLabel lblNewLabel = new JLabel("세상 사람");
-		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
-		lblNewLabel.setBounds(74, 0, 58, 23);
-		panel_1.add(lblNewLabel);
-		
-		JLabel lblDamoa = new JLabel("damoa");
-		lblDamoa.setFont(new Font("Franklin Gothic Book", Font.BOLD | Font.ITALIC, 18));
-		lblDamoa.setBounds(124, 17, 78, 23);
-		panel_1.add(lblDamoa);
+		String nickname = model.getNicknameById(model.getCurrentUserId()); // 닉네임 db에서 불러와서 보여줌
+		JLabel lblNewLabel = new JLabel(model.getNicknameById(model.getCurrentUserId()) + "님의 채팅방");
+		System.out.println(nickname);
+		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setBounds(12, 20, 370, 40);
+		panel.add(lblNewLabel);
 	}
 
 	
 	private void ListPanel() {
-	    JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 70, 400, 429);
+		
+		
+	   // 수직 스크롤바의 모양을 사용자 정의
+	    scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+	      private final Dimension d = new Dimension();
+	      @Override
+	      protected JButton createDecreaseButton(int orientation) {
+	        return new JButton() {
+	          @Override
+	          public Dimension getPreferredSize() {
+	            return d;
+	          }
+	        };
+	      }
+	      @Override
+	      protected JButton createIncreaseButton(int orientation) {
+	        return new JButton() {
+	          @Override
+	          public Dimension getPreferredSize() {
+	            return d;
+	          }
+	        };
+	      }
+	      @Override
+	      protected void paintTrack(Graphics g, JComponent c, Rectangle r) {
+	        // 트랙(track) 그리기 - 여기서는 그리지 않음
+	      }
+	      @Override
+	      protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
+	        // 슬라이더(thumb) 그리기
+	        Graphics2D g2 = (Graphics2D)g.create();
+	        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+	                            RenderingHints.VALUE_ANTIALIAS_ON);
+	        Color color = null;
+	        JScrollBar sb = (JScrollBar)c;
+	        if(!sb.isEnabled() || r.width > r.height) {
+	          return;
+	        } else if(isDragging) {
+	          color = new Color(200,200,100,200); // 누르고 드래그시 ( rgb값  + 투명도  )
+	        } else if(isThumbRollover()) {
+	          color = new Color(228,204,255,200);  // 마우스 올린경우
+	        } else {
+	          color = new Color(228,204,255);  // 기본값
+	        }
+	        g2.setPaint(color);
+	        g2.fillRoundRect(r.x, r.y, r.width, r.height, 10, 10);
+	        g2.setPaint(Color.WHITE);
+	        g2.drawRoundRect(r.x, r.y, r.width, r.height, 10, 10);
+	        g2.dispose();
+	      }
+	      @Override
+	      protected void setThumbBounds(int x, int y, int width, int height) {
+	        super.setThumbBounds(x,y,width,height);
+	        scrollbar.repaint();
+	      }
+	    });
+		
 	    scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-	    scrollPane.setBounds(0, 50, 400, 452);
-	    add(scrollPane);
+	    scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+	    
+		add(scrollPane);
 	    
 	    
 	    DefaultListModel<ImageLabelItem> listModel = new DefaultListModel<>();
@@ -126,14 +183,13 @@ public class ChatListView extends JPanel {
 	    List<ChatRoomEntity> chatRooms = model.getChatListByUserId(model.getCurrentUserId());
 	    
 	    for (ChatRoomEntity chatRoom : chatRooms) {
+	    	
 	        ImageIcon imageIcon = new ImageIcon(chatRoom.getImage());
-
-	        // 이미지를 원하는 크기로 조정합니다.
-	        Image scaledImage = imageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+	        Image scaledImage = imageIcon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
 	        ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
 
 	        // ImageLabelItem 객체를 생성하여 ImageIcon과 추가 정보를 저장합니다.
-	        ImageLabelItem item = new ImageLabelItem(scaledImageIcon, chatRoom.getRoomName());
+	        ImageLabelItem item = new ImageLabelItem(scaledImageIcon ,chatRoom.getRoomName());
 
 	        // 리스트 모델에 ImageLabelItem을 추가합니다.
 	        listModel.addElement(item);
@@ -165,39 +221,53 @@ public class ChatListView extends JPanel {
 	}
 
 	class ImageLabelItem {
-	    private ImageIcon image;
-	    private String label;
+	       private ImageIcon image;
+	       private String title;
 
-	    public ImageLabelItem(ImageIcon image, String label) {
-	        this.image = image;
-	        this.label = label;
+	       
+	       public ImageLabelItem(ImageIcon image, String title) {
+	          this.image = image;
+	          this.title = title;      
+
+	       }
+	       
+	       public String gettitleLabel() {
+	          return title;
+	       }
+	       
 	    }
-
-	    public String getLabel() {
-	        return label;
-	    }
-	}
-
+	    
 	class ImageLabelListCellRenderer extends JPanel implements ListCellRenderer<ImageLabelItem> {
 	    private JLabel imageLabel;
-	    private JLabel textLabel;
-	
+	    private JLabel titleLabel;
+
 	    public ImageLabelListCellRenderer() {
-	        setLayout(new FlowLayout());
 	        setOpaque(true);
-	
+	       
+
 	        imageLabel = new JLabel();
-	        textLabel = new JLabel();
-	        
+	        imageLabel.setBorder(BorderFactory.createLineBorder((new Color(228,204,255)), 1));
 	        add(imageLabel);
-	        add(textLabel);
+
+	        titleLabel = new JLabel();
+	        titleLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+	        titleLabel.setForeground(Color.black);
+	        add(titleLabel);
+	   
 	    }
 
 	    @Override
-	    public Component getListCellRendererComponent(JList<? extends ImageLabelItem> list, ImageLabelItem value, int index,
+	    public Component getListCellRendererComponent(JList<? extends ImageLabelItem> list,
+	                                                  ImageLabelItem value, int index,
 	                                                  boolean isSelected, boolean cellHasFocus) {
+	    	
+	       // ImageIcon scaledImageIcon = new ImageIcon(value.image.getImage().getScaledInstance(100, 10, Image.SCALE_SMOOTH));
+	       
+	        
+	    	
 	        imageLabel.setIcon(value.image);
-	        textLabel.setText(value.getLabel());
+	        titleLabel.setText(value.gettitleLabel());
+	    
 
 	        if (isSelected) {
 	            setBackground(list.getSelectionBackground());
@@ -206,10 +276,26 @@ public class ChatListView extends JPanel {
 	            setBackground(list.getBackground());
 	            setForeground(list.getForeground());
 	        }
+	        if (index % 2 == 0) {
+	            setBorder(BorderFactory.createMatteBorder(1, 2, 1, 0, Color.GRAY));
+	        } else {
+	            setBorder(BorderFactory.createMatteBorder(1, 2, 1, 0, Color.GRAY));
+	        }
 
 	        return this;
 	    }
+
+
+	    @Override
+	    public void doLayout() {
+	        super.doLayout();
+	        
+	        imageLabel.setBounds(10,10,80,80);
+	        titleLabel.setBounds(100,10,300,15);
+	    }
 	}
+	
+	
 
 	private void btnPanel() {
 		JPanel panel1 = new JPanel();

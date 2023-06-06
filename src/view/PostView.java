@@ -65,7 +65,7 @@ public class PostView extends JPanel {
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel(currentPost.getTitle());
-		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 25));
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setBounds(20, 23, 340, 40);
 		panel.add(lblNewLabel);
@@ -77,12 +77,12 @@ public class PostView extends JPanel {
 				controller.showCard("home");
 			}
 		});
-		ImageIcon backicon = new ImageIcon("image/뒤로가기2.png");
+		ImageIcon backicon = new ImageIcon("image/홈3.png");
 		Image backimage = backicon.getImage();
-		Image	backimage2 = backimage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+		Image	backimage2 = backimage.getScaledInstance(35	, 35, Image.SCALE_SMOOTH);
 		ImageIcon backicon2 = new ImageIcon(backimage2);
 		lblNewLabel_2.setIcon(backicon2);
-		lblNewLabel_2.setBounds(10, 10, 20, 20);
+		lblNewLabel_2.setBounds(340, 20, 35, 35);
 		panel.add(lblNewLabel_2);
 	}
 

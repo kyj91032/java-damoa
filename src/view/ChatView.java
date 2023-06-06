@@ -79,11 +79,6 @@ public class ChatView extends JPanel {
 		portNumber = model.getPortNumberByRoomId(roomid);
         chatmessages = model.getCurrentChatMessageByRoomid(roomid);
 		
-		
-		
-
-		
-		
 		setPreferredSize(new Dimension(400, 570));
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
@@ -99,10 +94,6 @@ public class ChatView extends JPanel {
 		
 	}
 	
-	
-	
-	
-
 	private void bottomPanel() {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
