@@ -96,16 +96,16 @@ public class ChatView extends JPanel {
 	
 	private void bottomPanel() {
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_1.setBounds(0, 523, 400, 47);
-		panel_1.setBackground(new Color(255,255,255));
+		panel_1.setBorder(null);
+		panel_1.setBounds(0, 520, 400, 50);
+		panel_1.setBackground(new Color(228, 204, 255));
 		add(panel_1);
 		panel_1.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(0, 175, 400, 345);
+		scrollPane.setBounds(0, 169, 400, 351);
 		add(scrollPane);
 		
 		ta = new JTextPane();
@@ -143,8 +143,9 @@ public class ChatView extends JPanel {
 		
 		
 		tf = new JTextField();
-		tf.setFont(new Font("Hannotate TC", Font.PLAIN, 13));
-		tf.setBounds(12, 6, 309, 32);
+		tf.setFont(new Font("맑은 고딕", Font.BOLD, 13));
+		tf.setBounds(25, 13, 274, 23);
+		tf.setBorder(null);
 		panel_1.add(tf);
 		tf.setColumns(10);
 		tf.addKeyListener(new KeyAdapter() {
@@ -163,8 +164,8 @@ public class ChatView extends JPanel {
 				}
 			}
 		});
-		JButton btnNewButton_1 = new JButton("전송");
-		btnNewButton_1.setFont(new Font("굴림", Font.PLAIN, 12));
+		JButton btnNewButton_1 = new JButton("");
+		btnNewButton_1.setVisible(false);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -179,8 +180,17 @@ public class ChatView extends JPanel {
 				
 			}
 		});
-		btnNewButton_1.setBounds(333, 6, 55, 36);
+		btnNewButton_1.setBounds(325, 5, 55, 35);
 		panel_1.add(btnNewButton_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("");
+		ImageIcon chatIcon = new ImageIcon("image/채팅.jpg");
+        Image chatimage = chatIcon.getImage();
+        Image chatimage2 = chatimage.getScaledInstance(390, 40, Image.SCALE_SMOOTH);
+        ImageIcon chaticon2 = new ImageIcon(chatimage2);
+        lblNewLabel_2.setIcon(chaticon2);
+        lblNewLabel_2.setBounds(10, 5, 390, 40);
+		panel_1.add(lblNewLabel_2);
 		
 	}
 
@@ -302,14 +312,20 @@ public class ChatView extends JPanel {
 	private void topPanel() {
 		setLayout(null);
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_1.setBackground(new Color(255, 255, 255));
+		panel_1.setBorder(null);
+		panel_1.setBackground(new Color(228, 204, 255));
 		panel_1.setBounds(0, 0, 400, 50);
 		add(panel_1);
 		panel_1.setLayout(null);
 		
-		JButton backbtn = new JButton("<");
-		backbtn.setBounds(12, 2, 45, 45);
+		JButton backbtn = new JButton("");
+		 ImageIcon backIcon = new ImageIcon("image/뒤로가기2.png");
+         Image backimage = backIcon.getImage();
+         Image backimage2 = backimage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+         ImageIcon backicon2 = new ImageIcon(backimage2);
+         backbtn.setIcon(backicon2);
+         backbtn.setBorder(null);
+         backbtn.setBounds(10, 10, 30, 30);
 		backbtn.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) { 
 				try {
@@ -326,11 +342,17 @@ public class ChatView extends JPanel {
 			});
 		panel_1.add(backbtn);
 		
+		JLabel lblNewLabel_1_3 = new JLabel();
+		lblNewLabel_1_3.setForeground(new Color(255, 255, 255));
+		lblNewLabel_1_3.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+		lblNewLabel_1_3.setBounds(60, 10, 260, 30);
+		panel_1.add(lblNewLabel_1_3);
+		
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
-		panel.setBounds(0, 51, 400, 122);
-		panel.setBorder(border);
+		panel.setBounds(0, 50, 400, 120);
+		panel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		add(panel);
 		panel.setLayout(null);
 		
@@ -341,26 +363,28 @@ public class ChatView extends JPanel {
         if (imgData != null) {
             ImageIcon imageIcon = new ImageIcon(imgData);
             Image image = imageIcon.getImage();
-            int labelWidth = 106; // 라벨의 너비 값을 직접 설정
-            int imageHeight = 100;
-            Image scaledImage = image.getScaledInstance(labelWidth, imageHeight, Image.SCALE_SMOOTH);
+            Image scaledImage = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
             ImageIcon scaledIcon = new ImageIcon(scaledImage);
             ImageLabel.setIcon(scaledIcon);
         }
-        ImageLabel.setBounds(12, 10, 106, 100);
+        ImageLabel.setBounds(10, 10, 101, 101);
+        ImageLabel.setBorder(BorderFactory.createLineBorder((new Color(228,204,255)), 2));
         panel.add(ImageLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel(chatroom.getRoomName());
-		lblNewLabel_1.setBounds(130, 10, 258, 100);
+		lblNewLabel_1.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+		lblNewLabel_1.setBounds(130, 10, 260, 30);
 		panel.add(lblNewLabel_1);
 		
+		JLabel lblNewLabel_1_1 = new JLabel((String) null);
+		lblNewLabel_1_1.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+		lblNewLabel_1_1.setBounds(130, 40, 260, 25);
+		panel.add(lblNewLabel_1_1);
+		
+		JLabel lblNewLabel_1_2 = new JLabel((String) null);
+		lblNewLabel_1_2.setBounds(130, 60, 260, 25);
+		panel.add(lblNewLabel_1_2);
+		
 	}
-
-
-
-	
-
-
-
 }
 

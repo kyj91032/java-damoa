@@ -80,10 +80,10 @@ public class PostView extends JPanel {
 		});
 		ImageIcon backicon = new ImageIcon("image/홈3.png");
 		Image backimage = backicon.getImage();
-		Image	backimage2 = backimage.getScaledInstance(35	, 35, Image.SCALE_SMOOTH);
+		Image	backimage2 = backimage.getScaledInstance(30	, 30, Image.SCALE_SMOOTH);
 		ImageIcon backicon2 = new ImageIcon(backimage2);
 		lblNewLabel_2.setIcon(backicon2);
-		lblNewLabel_2.setBounds(340, 20, 35, 35);
+		lblNewLabel_2.setBounds(360, 20, 30, 30);
 		panel.add(lblNewLabel_2);
 	}
 

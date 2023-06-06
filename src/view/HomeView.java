@@ -399,10 +399,6 @@ public class HomeView extends JPanel {
 	                                                  ImageLabelItem value, int index,
 	                                                  boolean isSelected, boolean cellHasFocus) {
 	    	
-	        ImageIcon scaledImageIcon = new ImageIcon(value.image.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
-	       
-	        
-	    	
 	        imageLabel.setIcon(value.image);
 	        titleLabel.setText(value.gettitleLabel());
 	        usernameLabel.setText("닉네임 : " + value.getusernameLabel());
@@ -416,9 +412,9 @@ public class HomeView extends JPanel {
 	            setForeground(list.getForeground());
 	        }
 	        if (index % 2 == 0) {
-	            setBorder(BorderFactory.createMatteBorder(1, 2, 1, 0, Color.GRAY));
+	            setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.GRAY));
 	        } else {
-	            setBorder(BorderFactory.createMatteBorder(1, 2, 1, 0, Color.GRAY));
+	            setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Color.GRAY));
 	        }
 
 	        return this;

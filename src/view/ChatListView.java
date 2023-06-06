@@ -260,11 +260,7 @@ public class ChatListView extends JPanel {
 	    public Component getListCellRendererComponent(JList<? extends ImageLabelItem> list,
 	                                                  ImageLabelItem value, int index,
 	                                                  boolean isSelected, boolean cellHasFocus) {
-	    	
-	       // ImageIcon scaledImageIcon = new ImageIcon(value.image.getImage().getScaledInstance(100, 10, Image.SCALE_SMOOTH));
-	       
-	        
-	    	
+	   	    	
 	        imageLabel.setIcon(value.image);
 	        titleLabel.setText(value.gettitleLabel());
 	    
@@ -277,9 +273,9 @@ public class ChatListView extends JPanel {
 	            setForeground(list.getForeground());
 	        }
 	        if (index % 2 == 0) {
-	            setBorder(BorderFactory.createMatteBorder(1, 2, 1, 0, Color.GRAY));
+	            setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.GRAY));
 	        } else {
-	            setBorder(BorderFactory.createMatteBorder(1, 2, 1, 0, Color.GRAY));
+	            setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Color.GRAY));
 	        }
 
 	        return this;
@@ -290,7 +286,7 @@ public class ChatListView extends JPanel {
 	    public void doLayout() {
 	        super.doLayout();
 	        
-	        imageLabel.setBounds(10,10,80,80);
+	        imageLabel.setBounds(10,7,80,80);
 	        titleLabel.setBounds(100,10,300,15);
 	    }
 	}
