@@ -4,12 +4,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.sql.Statement;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.border.Border;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -18,7 +22,11 @@ import javax.swing.JTextPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.SimpleAttributeSet;
@@ -91,7 +99,6 @@ public class ChatView extends JPanel {
 		
 		tf.requestFocus();
 		
-		
 	}
 	
 	private void bottomPanel() {
@@ -106,11 +113,64 @@ public class ChatView extends JPanel {
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setBounds(0, 169, 400, 351);
+		 scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+		      private final Dimension d = new Dimension();
+		      @Override
+		      protected JButton createDecreaseButton(int orientation) {
+		        return new JButton() {
+		          @Override
+		          public Dimension getPreferredSize() {
+		            return d;
+		          }
+		        };
+		      }
+		      @Override
+		      protected JButton createIncreaseButton(int orientation) {
+		        return new JButton() {
+		          @Override
+		          public Dimension getPreferredSize() {
+		            return d;
+		          }
+		        };
+		      }
+		      @Override
+		      protected void paintTrack(Graphics g, JComponent c, Rectangle r) {
+		        // 트랙(track) 그리기 - 여기서는 그리지 않음
+		      }
+		      @Override
+		      protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
+		        // 슬라이더(thumb) 그리기
+		        Graphics2D g2 = (Graphics2D)g.create();
+		        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+		                            RenderingHints.VALUE_ANTIALIAS_ON);
+		        Color color = null;
+		        JScrollBar sb = (JScrollBar)c;
+		        if(!sb.isEnabled() || r.width > r.height) {
+		          return;
+		        } else if(isDragging) {
+		          color = new Color(200,200,100,200); // 누르고 드래그시 ( rgb값  + 투명도  )
+		        } else if(isThumbRollover()) {
+		          color = new Color(228,204,255,200);  // 마우스 올린경우
+		        } else {
+		          color = new Color(228,204,255);  // 기본값
+		        }
+		        g2.setPaint(color);
+		        g2.fillRoundRect(r.x, r.y, r.width, r.height, 10, 10);
+		        g2.setPaint(Color.WHITE);
+		        g2.drawRoundRect(r.x, r.y, r.width, r.height, 10, 10);
+		        g2.dispose();
+		      }
+		      @Override
+		      protected void setThumbBounds(int x, int y, int width, int height) {
+		        super.setThumbBounds(x,y,width,height);
+		        scrollbar.repaint();
+		      }
+		    });
 		add(scrollPane);
 		
 		ta = new JTextPane();
-		ta.setFont(new Font("Hannotate TC", Font.PLAIN, 15));
 		ta.setEditable(false);
+		ta.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 		StyledDocument doc = ta.getStyledDocument();
 		DefaultCaret caret = (DefaultCaret) ta.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
@@ -140,8 +200,6 @@ public class ChatView extends JPanel {
 			}
 		}
 		
-		
-		
 		tf = new JTextField();
 		tf.setFont(new Font("맑은 고딕", Font.BOLD, 13));
 		tf.setBounds(25, 13, 274, 23);
@@ -165,7 +223,7 @@ public class ChatView extends JPanel {
 			}
 		});
 		JButton btnNewButton_1 = new JButton("");
-		btnNewButton_1.setVisible(false);
+		//btnNewButton_1.setVisible(false);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -180,7 +238,7 @@ public class ChatView extends JPanel {
 				
 			}
 		});
-		btnNewButton_1.setBounds(325, 5, 55, 35);
+		btnNewButton_1.setBounds(330, 5, 55, 35);
 		panel_1.add(btnNewButton_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("");
@@ -194,7 +252,6 @@ public class ChatView extends JPanel {
 		
 	}
 
-	
 	public void openclient() {
 	    Thread openClientThread = new Thread(() -> {
 	        socket = null;
@@ -218,8 +275,6 @@ public class ChatView extends JPanel {
 	    openClientThread.start();
 	}
 
-	
-	
 	private void sendMessage(String message, int senduserid) {
 
 		try {
@@ -277,12 +332,6 @@ public class ChatView extends JPanel {
 			
 			ta.setCaretPosition(length + contents.length());
 		}
-		
-		
-		
-		
-        
-        
         
 //        if(model.getCurrentUserId() == chatmessage.getUserId()) {
 //			String message = chatmessage.getContent() + "\n";
@@ -305,10 +354,7 @@ public class ChatView extends JPanel {
 //	            e.printStackTrace();
 //	        }
 //		}
-    }
-
-	
-	
+	}
 	private void topPanel() {
 		setLayout(null);
 		JPanel panel_1 = new JPanel();
@@ -341,8 +387,6 @@ public class ChatView extends JPanel {
 				} 
 			});
 		panel_1.add(backbtn);
-		
-		
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
@@ -385,7 +429,7 @@ public class ChatView extends JPanel {
 		
 		JLabel lblNewLabel_1_2_1 = new JLabel((model.getPostBypostid(model.getPostidbyRoomid(roomid)).getTextarea()));
 		lblNewLabel_1_2_1.setForeground(Color.GRAY);
-		lblNewLabel_1_2_1.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+		lblNewLabel_1_2_1.setFont(new Font("맑은 고딕", Font.PLAIN, 10));
 		lblNewLabel_1_2_1.setHorizontalAlignment(JLabel.LEFT);
 		lblNewLabel_1_2_1.setVerticalAlignment(JLabel.TOP);
 		lblNewLabel_1_2_1.setBounds(123, 54, 260, 53);
