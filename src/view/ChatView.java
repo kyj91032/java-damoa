@@ -223,7 +223,9 @@ public class ChatView extends JPanel {
 			}
 		});
 		JButton btnNewButton_1 = new JButton("");
-		//btnNewButton_1.setVisible(false);
+		btnNewButton_1.setOpaque(false);
+		btnNewButton_1.setContentAreaFilled(false);
+		btnNewButton_1.setBorderPainted(false);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -365,13 +367,13 @@ public class ChatView extends JPanel {
 		panel_1.setLayout(null);
 		
 		JButton backbtn = new JButton("");
-		 ImageIcon backIcon = new ImageIcon("image/뒤로가기2.png");
-         Image backimage = backIcon.getImage();
-         Image backimage2 = backimage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-         ImageIcon backicon2 = new ImageIcon(backimage2);
-         backbtn.setIcon(backicon2);
-         backbtn.setBorder(null);
-         backbtn.setBounds(10, 10, 30, 30);
+		ImageIcon backIcon = new ImageIcon("image/뒤로가기2.png");
+        Image backimage = backIcon.getImage();
+        Image backimage2 = backimage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        ImageIcon backicon2 = new ImageIcon(backimage2);
+        backbtn.setIcon(backicon2);
+        backbtn.setBorder(null);
+        backbtn.setBounds(10, 10, 30, 30);
 		backbtn.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) { 
 				try {
@@ -386,6 +388,7 @@ public class ChatView extends JPanel {
 				
 				} 
 			});
+		
 		panel_1.add(backbtn);
 		
 		JPanel panel = new JPanel();
