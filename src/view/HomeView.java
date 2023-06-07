@@ -13,6 +13,7 @@ import javax.swing.JScrollBar;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import controller.Controller;
@@ -28,6 +29,7 @@ import java.awt.CardLayout;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.Dimension;
 
@@ -98,6 +100,23 @@ public class HomeView extends JPanel {
 	
 	private void TopPanel() { 
 
+		class CustomComboBoxRenderer extends BasicComboBoxRenderer {
+		    // 각 아이템에 경계선(border)을 주기 위해 컴포넌트를 반환하는 메서드를 오버라이드합니다.
+		    @Override
+		    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+		        Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+		        if (isSelected) {
+		            c.setBackground(Color.WHITE);
+		            c.setForeground(new Color(228,204,255));
+		        } else {
+		            c.setBackground(Color.WHITE);
+		            c.setForeground(Color.BLACK);
+		        }
+		        setBorder(BorderFactory.createLineBorder(Color.gray)); // 경계선(border) 추가
+		        return c;
+		    }
+		}
+		
 		JLabel lblNewLabel_2 = new JLabel("");
         lblNewLabel_2.setBounds(360, 25, 20, 20);
         ImageIcon categoryicon = new ImageIcon("image/카테고리.png");
@@ -106,57 +125,47 @@ public class HomeView extends JPanel {
         ImageIcon iconcategory2 = new ImageIcon(imgcategory2);
         lblNewLabel_2.setIcon(iconcategory2);
         add(lblNewLabel_2);
+        
         lblNewLabel_2.addMouseListener(new MouseAdapter() {
-        	public void mouseClicked(MouseEvent e) {
-        		JFrame newFrame = new JFrame("카테고리");
-	            newFrame.setSize(300, 200);
-	            newFrame.setLocationRelativeTo(null);
-	            
-	            newFrame.getContentPane().setLayout(null);
+            public void mouseClicked(MouseEvent e) {
+            	String[] items = {"전체","운동하기", "취미", "스터디", "물품 배달", "음식 배달","택시"};
+                comboBox = new JComboBox<>(items);
+                int comboBoxWidth = 200;
+                int comboBoxHeight = 30;
+                int comboBoxX = lblNewLabel_2.getX() - comboBoxWidth;
+                int comboBoxY = lblNewLabel_2.getY() + (lblNewLabel_2.getHeight() - comboBoxHeight) / 2;
+                comboBox.setBounds(comboBoxX, comboBoxY, comboBoxWidth, comboBoxHeight);
+                comboBox.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 15));
+                comboBox.setBackground(Color.WHITE);
+                comboBox.setRenderer(new CustomComboBoxRenderer());
+                comboBox.setBorder(BorderFactory.createLineBorder(Color.gray));
+                comboBox.addActionListener(new ActionListener() {
+                	public void actionPerformed(ActionEvent e) {
+                		// 콤보 박스 값 변경 시 실행되는 작업
+                		selectedValue = (String) comboBox.getSelectedItem();
+                		System.out.println("선택한 값: " + selectedValue);
+                		
+                		if (selectedValue == null  || selectedValue.equals("전체")) {
+                			posts = model.getAllPosts();
 
-	        	String[] items = {"운동하기", "공동구매", "택시"};
-	        	comboBox = new JComboBox<>(items);
-		        comboBox.setBounds(50, 50, 200, 30);
-		        comboBox.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 15));
-		        comboBox.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-		                // 콤보 박스 값 변경 시 실행되는 작업
-		                selectedValue = (String) comboBox.getSelectedItem();
-		            }
-		        });
-		        newFrame.getContentPane().add(comboBox);
-		
-		        JButton confirmButton = new JButton("확인");
-				confirmButton.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 15));
-		        confirmButton.setBounds(100, 100, 100, 30);
-		        confirmButton.setBackground(new Color(228, 204, 255));
-		        confirmButton.addActionListener(new ActionListener() {
-		            public void actionPerformed(ActionEvent e) {
-		                // 확인 버튼 클릭 시 실행되는 작업
-		                selectedValue = (String) comboBox.getSelectedItem();
-		                System.out.println("선택한 값: " + selectedValue);
-		
-		                newFrame.dispose(); // 프레임 닫기
-		                
-		                if (selectedValue == null || selectedValue.equals("전체")) {
-		        	        posts = model.getAllPosts();
-		        	    } else {
-		        	        posts = model.getCategoryPosts(selectedValue);
-		        	    }
-		                
-		             	// 기존의 중앙 버튼을 제거
-	                    remove(scrollPane);
-		                Centerbtn();
-		                revalidate();
-	                    repaint();
-		                
-		            }
-		        });
-		        newFrame.getContentPane().add(confirmButton);
-		        newFrame.getContentPane().setBackground(new Color(228, 204, 255));
-		        newFrame.setVisible(true);
-        	}
+                		} else {
+                			posts = model.getCategoryPosts(selectedValue);
+
+                		}
+                		comboBox.setSelectedItem(selectedValue);
+                		remove(scrollPane);
+                		Centerbtn();
+ 		                revalidate();
+ 	                    repaint();
+                	}
+                });
+                add(comboBox);
+                comboBox.showPopup();
+            }
         });
+
+
+
 		
         textField = new JTextField();
         textField.setFont(new Font("맑은 고딕", Font.BOLD, 13));

@@ -369,11 +369,11 @@ public class ChatView extends JPanel {
 		JButton backbtn = new JButton("");
 		ImageIcon backIcon = new ImageIcon("image/뒤로가기2.png");
         Image backimage = backIcon.getImage();
-        Image backimage2 = backimage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        Image backimage2 = backimage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         ImageIcon backicon2 = new ImageIcon(backimage2);
         backbtn.setIcon(backicon2);
         backbtn.setBorder(null);
-        backbtn.setBounds(10, 10, 30, 30);
+        backbtn.setBounds(10, 15, 20, 20);
 		backbtn.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) { 
 				try {
@@ -402,7 +402,7 @@ public class ChatView extends JPanel {
 		JLabel lblNewLabel_1_3 = new JLabel(chatroom.getRoomName());
 		lblNewLabel_1_3.setForeground(new Color(255, 255, 255));
 		lblNewLabel_1_3.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-		lblNewLabel_1_3.setBounds(60, 10, 260, 30);
+		lblNewLabel_1_3.setBounds(40, 10, 260, 30);
 		panel_1.add(lblNewLabel_1_3);
 		
 		JLabel ImageLabel = new JLabel();
@@ -439,9 +439,6 @@ public class ChatView extends JPanel {
 		panel.add(lblNewLabel_1_2_1);
 		
 	}
-<<<<<<< HEAD
-=======
 
->>>>>>> newkyj
 }
 
