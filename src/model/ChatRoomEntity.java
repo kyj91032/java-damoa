@@ -1,11 +1,7 @@
 package model;
 
 public class ChatRoomEntity {
-    private int roomId;
-    private String roomName;
-    private String description;
-    private byte[] image;
-    private int portNumber;
+	private int roomId; private String roomName; private String description; private byte[] image; private int portNumber;
 
     public ChatRoomEntity(int roomId, String roomName, String description, byte[] image, int portNumber) {
         this.roomId = roomId;

@@ -49,15 +49,8 @@ import javax.swing.border.Border;
 
 public class MyPageView extends JPanel {
 	
-	private Model model;
-	private Controller controller;
-	private JTextField PhoneField;
-	private JTextField nicknameField;
-	private JTextField idField;
-	private JTextField birthField;
-	private JLabel lblNewLabel_3;
-	private JLabel lblMypage;
-	private JTextField passwordField_1;
+	private Model model; private Controller controller; private JTextField PhoneField; private JTextField nicknameField; private JTextField idField; private JTextField birthField; private JLabel lblNewLabel_3; private JLabel lblMypage; private JTextField passwordField_1;
+
 
 	
 	public MyPageView(Model model, Controller controller) {

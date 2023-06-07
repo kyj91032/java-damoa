@@ -36,12 +36,8 @@ import javax.swing.JRadioButton;
 
 public class SignUpView extends JPanel implements MouseListener {
 
-   private Controller controller;
-   private Model model;
-   private JTextField idField, nicknameField, PhoneField, birthField;
-   private JPasswordField passwordField;
-   private JPasswordField passwordField_1;
-   private JLabel lblNewLabel_3;
+	private Controller controller; private Model model; private JTextField idField, nicknameField, PhoneField, birthField; private JPasswordField passwordField; private JPasswordField passwordField_1; private JLabel lblNewLabel_3;
+
    
    public SignUpView(Model model, Controller controller) {
       

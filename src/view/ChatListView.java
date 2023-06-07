@@ -65,16 +65,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class ChatListView extends JPanel {
-	private Model model;
-	private Controller controller;
-	
-	private DefaultListModel listModel;
-	private ArrayList<ChatView> chats;
-	private List<ChatMessageEntity> chatmessages;
-	
-	private ServerSocket listener = null;
-	private Socket socket = null;
-	private JScrollPane scrollPane;
+	private Model model; private Controller controller;private DefaultListModel listModel; private ArrayList<ChatView> chats; private List<ChatMessageEntity> chatmessages;private ServerSocket listener = null; private Socket socket = null; private JScrollPane scrollPane;
 
 	public ChatListView(Model model, Controller controller) {
 		this.model = model;
@@ -191,16 +182,13 @@ public class ChatListView extends JPanel {
 	        ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
 	        int roomid = chatRoom.getRoomId();
 	        
-	        // ImageLabelItem 객체를 생성하여 ImageIcon과 추가 정보를 저장합니다.
 
 	        ImageLabelItem item = new ImageLabelItem(scaledImageIcon ,chatRoom.getRoomName(),
 	        		model.getNicknameById(model.getPostBypostid(model.getPostidbyRoomid(roomid)).getUserId()) ,
 	        		model.getPostBypostid(model.getPostidbyRoomid(roomid)).getKategorie(),
 	        		model.getPostBypostid(model.getPostidbyRoomid(roomid)).getDate());
 	        
-//	        model.getPostBypostid(model.getPostidbyRoomid(chatRoom.getRoomId())).get
 	        
-	        // 리스트 모델에 ImageLabelItem을 추가합니다.
 	        listModel.addElement(item);
 	    }
 	    

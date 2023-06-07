@@ -29,16 +29,8 @@ import java.util.List;
 
 public class Model {
 
-    private Connection conn = null;
-    private Statement stmt = null;
-    private boolean isLoggedIn = false;
-    private UserEntity currentUser; // 현재 로그인되어있는 유저의 정보
-	private PostEntity currentPost; // 최근 올린 게시글 정보 
-	private ArrayList<ChatRoomEntity> chatRooms; // 최근 채팅방 목록 정보 
-	private ArrayList posts; // 현재 모든 글 리스트 
-	private ChatRoomEntity currentChatRoom; // 최근 채팅방 정보
-	private ArrayList currentChatMessages; 
-	private ArrayList categoryPosts;
+	private Connection conn = null; private Statement stmt = null; private boolean isLoggedIn = false; private UserEntity currentUser; private PostEntity currentPost; private ArrayList<ChatRoomEntity> chatRooms; private ArrayList posts; private ChatRoomEntity currentChatRoom; private ArrayList currentChatMessages; private ArrayList categoryPosts;
+
 
     public void initDbConn() {
         try {
@@ -227,7 +219,7 @@ public class Model {
     }
 
     
-    public void postForm(PostFormView postformview) { // 모집하기 글 db로 올리는 메소드 + 채팅방 추가 db까지 
+    public void postForm(PostFormView postformview) { // 모집하기 글 db로 올리는 메소드 + 채팅방 추가 db까지
     	
         String title = postformview.getTextField().getText(); // JTextField에서 입력된 값
         String kategorie = (String) postformview.getKategorieComboBox().getSelectedItem(); // JComboBox에서 선택된 값

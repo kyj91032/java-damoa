@@ -2,12 +2,8 @@ package model;
 
 public class UserEntity {
 	
-	private int userid;
-	private String username;
-    private String userpw;
-    private String nickname;
-    private String phone;
-    private String birth;
+	private int userid; private String username; private String userpw; private String nickname; private String phone; private String birth;
+
     
     public UserEntity(int userid, String username, String userpw, String nickname, String phone, String birth) {
         this.userid = userid;
