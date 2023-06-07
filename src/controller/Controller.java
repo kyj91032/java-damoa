@@ -27,19 +27,11 @@ import view.LoginView;
 import view.MyPageView;
 import view.PostFormView;
 import view.SignUpView;
-import view.StartView;
 import view.PostView;
 
 public class Controller extends JFrame {
 
-    private JPanel contentPane;
-    private CardLayout cardLayout;
-    private Timer timer;
-    
-
-    private Model model;
-	private HomeView homeview;
-	private ArrayList<ChatServerThread> threadlist = new ArrayList<>();
+	private JPanel contentPane; private CardLayout cardLayout; private Timer timer; private Model model; private HomeView homeview; private ArrayList<ChatServerThread> threadlist = new ArrayList<>();
 
 
 	

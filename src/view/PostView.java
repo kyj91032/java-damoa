@@ -39,9 +39,7 @@ import javax.swing.SwingConstants;
 
 public class PostView extends JPanel {
 	
-	private Controller controller;
-	private Model model;
-	private PostEntity currentPost;
+	private Controller controller;private Model model;private PostEntity currentPost;
 	
 	public PostView(Model model, Controller controller, PostEntity currentPost) {
 		this.controller = controller;

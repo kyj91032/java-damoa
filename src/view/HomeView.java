@@ -70,15 +70,7 @@ import javax.swing.JTextField;
 
 public class HomeView extends JPanel {
 	
-	private Controller controller;
-	private Model model;
-	private List<PostEntity> posts;
-	private String selectedValue;
-	private JComboBox<String> comboBox;
-	private JScrollPane scrollPane;
-	private JList<ImageLabelItem> list;
-	private DefaultListModel<ImageLabelItem> listModel;
-	private JTextField textField;
+	private Controller controller; private Model model; private List<PostEntity> posts; private String selectedValue; private JComboBox<String> comboBox; private JScrollPane scrollPane; private JList<ImageLabelItem> list; private DefaultListModel<ImageLabelItem> listModel; private JTextField textField;
 	
 	public HomeView(Model model, Controller controller) {
 		

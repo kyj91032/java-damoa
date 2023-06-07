@@ -63,26 +63,9 @@ import javax.swing.ScrollPaneConstants;
 
 public class ChatView extends JPanel {
 	
-	private Model model;
-	private Controller controller;
-	private Border border;
-	private JTextField textField;
-	private JTextPane ta;
-	private JTextField tf;
-	private JButton backbtn;
-	private ArrayList<ChatView> chats;
-	private List<ChatMessageEntity> chatmessages;
-	private ChatRoomEntity chatroom;
-	private JLabel lblNewLabel;
-	
-	private Socket socket = null;
-	private BufferedReader reader = null;
-    private BufferedWriter writer = null;
-	private int roomid;
-	private int portNumber;
-	private int senduserid;
-	
-	
+	private Model model; private Controller controller; private Border border; private JTextField textField; private JTextPane ta; private JTextField tf; private JButton backbtn; private ArrayList<ChatView> chats; private List<ChatMessageEntity> chatmessages; private ChatRoomEntity chatroom; private JLabel lblNewLabel;private Socket socket = null; private BufferedReader reader = null; private BufferedWriter writer = null; private int roomid; private int portNumber; private int senduserid;
+
+
 
 	public ChatView(Model model, Controller controller, int roomid) {
 		this.model = model;

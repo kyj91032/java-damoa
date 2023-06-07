@@ -35,12 +35,9 @@ import javax.swing.border.LineBorder;
 
 public class LoginView extends JPanel {
    
-   private JTextField textField;
-   private JPasswordField passwordField;
-   
-   private Model model;
-   private Controller controller;
-   private JTextField idField;
+	private JTextField textField; private JPasswordField passwordField; private Model model; private Controller controller; private JTextField idField;
+
+
 
    
    public LoginView(Model model, Controller controller) {

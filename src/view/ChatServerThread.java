@@ -11,11 +11,8 @@ import java.util.ArrayList;
 
 
 public class ChatServerThread extends Thread {
-    private Socket clientSocket;
-    private BufferedWriter writer;
-    private BufferedReader reader;
-	private ChatView chatview;
-	private ArrayList<ChatServerThread> threadlist;
+	private Socket clientSocket; private BufferedWriter writer; private BufferedReader reader; private ChatView chatview; private ArrayList<ChatServerThread> threadlist;
+
 
     public ChatServerThread(Socket socket, ArrayList<ChatServerThread> threadlist) {
         this.clientSocket = socket;

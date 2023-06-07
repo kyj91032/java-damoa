@@ -56,23 +56,9 @@ import java.io.ByteArrayOutputStream;
 
 public class PostFormView extends JPanel implements ActionListener {
 	
-	private JTextField textField;
-	private Border border;
-	private JComboBox<String> mainComboBox;
-    private JComboBox<String> subComboBox;
-	private String userInput;
-	private JComboBox<String> KategorieComboBox;
-	private JTextArea textArea;
-	private JButton btnNewButton_4;
-	private JPanel Imagepanel;
-	private JLabel ImageLabel;
-	private ImageIcon defaultImageIcon;
-	private String selectedImagePath;
-	private Model model;
-	private Controller controller;
-	private byte[] imageData;
-	
-	
+	private JTextField textField; private Border border; private JComboBox<String> mainComboBox; private JComboBox<String> subComboBox; private String userInput; private JComboBox<String> KategorieComboBox; private JTextArea textArea; private JButton btnNewButton_4; private JPanel Imagepanel; private JLabel ImageLabel; private ImageIcon defaultImageIcon; private String selectedImagePath; private Model model; private Controller controller; private byte[] imageData;
+
+
 	public PostFormView(Model model, Controller controller) {
 		
 		this.model = model;

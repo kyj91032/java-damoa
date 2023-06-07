@@ -65,16 +65,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class ChatListView extends JPanel {
-	private Model model;
-	private Controller controller;
-	
-	private DefaultListModel listModel;
-	private ArrayList<ChatView> chats;
-	private List<ChatMessageEntity> chatmessages;
-	
-	private ServerSocket listener = null;
-	private Socket socket = null;
-	private JScrollPane scrollPane;
+	private Model model; private Controller controller;private DefaultListModel listModel; private ArrayList<ChatView> chats; private List<ChatMessageEntity> chatmessages;private ServerSocket listener = null; private Socket socket = null; private JScrollPane scrollPane;
 
 	public ChatListView(Model model, Controller controller) {
 		this.model = model;

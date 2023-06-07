@@ -3,16 +3,7 @@ package model;
 import java.time.LocalDateTime;
 
 public class PostEntity {
-    private int postId;
-    private String kategorie;
-    private String region;
-    private String specificRegion;
-    private String textarea;
-    private byte[] image;
-    private int userId;
-    private String title;
-    private int roomId;
-    private LocalDateTime date;
+	private int postId; private String kategorie; private String region; private String specificRegion; private String textarea; private byte[] image; private int userId; private String title; private int roomId; private LocalDateTime date;
 
 
     

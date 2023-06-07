@@ -1,10 +1,8 @@
 package model;
 
 public class ChatMessageEntity {
-	private int messageId;
-    private int roomId;
-    private int userId;
-    private String content;
+	private int messageId; private int roomId; private int userId; private String content;
+
 
     public ChatMessageEntity(int messageId, int roomId, int userId, String content) {
         this.messageId = messageId;
