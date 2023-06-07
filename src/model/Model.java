@@ -186,10 +186,12 @@ public class Model {
 
         try {
             // user_chatroom 테이블과 chatroomtable을 조인하여 사용자가 속한 채팅방 목록을 가져오는 쿼리
-            String query = "SELECT c.roomid, c.roomname, c.description, c.image, c.portNumber " +
-                           "FROM user_chatroom uc " +
-                           "JOIN chatroomtable c ON uc.roomid = c.roomid " +
-                           "WHERE uc.userid = ?";
+        	String query = "SELECT c.roomid, c.roomname, c.description, c.image, c.portNumber " +
+                    "FROM user_chatroom uc " +
+                    "JOIN chatroomtable c ON uc.roomid = c.roomid " +
+                    "WHERE uc.userid = ? " +
+                    "ORDER BY c.roomid DESC";
+
                            
             PreparedStatement preparedStatement = conn.prepareStatement(query);
             preparedStatement.setInt(1, userId);
@@ -464,7 +466,7 @@ public class Model {
 			statement.setInt(1, roomId);
 	        
 	        ResultSet resultSet = statement.executeQuery();
-
+	        
 	        while (resultSet.next()) {
 	            int messageId = resultSet.getInt("messageid");
 	            int userId = resultSet.getInt("userid");

@@ -317,6 +317,7 @@ public class ChatView extends JPanel {
 		int length = doc.getLength();
 
 		if (model.getCurrentUserId() == senduserid) {
+			System.out.println("send와 같아");
 		    SimpleAttributeSet rightAlign = new SimpleAttributeSet();
 		    StyleConstants.setAlignment(rightAlign, StyleConstants.ALIGN_RIGHT);
 		    StyleConstants.setBackground(rightAlign, new Color(230, 230, 230)); // 말풍선 배경색 설정
@@ -325,9 +326,9 @@ public class ChatView extends JPanel {
 		    try {
 		        doc.insertString(length, content, rightAlign);
 		    } catch (BadLocationException e) {
-		        e.printStackTrace();
 		    }
 		} else {
+			System.out.println("send와 달라");
 		    String contents = "[" + model.getNicknameById(senduserid) + "]님 : " + content;
 
 		    SimpleAttributeSet leftAlign = new SimpleAttributeSet();
@@ -339,7 +340,6 @@ public class ChatView extends JPanel {
 		    try {
 		        doc.insertString(length, contents, leftAlign);
 		    } catch (BadLocationException e) {
-		        e.printStackTrace();
 		    }
 		    
 		}
