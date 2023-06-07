@@ -103,7 +103,6 @@ public class HomeView extends JPanel {
 	private void TopPanel() { 
 
 		class CustomComboBoxRenderer extends BasicComboBoxRenderer {
-		    // 각 아이템에 경계선(border)을 주기 위해 컴포넌트를 반환하는 메서드를 오버라이드합니다.
 		    @Override
 		    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 		        Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);

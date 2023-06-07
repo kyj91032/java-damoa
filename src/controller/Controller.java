@@ -46,9 +46,9 @@ public class Controller extends JFrame {
     public Controller() {
         contentPane = new JPanel();
         cardLayout = new CardLayout();
-        model = new Model();
         
-        model.initDbConn();
+        model = new Model();
+        model.initDbConn(); // db 최초 연결
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(415, 610);
@@ -58,30 +58,17 @@ public class Controller extends JFrame {
         contentPane.setLayout(cardLayout);
         setContentPane(contentPane);
         
-        StartView startView = new StartView();
         homeview = new HomeView(model, this);
         LoginView loginView = new LoginView(model, this);
         SignUpView signUpView = new SignUpView(model, this);
         PostFormView postformview = new PostFormView(model, this);
         
-        contentPane.add(startView, "start");
         contentPane.add(homeview, "home");
         contentPane.add(loginView, "login");
         contentPane.add(signUpView, "signup");
         contentPane.add(postformview, "postform");
         
-        cardLayout.show(contentPane, "start");
-
-        timer = new Timer(1500, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                showCard("home");
-                timer.stop();
-            }
-        });
-
-        timer.setRepeats(false);
-        timer.start();
-
+        showCard("home");
         
     }
 
@@ -101,22 +88,22 @@ public class Controller extends JFrame {
             }
         } else if (cardName.equals("chatlist")) {
         	if (model.isLoggedin()) {
-        		ChatListView chatlistview = new ChatListView(model, this);
+        		ChatListView chatlistview = new ChatListView(model, this); // chatlistview 생성
         		contentPane.add(chatlistview, "chatlist");
         		
-        		List<ChatRoomEntity> chatRooms = model.getChatListByUserId(model.getCurrentUserId());
+        		List<ChatRoomEntity> chatRooms = model.getChatListByUserId(model.getCurrentUserId()); // 채팅방 db 리스트로 저장
                 for (ChatRoomEntity chatRoom : chatRooms) {
                     
                 	int roomId = chatRoom.getRoomId();
                     int portNumber = model.getPortNumberByRoomId(roomId);
                     
-                    openChatRoomServer(portNumber);
+                    openChatRoomServer(portNumber); // 해당 포트번호로 서버 오픈
                     
-                    ChatView chatview = new ChatView(model, this, roomId);
+                    ChatView chatview = new ChatView(model, this, roomId); // chatview 생성 
                     String chatViewName = "chat" + roomId;
                     contentPane.add(chatview, chatViewName);
 
-                    chatview.openclient();
+                    chatview.openclient(); // 클라이언트 연결
                     
                 }
             } else {
@@ -168,8 +155,7 @@ public class Controller extends JFrame {
                     chatServerThread.start();
                 }
             } catch (IOException e) {
-                // 이미 서버가 열려있는 경우, 예외가 발생합니다.
-                // 예외 처리를 통해 이미 열려있는 서버에 대한 메시지를 출력할 수 있습니다.
+                // 이미 서버가 열려있는 경우 예외 발생
                 System.out.println("포트 " + portNumber + "는 이미 사용 중입니다.");
             }
         });
