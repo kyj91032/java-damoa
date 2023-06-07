@@ -20,6 +20,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -193,7 +195,8 @@ public class ChatListView extends JPanel {
 
 	        ImageLabelItem item = new ImageLabelItem(scaledImageIcon ,chatRoom.getRoomName(),
 	        		model.getNicknameById(model.getPostBypostid(model.getPostidbyRoomid(roomid)).getUserId()) ,
-	        		model.getPostBypostid(model.getPostidbyRoomid(roomid)).getKategorie());
+	        		model.getPostBypostid(model.getPostidbyRoomid(roomid)).getKategorie(),
+	        		model.getPostBypostid(model.getPostidbyRoomid(roomid)).getDate());
 	        
 //	        model.getPostBypostid(model.getPostidbyRoomid(chatRoom.getRoomId())).get
 	        
@@ -231,12 +234,14 @@ public class ChatListView extends JPanel {
 	       private String title;
 	       private String username;
 	       private String category;
+	       private LocalDateTime time;
 	       
-	       public ImageLabelItem(ImageIcon image, String title, String username, String category) {
+	       public ImageLabelItem(ImageIcon image, String title, String username, String category, LocalDateTime time) {
 	          this.image = image;
 	          this.title = title;      
 	          this.username = username;
 	          this.category = category;
+	          this.time = time;
 	       }
 	       
 	       public String gettitleLabel() {
@@ -248,7 +253,9 @@ public class ChatListView extends JPanel {
 	       public String getcategoryLabel() {
 	    	   return category;
 	       }
-	       
+	       public LocalDateTime gettimeLabel() {
+	    	   return time;
+	       }
 	    }
 	    
 	class ImageLabelListCellRenderer extends JPanel implements ListCellRenderer<ImageLabelItem> {
@@ -256,6 +263,7 @@ public class ChatListView extends JPanel {
 	    private JLabel titleLabel;
 	    private JLabel usernameLabel;
 	    private JLabel categoryLabel;
+	    private JLabel timeLabel;
 
 	    public ImageLabelListCellRenderer() {
 	        setOpaque(true);
@@ -279,6 +287,11 @@ public class ChatListView extends JPanel {
 	        categoryLabel.setFont(new Font("맑은 고딕", Font.BOLD, 10));
 	        categoryLabel.setForeground(Color.gray);
 	        add(categoryLabel);
+	        
+	        timeLabel = new JLabel();
+			timeLabel.setFont(new Font("맑은 고딕", Font.BOLD, 10));
+			timeLabel.setForeground(Color.gray);
+	        add(timeLabel);
 	   
 	    }
 
@@ -286,6 +299,9 @@ public class ChatListView extends JPanel {
 	    public Component getListCellRendererComponent(JList<? extends ImageLabelItem> list,
 	                                                  ImageLabelItem value, int index,
 	                                                  boolean isSelected, boolean cellHasFocus) {
+	    	
+	    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+	        timeLabel.setText(value.gettimeLabel().format(formatter));
 	   	    	
 	        imageLabel.setIcon(value.image);
 	        titleLabel.setText(value.gettitleLabel());
@@ -318,6 +334,7 @@ public class ChatListView extends JPanel {
 	        titleLabel.setBounds(100,10,300,15);
 	        usernameLabel.setBounds(100,30,100,15);
 	        categoryLabel.setBounds(100, 45, 100, 15);
+	        timeLabel.setBounds(350,70,100,15);
 	    }
 	}
 	
