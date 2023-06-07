@@ -114,7 +114,7 @@ public class HomeView extends JPanel {
 	            
 	            newFrame.getContentPane().setLayout(null);
 
-	        	String[] items = {"운동하기", "공동구매", "택시"};
+	        	String[] items = {"전체", "운동하기", "공동구매", "택시"};
 	        	comboBox = new JComboBox<>(items);
 		        comboBox.setBounds(50, 50, 200, 30);
 		        comboBox.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 15));
@@ -340,7 +340,7 @@ public class HomeView extends JPanel {
 	       public String getcategoryLabel() {
 	    	   return category;
 	       }
-	    }
+	  }
 	    
 	class ImageLabelListCellRenderer extends JPanel implements ListCellRenderer<ImageLabelItem> {
 	    private JLabel imageLabel;
