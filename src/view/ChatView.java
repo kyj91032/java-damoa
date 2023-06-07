@@ -257,7 +257,6 @@ public class ChatView extends JPanel {
 		btnNewButton_1.setOpaque(false);
 		btnNewButton_1.setContentAreaFilled(false);
 		btnNewButton_1.setBorderPainted(false);
-		btnNewButton_1.setVisible(false);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -272,7 +271,7 @@ public class ChatView extends JPanel {
 				
 			}
 		});
-		btnNewButton_1.setBounds(325, 5, 55, 35);
+		btnNewButton_1.setBounds(330, 5, 55, 35);
 		panel_1.add(btnNewButton_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("");
