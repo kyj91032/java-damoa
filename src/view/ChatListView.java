@@ -134,7 +134,9 @@ public class ChatListView extends JPanel {
 
 	        // ImageLabelItem 객체를 생성하여 ImageIcon과 추가 정보를 저장합니다.
 	        ImageLabelItem item = new ImageLabelItem(scaledImageIcon, chatRoom.getRoomName());
-
+	        
+//	        model.getPostBypostid(model.getPostidbyRoomid(chatRoom.getRoomId())).get
+	        
 	        // 리스트 모델에 ImageLabelItem을 추가합니다.
 	        listModel.addElement(item);
 	    }
