@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDateTime;
+
 public class PostEntity {
     private int postId;
     private String kategorie;
@@ -10,9 +12,12 @@ public class PostEntity {
     private int userId;
     private String title;
     private int roomId;
+    private LocalDateTime date;
+
 
     
-    public PostEntity(int postId, String kategorie, String region, String specificRegion, String textarea, byte[] image, int userId, String title, int roomId) {
+    public PostEntity(int postId, String kategorie, String region, String specificRegion, String textarea, byte[] image, 
+    		int userId, String title, int roomId, LocalDateTime date) {
         this.postId = postId;
         this.kategorie = kategorie;
         this.region = region;
@@ -22,6 +27,7 @@ public class PostEntity {
         this.userId = userId;
         this.title = title;
         this.roomId = roomId;
+        this.date = date;
 
 
     }
@@ -60,6 +66,10 @@ public class PostEntity {
 
     public int getRoomId() {
         return roomId;
+    }
+    
+    public LocalDateTime getDate() {
+    	return date;
     }
     
 }

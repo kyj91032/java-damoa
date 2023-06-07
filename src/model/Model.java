@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.sql.Blob;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -232,6 +235,7 @@ public class Model {
         String specificregion = (String) postformview.getSubComboBox().getSelectedItem(); // JComboBox에서 선택된 값
         String textarea = postformview.getTextArea().getText(); // JTextArea에서 입력된 값
         byte[] image = postformview.getImageData(); // 이미지 데이터 (BLOB 형태)
+        LocalDateTime date = LocalDateTime.now();
         
         // 입력된 정보의 유효성 검사
         if (title.isEmpty() || kategorie.isEmpty() || region.isEmpty() || specificregion.isEmpty() || textarea.isEmpty()) {
@@ -278,7 +282,7 @@ public class Model {
             disableForeignKeyStatement.executeUpdate(disableForeignKeyQuery);
 
             // posttable에 데이터 추가
-            String postQuery = "INSERT INTO posttable (kategorie, region, specificregion, title, textarea, image, userid, roomid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String postQuery = "INSERT INTO posttable (kategorie, region, specificregion, title, textarea, image, userid, roomid, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement postStatement = conn.prepareStatement(postQuery, Statement.RETURN_GENERATED_KEYS);
             postStatement.setString(1, kategorie);
             postStatement.setString(2, region);
@@ -288,6 +292,7 @@ public class Model {
             postStatement.setBytes(6, image);
             postStatement.setInt(7, getCurrentUserId());
             postStatement.setInt(8, roomId);
+            postStatement.setObject(9, date);
             postStatement.executeUpdate();
 
             // 외래 키 제약 조건 활성화
@@ -345,8 +350,9 @@ public class Model {
                     byte[] image = resultSet.getBytes("image");
                     int userId = resultSet.getInt("userid");
                     int roomId = resultSet.getInt("roomid");
+                    LocalDateTime dateTime = resultSet.getObject("date", LocalDateTime.class);
 
-                    return new PostEntity(fetchedPostId, kategorie, region, specificRegion, textarea, image, userId, title, roomId);
+                    return new PostEntity(fetchedPostId, kategorie, region, specificRegion, textarea, image, userId, title, roomId, dateTime);
                 }
             }
         } catch (SQLException ex) {
@@ -377,8 +383,9 @@ public class Model {
                 int userId = resultSet.getInt("userid");
                 String title = resultSet.getString("title");
                 int roomId = resultSet.getInt("roomid");
+                LocalDateTime dateTime = resultSet.getObject("date", LocalDateTime.class);
 
-                PostEntity post = new PostEntity(postId, kategorie, region, specificRegion, textarea, image, userId, title, roomId);
+                PostEntity post = new PostEntity(postId, kategorie, region, specificRegion, textarea, image, userId, title, roomId, dateTime);
                 posts.add(post);
             }
         } catch (SQLException e) {
@@ -407,8 +414,9 @@ public class Model {
 	            int userId = resultSet.getInt("userid");
 	            String title = resultSet.getString("title");
 	            int roomId = resultSet.getInt("roomid");
+                LocalDateTime dateTime = resultSet.getObject("date", LocalDateTime.class);
 
-	            PostEntity post = new PostEntity(postId, kategorie, region, specificRegion, textarea, image, userId, title, roomId);
+	            PostEntity post = new PostEntity(postId, kategorie, region, specificRegion, textarea, image, userId, title, roomId, dateTime);
 	            categoryPosts.add(post);
 	        }
 	    } catch (SQLException e) {
@@ -682,8 +690,9 @@ public class Model {
 	            int userId = resultSet.getInt("userid");
 	            String title = resultSet.getString("title");
 	            int roomId = resultSet.getInt("roomid");
+                LocalDateTime dateTime = resultSet.getObject("date", LocalDateTime.class);
 
-	            PostEntity post = new PostEntity(postId, kategorie, region, specificRegion, textarea, image, userId, title, roomId);
+	            PostEntity post = new PostEntity(postId, kategorie, region, specificRegion, textarea, image, userId, title, roomId, dateTime);
 	            searchResults.add(post);
 	        }
 	    } catch (SQLException e) {
