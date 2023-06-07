@@ -4,12 +4,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.sql.Statement;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.border.Border;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -18,9 +22,14 @@ import javax.swing.JTextPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
+import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
@@ -33,9 +42,11 @@ import model.Model;
 import javax.swing.JScrollPane;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
+import java.awt.geom.RoundRectangle2D;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -68,6 +79,7 @@ public class ChatView extends JPanel {
 	private int portNumber;
 	private int senduserid;
 	
+	
 
 	public ChatView(Model model, Controller controller, int roomid) {
 		this.model = model;
@@ -94,6 +106,8 @@ public class ChatView extends JPanel {
 		
 	}
 	
+
+	// 생성자 또는 초기화 메서드에서 doc 초기화
 	private void bottomPanel() {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(null);
@@ -103,10 +117,65 @@ public class ChatView extends JPanel {
 		panel_1.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(0, 169, 400, 351);
+		scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+		      private final Dimension d = new Dimension();
+		      @Override
+		      protected JButton createDecreaseButton(int orientation) {
+		        return new JButton() {
+		          @Override
+		          public Dimension getPreferredSize() {
+		            return d;
+		          }
+		        };
+		      }
+		      @Override
+		      protected JButton createIncreaseButton(int orientation) {
+		        return new JButton() {
+		          @Override
+		          public Dimension getPreferredSize() {
+		            return d;
+		          }
+		        };
+		      }
+		      @Override
+		      protected void paintTrack(Graphics g, JComponent c, Rectangle r) {
+		        // 트랙(track) 그리기 - 여기서는 그리지 않음
+		      }
+		      @Override
+		      protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
+		        // 슬라이더(thumb) 그리기
+		        Graphics2D g2 = (Graphics2D)g.create();
+		        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+		                            RenderingHints.VALUE_ANTIALIAS_ON);
+		        Color color = null;
+		        JScrollBar sb = (JScrollBar)c;
+		        if(!sb.isEnabled() || r.width > r.height) {
+		          return;
+		        } else if(isDragging) {
+		          color = new Color(200,200,100,200); // 누르고 드래그시 ( rgb값  + 투명도  )
+		        } else if(isThumbRollover()) {
+		          color = new Color(228,204,255,200);  // 마우스 올린경우
+		        } else {
+		          color = new Color(228,204,255);  // 기본값
+		        }
+		        g2.setPaint(color);
+		        g2.fillRoundRect(r.x, r.y, r.width, r.height, 10, 10);
+		        g2.setPaint(Color.WHITE);
+		        g2.drawRoundRect(r.x, r.y, r.width, r.height, 10, 10);
+		        g2.dispose();
+		      }
+		      @Override
+		      protected void setThumbBounds(int x, int y, int width, int height) {
+		        super.setThumbBounds(x,y,width,height);
+		        scrollbar.repaint();
+		      }
+		    });
+			
+	    scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+	    scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+	    scrollPane.setBounds(0, 169, 400, 351);
 		add(scrollPane);
+		
 		
 		ta = new JTextPane();
 		ta.setFont(new Font("Hannotate TC", Font.PLAIN, 15));
@@ -115,32 +184,42 @@ public class ChatView extends JPanel {
 		DefaultCaret caret = (DefaultCaret) ta.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		scrollPane.setViewportView(ta);
-		
+
 		for (ChatMessageEntity chatmessage : chatmessages) {
-			if(model.getCurrentUserId() == chatmessage.getUserId()) {
-				String message = chatmessage.getContent() + "\n";
+		    if (model.getCurrentUserId() == chatmessage.getUserId()) {
+		        String message = chatmessage.getContent() + "\n";
 		        SimpleAttributeSet rightAlign = new SimpleAttributeSet();
 		        StyleConstants.setAlignment(rightAlign, StyleConstants.ALIGN_RIGHT);
-		        doc.setParagraphAttributes(doc.getLength(), message.length(), rightAlign, false);
+		        StyleConstants.setBackground(rightAlign, new Color(230, 230, 230)); // 말풍선 배경색 설정
+		        StyleConstants.setSpaceBelow(rightAlign, 5); // 말풍선 아래 여백 설정
+
+		        int length = doc.getLength();
+		        doc.setParagraphAttributes(length, message.length(), rightAlign, false);
 		        try {
-		            doc.insertString(doc.getLength(), message, rightAlign);   
+		            doc.insertString(length, message, rightAlign);
 		        } catch (BadLocationException e) {
 		            e.printStackTrace();
 		        }
-			} else {
-				String message = "[" + model.getNicknameById(chatmessage.getUserId()) + "]님 : " + chatmessage.getContent() + "\n";
+		        
+		    } else {
+		        String nickname = model.getNicknameById(chatmessage.getUserId());
+		        String message = "[" + nickname + "]님 : " + chatmessage.getContent() + "\n";
 		        SimpleAttributeSet leftAlign = new SimpleAttributeSet();
+
 		        StyleConstants.setAlignment(leftAlign, StyleConstants.ALIGN_LEFT);
-		        doc.setParagraphAttributes(doc.getLength(), message.length(), leftAlign, false);
+		        StyleConstants.setBackground(leftAlign, new Color(228, 204, 255,200)); // 말풍선 배경색 설정
+		        StyleConstants.setSpaceBelow(leftAlign, 5); // 말풍선 아래 여백 설정
+
+		        int length = doc.getLength();
+		        doc.setParagraphAttributes(length, message.length(), leftAlign, false);
 		        try {
-		            doc.insertString(doc.getLength(), message, leftAlign);
+		            doc.insertString(length, message, leftAlign);
 		        } catch (BadLocationException e) {
 		            e.printStackTrace();
 		        }
-			}
+		    }
 		}
-		
-		
+
 		
 		tf = new JTextField();
 		tf.setFont(new Font("맑은 고딕", Font.BOLD, 13));
@@ -163,7 +242,11 @@ public class ChatView extends JPanel {
 				    tf.requestFocus();
 				}
 			}
+			
 		});
+
+
+		
 		JButton btnNewButton_1 = new JButton("");
 		btnNewButton_1.setVisible(false);
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -231,83 +314,49 @@ public class ChatView extends JPanel {
 	        e.printStackTrace();
 	    }
 	}
-
+	
+	
+	
 	public void appendMessage(String message) {
-        
 		String[] parts = message.split(":");
 		int senduserid = Integer.parseInt(parts[0]);
 		String content = parts[1] + "\n";
-	
-		if(model.getCurrentUserId() == senduserid) {
-			System.out.println();
-			
-			StyledDocument doc = ta.getStyledDocument();
-			SimpleAttributeSet rightAlign = new SimpleAttributeSet();
-			StyleConstants.setAlignment(rightAlign, StyleConstants.ALIGN_RIGHT);
-			
-			doc.setParagraphAttributes(doc.getLength(), content.length(), rightAlign, false);
-			
-			int length = doc.getLength();
-			
-			try {
-	            doc.insertString(length, content, rightAlign);
-	        } catch (BadLocationException e) {
-	            e.printStackTrace();
-	        }
-			
-			ta.setCaretPosition(length + content.length());
-			
-		} else {
-			
-			String contents = "[" + model.getNicknameById(senduserid) + "]님 : " + content;
-			
-			StyledDocument doc = ta.getStyledDocument();
-			SimpleAttributeSet leftAlign = new SimpleAttributeSet();
-			StyleConstants.setAlignment(leftAlign, StyleConstants.ALIGN_LEFT);
-			
-			doc.setParagraphAttributes(doc.getLength(), contents.length(), leftAlign, false);
-			
-			int length = doc.getLength();
-			
-			try {
-	            doc.insertString(length, contents, leftAlign);
-	        } catch (BadLocationException e) {
-	            e.printStackTrace();
-	        }
-			
-			ta.setCaretPosition(length + contents.length());
-		}
-		
-		
-		
-		
-        
-        
-        
-//        if(model.getCurrentUserId() == chatmessage.getUserId()) {
-//			String message = chatmessage.getContent() + "\n";
-//	        SimpleAttributeSet rightAlign = new SimpleAttributeSet();
-//	        StyleConstants.setAlignment(rightAlign, StyleConstants.ALIGN_RIGHT);
-//	        doc.setParagraphAttributes(doc.getLength(), message.length(), rightAlign, false);
-//	        try {
-//	            doc.insertString(doc.getLength(), message, rightAlign);   
-//	        } catch (BadLocationException e) {
-//	            e.printStackTrace();
-//	        }
-//		} else {
-//			String message = "[" + model.getNicknameById(chatmessage.getUserId()) + "]님 : " + chatmessage.getContent() + "\n";
-//	        SimpleAttributeSet leftAlign = new SimpleAttributeSet();
-//	        StyleConstants.setAlignment(leftAlign, StyleConstants.ALIGN_LEFT);
-//	        doc.setParagraphAttributes(doc.getLength(), message.length(), leftAlign, false);
-//	        try {
-//	            doc.insertString(doc.getLength(), message, leftAlign);
-//	        } catch (BadLocationException e) {
-//	            e.printStackTrace();
-//	        }
-//		}
-    }
 
-	
+		StyledDocument doc = ta.getStyledDocument();
+		int length = doc.getLength();
+
+		if (model.getCurrentUserId() == senduserid) {
+		    SimpleAttributeSet rightAlign = new SimpleAttributeSet();
+		    StyleConstants.setAlignment(rightAlign, StyleConstants.ALIGN_RIGHT);
+		    StyleConstants.setBackground(rightAlign, new Color(230, 230, 230)); // 말풍선 배경색 설정
+		    doc.setParagraphAttributes(length, content.length(), rightAlign, false);
+
+		    try {
+		        doc.insertString(length, content, rightAlign);
+		    } catch (BadLocationException e) {
+		        e.printStackTrace();
+		    }
+		} else {
+		    String contents = "[" + model.getNicknameById(senduserid) + "]님 : " + content;
+
+		    SimpleAttributeSet leftAlign = new SimpleAttributeSet();
+		    StyleConstants.setAlignment(leftAlign, StyleConstants.ALIGN_LEFT);
+		    StyleConstants.setBackground(leftAlign, new Color(228, 204, 255,200)); // 말풍선 배경색 설정
+
+		    doc.setParagraphAttributes(length, contents.length(), leftAlign, false);
+
+		    try {
+		        doc.insertString(length, contents, leftAlign);
+		    } catch (BadLocationException e) {
+		        e.printStackTrace();
+		    }
+		    
+		}
+
+		ta.setCaretPosition(length + content.length());
+
+
+	}
 	
 	private void topPanel() {
 		setLayout(null);
