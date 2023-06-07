@@ -19,6 +19,7 @@ import chat.ServerThread;
 import model.ChatMessageEntity;
 import model.ChatRoomEntity;
 import model.Model;
+import model.PostEntity;
 import view.ChatListView;
 import view.ChatServerThread;
 import view.ChatView;

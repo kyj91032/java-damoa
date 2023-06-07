@@ -126,50 +126,7 @@ public class HomeView extends JPanel {
 		        });
 		        newFrame.getContentPane().add(comboBox);
 		
-		        JButton confirmButton = new JButton("확인") {
-		        	class RoundedCornerBorder extends AbstractBorder {
-				    	  private static final Color ALPHA_ZERO = new Color(0x0, true);
-				    	  public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-				    	    Graphics2D g2 = (Graphics2D) g.create();
-				    	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
-				    	    		RenderingHints.VALUE_ANTIALIAS_ON);
-				    	    Shape border = getBorderShape(x, y, width - 1, height - 1);
-				    	    g2.setPaint(ALPHA_ZERO);
-				    	    Area corner = new Area(new Rectangle2D.Double(x, y, width, height));
-				    	    corner.subtract(new Area());
-				    	    g2.fill(corner);
-				    	    g2.setPaint(Color.GRAY);
-				    	    g2.draw(border);
-				    	    g2.dispose();
-				    	  }
-				    	  public Shape getBorderShape(int x, int y, int w, int h) {
-				    	    int r = h; //h / 2;
-				    	    return new RoundRectangle2D.Double(x, y, w, h, r, r);
-				    	  }
-				    	  public Insets getBorderInsets(Component c) {
-				    	    return new Insets(4, 8, 4, 8);
-				    	  }
-				    	  public Insets getBorderInsets(Component c, Insets insets) {
-				    	    insets.set(4, 8, 4, 8);
-				    	    return insets;
-				    	  }
-				    	}
-						 protected void paintComponent(Graphics g) {
-						    if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
-						      Graphics2D g2 = (Graphics2D) g.create();
-						      g2.setPaint(getBackground());
-						      g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(
-						          0, 0, getWidth() - 1, getHeight() - 1));
-						      g2.dispose();
-						    }
-						    super.paintComponent(g);
-						  }
-						  public void updateUI() {
-						    super.updateUI();
-						    setOpaque(false);
-						    setBorder(new RoundedCornerBorder());
-						  }
-						};	
+		        JButton confirmButton = new JButton("확인");
 				confirmButton.setFont(new Font("한컴 말랑말랑 Bold", Font.PLAIN, 15));
 		        confirmButton.setBounds(100, 100, 100, 30);
 		        confirmButton.setBackground(new Color(228, 204, 255));
@@ -442,10 +399,6 @@ public class HomeView extends JPanel {
 	                                                  ImageLabelItem value, int index,
 	                                                  boolean isSelected, boolean cellHasFocus) {
 	    	
-	        ImageIcon scaledImageIcon = new ImageIcon(value.image.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
-	       
-	        
-	    	
 	        imageLabel.setIcon(value.image);
 	        titleLabel.setText(value.gettitleLabel());
 	        usernameLabel.setText("닉네임 : " + value.getusernameLabel());
@@ -459,9 +412,9 @@ public class HomeView extends JPanel {
 	            setForeground(list.getForeground());
 	        }
 	        if (index % 2 == 0) {
-	            setBorder(BorderFactory.createMatteBorder(1, 2, 1, 0, Color.GRAY));
+	            setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.GRAY));
 	        } else {
-	            setBorder(BorderFactory.createMatteBorder(1, 2, 1, 0, Color.GRAY));
+	            setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Color.GRAY));
 	        }
 
 	        return this;

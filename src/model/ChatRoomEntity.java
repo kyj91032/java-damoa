@@ -35,4 +35,14 @@ public class ChatRoomEntity {
     public int getPortNumber() {
         return portNumber;
     }
+
+
+	public void setRoomName(String roomName) {
+		this.roomName = roomName;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+	
 }
