@@ -35,7 +35,7 @@ public class ChatServerThread extends Thread {
             writer.close();
             clientSocket.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            
         }
     }
 
@@ -45,7 +45,7 @@ public class ChatServerThread extends Thread {
 				chatserverthread.writer.write(clientMessage + "\n");
 				chatserverthread.writer.flush();
 			} catch (IOException e) {
-				e.printStackTrace();
+				
 			}
 		}
 	}
