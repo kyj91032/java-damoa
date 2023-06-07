@@ -187,9 +187,10 @@ public class ChatListView extends JPanel {
 	        ImageIcon imageIcon = new ImageIcon(chatRoom.getImage());
 	        Image scaledImage = imageIcon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
 	        ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
-
+	        int roomid = chatRoom.getRoomId();
+	        
 	        // ImageLabelItem 객체를 생성하여 ImageIcon과 추가 정보를 저장합니다.
-	        ImageLabelItem item = new ImageLabelItem(scaledImageIcon ,chatRoom.getRoomName());
+	        ImageLabelItem item = new ImageLabelItem(scaledImageIcon ,chatRoom.getRoomName(),model.getNicknameById(model.getPostBypostid(model.getPostidbyRoomid(roomid)).getUserId()) ,model.getPostBypostid(model.getPostidbyRoomid(roomid)).getKategorie());
 
 	        // 리스트 모델에 ImageLabelItem을 추가합니다.
 	        listModel.addElement(item);
@@ -223,16 +224,24 @@ public class ChatListView extends JPanel {
 	class ImageLabelItem {
 	       private ImageIcon image;
 	       private String title;
-
+	       private String username;
+	       private String category;
 	       
-	       public ImageLabelItem(ImageIcon image, String title) {
+	       public ImageLabelItem(ImageIcon image, String title, String username, String category) {
 	          this.image = image;
 	          this.title = title;      
-
+	          this.username = username;
+	          this.category = category;
 	       }
 	       
 	       public String gettitleLabel() {
 	          return title;
+	       }
+	       public String getusernameLabel() {
+	    	   return username;
+	       }
+	       public String getcategoryLabel() {
+	    	   return category;
 	       }
 	       
 	    }
@@ -240,6 +249,8 @@ public class ChatListView extends JPanel {
 	class ImageLabelListCellRenderer extends JPanel implements ListCellRenderer<ImageLabelItem> {
 	    private JLabel imageLabel;
 	    private JLabel titleLabel;
+	    private JLabel usernameLabel;
+	    private JLabel categoryLabel;
 
 	    public ImageLabelListCellRenderer() {
 	        setOpaque(true);
@@ -253,6 +264,16 @@ public class ChatListView extends JPanel {
 	        titleLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 	        titleLabel.setForeground(Color.black);
 	        add(titleLabel);
+	        
+	        usernameLabel = new JLabel();
+	        usernameLabel.setFont(new Font("맑은 고딕", Font.BOLD, 10));
+	        usernameLabel.setForeground(Color.gray);
+	        add(usernameLabel);
+	        
+	        categoryLabel = new JLabel();
+	        categoryLabel.setFont(new Font("맑은 고딕", Font.BOLD, 10));
+	        categoryLabel.setForeground(Color.gray);
+	        add(categoryLabel);
 	   
 	    }
 
@@ -263,6 +284,8 @@ public class ChatListView extends JPanel {
 	   	    	
 	        imageLabel.setIcon(value.image);
 	        titleLabel.setText(value.gettitleLabel());
+	        usernameLabel.setText("방장 : " + value.getusernameLabel());
+	        categoryLabel.setText("카테고리 : " + value.getcategoryLabel());
 	    
 
 	        if (isSelected) {
@@ -288,6 +311,8 @@ public class ChatListView extends JPanel {
 	        
 	        imageLabel.setBounds(10,7,80,80);
 	        titleLabel.setBounds(100,10,300,15);
+	        usernameLabel.setBounds(100,30,100,15);
+	        categoryLabel.setBounds(100, 45, 100, 15);
 	    }
 	}
 	
