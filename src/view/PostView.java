@@ -18,6 +18,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -115,10 +116,18 @@ public class PostView extends JPanel {
 	      
 	      JLabel textLabel = new JLabel(currentPost.getTextarea());
 	      textLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 10));
-	      textLabel.setBounds(10, 70, 360, 100);
+	      textLabel.setBounds(10, 70, 370, 100);
 	      textLabel.setHorizontalAlignment(SwingConstants.LEFT);
 	      textLabel.setVerticalAlignment(SwingConstants.TOP);
 	      panel_3.add(textLabel);
+	      
+	      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy년 MM월 dd일 HH:mm");
+	      
+	      JLabel usernameLabel_1 = new JLabel(currentPost.getDate().format(formatter));
+	      usernameLabel_1.setForeground(new Color(128, 128, 128));
+	      usernameLabel_1.setFont(new Font("맑은 고딕", Font.PLAIN, 10));
+	      usernameLabel_1.setBounds(258, 145, 122, 25);
+	      panel_3.add(usernameLabel_1);
 	      
 	      JLabel lblNewLabel = new JLabel("");
 	      ImageIcon delicon = new ImageIcon("image/삭제.jpg");

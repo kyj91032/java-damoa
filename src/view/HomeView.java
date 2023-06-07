@@ -58,6 +58,8 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -288,7 +290,7 @@ public class HomeView extends JPanel {
 
 
 	        // ImageLabelItem 객체를 생성하여 ImageIcon과 추가 정보를 저장합니다.
-	        ImageLabelItem item = new ImageLabelItem(imageIcon4 , post.getTitle(), model.getNicknameById(post.getUserId()),post.getKategorie());
+	        ImageLabelItem item = new ImageLabelItem(imageIcon4 , post.getTitle(), model.getNicknameById(post.getUserId()),post.getKategorie(), post.getDate());
 
 	    
 	        
@@ -331,12 +333,16 @@ public class HomeView extends JPanel {
 	       private String title;
 	       private String username;
 	       private String category;
+	       private LocalDateTime time;
 	       
-	       public ImageLabelItem(ImageIcon image, String title, String username, String category) {
+	       public ImageLabelItem(ImageIcon image, String title, String username, String category, LocalDateTime time) {
 	          this.image = image;
 	          this.title = title;      
 	          this.username = username;
 	          this.category = category;
+	          this.time = time;
+	          
+
 	       }
 	       
 	       public String gettitleLabel() {
@@ -349,6 +355,9 @@ public class HomeView extends JPanel {
 	       public String getcategoryLabel() {
 	    	   return category;
 	       }
+	       public LocalDateTime gettimeLabel() {
+	    	   return time;
+	       }
 	    }
 	    
 	class ImageLabelListCellRenderer extends JPanel implements ListCellRenderer<ImageLabelItem> {
@@ -356,22 +365,11 @@ public class HomeView extends JPanel {
 	    private JLabel titleLabel;
 	    private JLabel usernameLabel;
 	    private JLabel categoryLabel;
-	    private JLabel LikeLabel;
+	    private JLabel timeLabel;
 
 	    public ImageLabelListCellRenderer() {
 	        setOpaque(true);
 	        
-	        ImageIcon LikeIcon = new ImageIcon("image/좋아요1.jpg");
-	        Image LikeIcon2 = LikeIcon.getImage();
-	        Image LikeIcon3 = LikeIcon2.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-	        ImageIcon LikeIcon4 = new ImageIcon(LikeIcon3);
-	        
-	        
-	        ImageIcon Like2Icon = new ImageIcon("image/좋아요2.jpg");
-	        Image Like2Icon2 = Like2Icon.getImage();
-	        Image Like2Icon3 = Like2Icon2.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-	        ImageIcon Like2Icon4 = new ImageIcon(Like2Icon3);
-
 	        imageLabel = new JLabel();
 	        imageLabel.setBorder(BorderFactory.createLineBorder((new Color(228,204,255)), 1));
 	        add(imageLabel);
@@ -390,28 +388,26 @@ public class HomeView extends JPanel {
 	        categoryLabel.setFont(new Font("맑은 고딕", Font.BOLD, 10));
 	        categoryLabel.setForeground(Color.gray);
 	        add(categoryLabel);
-	        
-	        LikeLabel = new JLabel();
-	        LikeLabel.setIcon(LikeIcon4);
-	        LikeLabel.addMouseListener(new MouseAdapter() {
-	            @Override
-	            public void mouseClicked(MouseEvent e) {
-	                super.mouseClicked(e);
-	                LikeLabel.setIcon(Like2Icon4);
-	            }
-	        });
-			add(LikeLabel);
+			
+			timeLabel = new JLabel();
+			timeLabel.setFont(new Font("맑은 고딕", Font.BOLD, 10));
+			timeLabel.setForeground(Color.gray);
+	        add(timeLabel);
+			
 	    }
 
 	    @Override
 	    public Component getListCellRendererComponent(JList<? extends ImageLabelItem> list,
 	                                                  ImageLabelItem value, int index,
 	                                                  boolean isSelected, boolean cellHasFocus) {
+	    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy년 MM월 dd일");
+	        timeLabel.setText(value.gettimeLabel().format(formatter));
 	    	
 	        imageLabel.setIcon(value.image);
 	        titleLabel.setText(value.gettitleLabel());
 	        usernameLabel.setText("닉네임 : " + value.getusernameLabel());
 	        categoryLabel.setText("카테고리 : " + value.getcategoryLabel());
+
 
 	        if (isSelected) {
 	            setBackground(list.getSelectionBackground());
@@ -438,7 +434,7 @@ public class HomeView extends JPanel {
 	        titleLabel.setBounds(100,10,300,15);
 	        usernameLabel.setBounds(100,30,100,15);
 	        categoryLabel.setBounds(100, 45, 100, 15);
-	        LikeLabel.setBounds(350, 70, 21, 21);
+	        timeLabel.setBounds(300,80,100,15);
 	    }
 	}
 
