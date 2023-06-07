@@ -230,7 +230,7 @@ public class ChatView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				
 				String message = tf.getText();
-								
+
 				sendMessage(message, senduserid);
 				
 				model.insertChatMessage(message);
@@ -439,5 +439,9 @@ public class ChatView extends JPanel {
 		panel.add(lblNewLabel_1_2_1);
 		
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> newkyj
 }
 

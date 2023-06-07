@@ -16,6 +16,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.text.BadLocationException;
 
+import controller.Controller;
 import view.PostFormView;
 import view.SignUpView;
 
@@ -30,7 +31,7 @@ public class Model {
     private boolean isLoggedIn = false;
     private UserEntity currentUser; // 현재 로그인되어있는 유저의 정보
 	private PostEntity currentPost; // 최근 올린 게시글 정보 
-	private ArrayList chatRooms; // 최근 채팅방 목록 정보 
+	private ArrayList<ChatRoomEntity> chatRooms; // 최근 채팅방 목록 정보 
 	private ArrayList posts; // 현재 모든 글 리스트 
 	private ChatRoomEntity currentChatRoom; // 최근 채팅방 정보
 	private ArrayList currentChatMessages; 
@@ -130,7 +131,7 @@ public class Model {
 		}
 	}
     
-    public void initUserInfo(String username) { // 유저 정보 초기화
+    public void initUserInfo(String username) { // 유저 정보 초기화. 로그인 하는 순간 currentuser 사용 가능.
         if (isLoggedIn) {
             try {
                 String query = "SELECT * FROM usertable WHERE username = '" + username + "'";
@@ -151,26 +152,9 @@ public class Model {
             }
         }
     }
-    public int getCurrentUserId() { // id의 초기화
-    	
+    
+    public int getCurrentUserId() { // currentuser의 id값만을 리턴 
     	return currentUser.getUserid();
-    	
-    	
-    	
-    	//        if (!isLoggedIn) {
-//            return -1; // 로그인되지 않은 경우 -1을 반환
-//        }
-//        int userId = -1;
-//        try {
-//            String query = "SELECT userid FROM usertable WHERE username = '" + currentUser.getUsername() + "'";
-//            ResultSet resultSet = stmt.executeQuery(query);
-//            if (resultSet.next()) {
-//                userId = resultSet.getInt("userid");
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return userId;
     }
     
     public boolean isLoggedin() { // 현재 로그인 상태인지 판단하는 메소드
@@ -211,6 +195,7 @@ public class Model {
                            "FROM user_chatroom uc " +
                            "JOIN chatroomtable c ON uc.roomid = c.roomid " +
                            "WHERE uc.userid = ?";
+                           
             PreparedStatement preparedStatement = conn.prepareStatement(query);
             preparedStatement.setInt(1, userId);
 
@@ -726,30 +711,7 @@ public class Model {
 	}
 	
 	
-	private int getUniquePortNumber() {
-	    int startPort = 8500;
-	    int endPort = 9000;
-
-	    for (int port = startPort; port <= endPort; port++) {
-	        if (isPortAvailable(port)) {
-	            return port;
-	        }
-	    }
-
-	    // 사용 가능한 포트 번호를 찾지 못한 경우 예외 처리
-	    throw new IllegalStateException("모든 포트 번호가 사용 중입니다.");
-	}
-
-	private boolean isPortAvailable(int port) {
-	    try {
-	        ServerSocket serverSocket = new ServerSocket(port);
-	        serverSocket.close();
-	        return true;
-	    } catch (IOException e) {
-	        // 포트가 이미 사용 중인 경우 IOException 발생
-	        return false;
-	    }
-	}
+	
 
 	public int getPortNumberByRoomId(int roomId) {
 	    try {
@@ -771,7 +733,29 @@ public class Model {
 	    return -1; // 해당 roomId에 대한 포트 번호를 찾지 못한 경우 -1 반환
 	}
 
+	public boolean checkUsername(String username) {
+	    try {
+	        String query = "SELECT COUNT(*) AS count FROM usertable WHERE username = ?";
+	        PreparedStatement statement = conn.prepareStatement(query);
+	        statement.setString(1, username);
+	        ResultSet resultSet = statement.executeQuery();
+	        
+	        if (resultSet.next()) {
+	            int count = resultSet.getInt("count");
+	            if (count > 0) {
+	                JOptionPane.showMessageDialog(null, "이미 사용 중인 아이디입니다.", "회원가입 실패", JOptionPane.ERROR_MESSAGE);
+	                return false;
+	            }
+	        }
 
-	
+	        resultSet.close();
+	        statement.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return true;
+	}
+
 
 }

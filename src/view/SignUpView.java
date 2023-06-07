@@ -393,9 +393,13 @@ public class SignUpView extends JPanel implements MouseListener {
    public void mouseClicked(MouseEvent e) {
       Object obj = e.getSource();
       
-      if(obj == lblNewLabel_3) {
-         model.registerUser(this);
-         controller.showCard("login");
+      if(obj == lblNewLabel_3) { // 회원가입 눌렀을 때 
+    	 if(model.checkUsername(idField.getText())) {
+    		 model.registerUser(this);
+             controller.showCard("login");
+    	 } else {
+    		 
+    	 }         
       }
       
    }
