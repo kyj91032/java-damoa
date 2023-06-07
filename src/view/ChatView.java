@@ -445,7 +445,7 @@ public class ChatView extends JPanel {
 		
 		JLabel lblNewLabel_1_2_1 = new JLabel((model.getPostBypostid(model.getPostidbyRoomid(roomid)).getTextarea()));
 		lblNewLabel_1_2_1.setForeground(Color.GRAY);
-		lblNewLabel_1_2_1.setFont(new Font("맑은 고딕", Font.PLAIN, 10));
+		lblNewLabel_1_2_1.setFont(new Font("맑은 고딕", Font.PLAIN, 9));
 		lblNewLabel_1_2_1.setHorizontalAlignment(JLabel.LEFT);
 		lblNewLabel_1_2_1.setVerticalAlignment(JLabel.TOP);
 		lblNewLabel_1_2_1.setBounds(123, 54, 260, 53);
