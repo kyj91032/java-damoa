@@ -432,8 +432,8 @@ public class HomeView extends JPanel {
 	        
 	        imageLabel.setBounds(10,10,80,80);
 	        titleLabel.setBounds(100,10,300,15);
-	        usernameLabel.setBounds(100,30,100,15);
-	        categoryLabel.setBounds(100, 45, 100, 15);
+	        usernameLabel.setBounds(100,30,300,15);
+	        categoryLabel.setBounds(100, 45, 300, 15);
 	        timeLabel.setBounds(300,80,100,15);
 	    }
 	}

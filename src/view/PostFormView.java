@@ -158,6 +158,7 @@ public class PostFormView extends JPanel implements ActionListener {
 		textArea.setFont(new Font("맑은 고딕", Font.BOLD, 12));
 		textArea.setBackground(new Color(255, 255, 255));
 		textArea.setBounds(10, 292, 380, 203);
+		textArea.setLineWrap(true);
 		String initialText = " 내용을 입력하세요 : ";
 		textArea.setText(initialText);
 	    if (!textArea.hasFocus() && textArea.getText().equals(initialText)) {
