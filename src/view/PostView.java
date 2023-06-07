@@ -26,6 +26,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
@@ -112,12 +113,13 @@ public class PostView extends JPanel {
 	      kategorieLabel.setBounds(10, 35, 300, 25);
 	      panel_3.add(kategorieLabel);
 	      
-	      JLabel textLabel = new JLabel(currentPost.getTextarea());
-	      textLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 10));
-	      textLabel.setBounds(10, 70, 370, 100);
-	      textLabel.setHorizontalAlignment(SwingConstants.LEFT);
-	      textLabel.setVerticalAlignment(SwingConstants.TOP);
-	      panel_3.add(textLabel);
+	      JTextArea ta = new JTextArea(currentPost.getTextarea());
+	      ta.setFont(new Font("맑은 고딕", Font.PLAIN, 10));
+	      ta.setDisabledTextColor(Color.BLACK);
+	      ta.setLineWrap(true);
+	      ta.setEnabled(false);
+	      ta.setBounds(10, 70, 370, 100);
+	      panel_3.add(ta);
 	      
 	      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy년 MM월 dd일 HH:mm");
 	      
@@ -148,7 +150,6 @@ public class PostView extends JPanel {
 					
 				}
 	      });
-	      
 	      
 	      JLabel lblNewLabel_1 = new JLabel("");
 	      ImageIcon joinicon = new ImageIcon("image/채팅참여.jpg");
